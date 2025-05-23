@@ -1,54 +1,47 @@
-import js from '@eslint/js';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import pluginReact from 'eslint-plugin-react';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import pluginJs from '@eslint/js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+/** @type {import('eslint').Linter.Config[]} */
 export default [
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  pluginReact.configs.flat.recommended,
   {
-    ignores: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/build/**',
-      '**/.next/**',
-      '**/coverage/**',
-    ],
-  },
-  js.configs.recommended,
-  {
-    files: ['**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: __dirname,
-      },
-    },
+    files: ['./apps/**/*.{js,jsx,ts,tsx}', './packages/**/*.{js,jsx,ts,tsx}'],
     plugins: {
-      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-      'import': require('eslint-plugin-import'),
-      'unused-imports': require('eslint-plugin-unused-imports'),
+      'simple-import-sort': simpleImportSort
     },
+    languageOptions: { globals: globals.browser },
     rules: {
-      'unused-imports/no-unused-imports': 'error',
-      'import/order': [
+      'simple-import-sort/imports': [
         'error',
         {
-          groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
-          'newlines-between': 'always',
-        },
+          groups: [
+            // Built-in imports (e.g. from Node.js)
+            ['^\\w'],
+
+            // External imports (e.g. from node_modules)
+            ['^react', '^@?\\w'],
+
+            // Internal imports (e.g. your own project imports)
+            ['^src/', '^@/'], // Adjust based on your project structure
+
+            // Style imports
+            ['^\\./styles', '^\\.css', '^\\.scss']
+          ]
+        }
       ],
+      'simple-import-sort/exports': 'error',
+      'react/react-in-jsx-scope': 'off'
     },
-  },
-  {
-    files: ['**/*.js', '**/*.jsx'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      sourceType: 'module',
+    settings: {
+      react: {
+        version: 'detect'
+      }
     },
-    rules: {
-      'no-unused-vars': 'warn',
-    },
+    ignores: ['**/node_modules/', '**/dist/', '**/env.d.ts', '**/.history/', "**/eslint.config.js"]
   },
 ];
