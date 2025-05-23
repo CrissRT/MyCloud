@@ -14,7 +14,15 @@ export default [
     plugins: {
       'simple-import-sort': simpleImportSort
     },
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+        project: './tsconfig.base.json'
+      },
+      globals: globals.browser
+    },
     rules: {
       'simple-import-sort/imports': [
         'error',
@@ -42,6 +50,6 @@ export default [
         version: 'detect'
       }
     },
-    ignores: ['**/node_modules/', '**/dist/', '**/env.d.ts', '**/.history/', "**/eslint.config.js"]
-  },
+    ignores: ['**/node_modules/', '**/dist/', '**/env.d.ts', '**/.history/', '**/eslint.config.js']
+  }
 ];

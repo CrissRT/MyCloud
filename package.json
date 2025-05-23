@@ -8,12 +8,16 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "prettier": "prettier --write .",
     "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/config-validator": "^19.8.1",
     "@eslint/js": "^9.27.0",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
