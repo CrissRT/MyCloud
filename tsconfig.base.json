@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "es2023",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "lib": ["DOM", "ESNext"],
+    "lib": ["DOM","es2023"],
     "jsx": "preserve",
     "strict": true,
+    "allowJs": false,
+    "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["packages/shared/src/*"]
+      "@shared/*": ["packages/shared/src/*"],
+      "@client/*": ["apps/client/src/*"],
+      "@server/*": ["apps/server/src/*"],
     },
     "esModuleInterop": true,
     "resolveJsonModule": true,

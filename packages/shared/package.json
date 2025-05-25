@@ -1,8 +1,28 @@
 {
   "name": "shared",
   "version": "0.0.1",
+  "type": "module",
   "description": "Shared utilities and types",
   "keywords": [],
   "author": "Rotari Cristian",
-  "license": "ISC"
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./utils/test": {
+      "import": "./dist/utils/test.js",
+      "types": "./dist/utils/test.d.ts"
+    }
+  }
 }
