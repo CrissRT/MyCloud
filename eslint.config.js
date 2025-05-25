@@ -6,6 +6,9 @@ import pluginJs from '@eslint/js';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  {
+    ignores: ['**/node_modules/', '**/dist/', '**/env.d.ts', '**/.history/', '**/.next/', '**/eslint.config.js']
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
@@ -49,7 +52,6 @@ export default [
       react: {
         version: 'detect'
       }
-    },
-    ignores: ['**/node_modules/', '**/dist/', '**/env.d.ts', '**/.history/', '**/eslint.config.js']
+    }
   }
 ];

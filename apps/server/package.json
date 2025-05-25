@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "The backend server for the application",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "Rotari Cristian",
@@ -14,7 +17,8 @@
   "devDependencies": {
     "@types/express": "^5.0.2",
     "@types/node": "^20",
-    "ts-node-dev": "^2.0.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
