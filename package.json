@@ -10,6 +10,7 @@
     "format": "prettier --write .",
     "prettier": "prettier --write .",
     "dev": "concurrently \"pnpm -F server dev\" \"pnpm -F client dev\"",
+    "build": "concurrently \"pnpm -F server build\" \"pnpm -F client build\"",
     "add-server": "pnpm -F server add",
     "add-client": "pnpm -F client add"
   },

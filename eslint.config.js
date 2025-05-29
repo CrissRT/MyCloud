@@ -19,11 +19,6 @@ export default [
     },
     languageOptions: {
       parser: tseslint.parser,
-      parserOptions: {
-        sourceType: 'module',
-        ecmaVersion: 'latest',
-        project: './tsconfig.base.json'
-      },
       globals: globals.browser
     },
     rules: {
