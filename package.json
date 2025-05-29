@@ -9,7 +9,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "prettier": "prettier --write .",
-    "dev": "concurrently \"pnpm -F server dev\" \"pnpm -F client dev\""
+    "dev": "concurrently \"pnpm -F server dev\" \"pnpm -F client dev\"",
+    "add-server": "pnpm -F server add",
+    "add-client": "pnpm -F client add"
   },
   "keywords": [],
   "author": "",
