@@ -3,7 +3,7 @@
     "target": "es2023",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "lib": ["DOM","es2023"],
+    "lib": ["DOM", "es2023"],
     "jsx": "preserve",
     "strict": true,
     "allowJs": false,
@@ -12,7 +12,7 @@
     "paths": {
       "@shared/*": ["packages/shared/src/*"],
       "@client/*": ["apps/client/src/*"],
-      "@server/*": ["apps/server/src/*"],
+      "@server/*": ["apps/server/src/*"]
     },
     "esModuleInterop": true,
     "resolveJsonModule": true,
