@@ -11,6 +11,7 @@
     "prettier": "prettier --write .",
     "dev": "concurrently \"pnpm -F server dev\" \"pnpm -F client dev\"",
     "build": "concurrently \"pnpm -F server build\" \"pnpm -F client build\"",
+    "start": "concurrently \"pnpm -F server start\" \"pnpm -F client start\"",
     "add-server": "pnpm -F server add",
     "add-client": "pnpm -F client add"
   },
