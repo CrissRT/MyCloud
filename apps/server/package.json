@@ -1,11 +1,12 @@
 {
   "name": "server",
   "version": "0.0.1",
+  "type": "module",
   "description": "The backend server for the application",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/app.js",
-    "dev": "tsx src/app.ts"
+    "dev": "tsx watch src/app.ts"
   },
   "keywords": [],
   "author": "Rotari Cristian",

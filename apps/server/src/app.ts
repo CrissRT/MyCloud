@@ -1,6 +1,10 @@
 import { config as configDotenv } from 'dotenv';
 // Load root .env first, then local .env (local overrides root)
 import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 configDotenv({ path: path.resolve(__dirname, '../../../.env') });
 configDotenv({ path: path.resolve(__dirname, '../.env') });
 
@@ -18,6 +22,14 @@ app.use(express.json());
 //   password: process.env.POSTGRES_PASSWORD,
 //   port: Number(process.env.POSTGRES_PORT)
 // });
+
+app.get('/users', async (_, res) => {
+  try {
+    res.json('test');
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+});
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
