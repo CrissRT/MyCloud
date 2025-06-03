@@ -40,7 +40,7 @@ CREATE TABLE preferences (
     appearance appearance_enum NOT NULL DEFAULT 'device',
     density density_enum NOT NULL DEFAULT 'comfortable',
     open_files openfiles_enum NOT NULL DEFAULT 'preview',
-    layout layout_enum NOT NULL DEFAULT 'grid'
+    layout layout_enum NOT NULL DEFAULT 'grid',
     language language_enum NOT NULL DEFAULT 'en'
 );
 
