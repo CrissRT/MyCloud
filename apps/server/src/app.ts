@@ -19,7 +19,7 @@ app.use(express.json());
 //   port: Number(process.env.POSTGRES_PORT)
 // });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
