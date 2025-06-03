@@ -5,7 +5,9 @@ CREATE TYPE density_enum AS ENUM ('comfortable', 'cosy', 'compact');
 CREATE TYPE openfiles_enum AS ENUM ('preview', 'newTab');
 CREATE TYPE layout_enum AS ENUM ('list', 'grid');
 CREATE TYPE upload_status_enum AS ENUM ('processing', 'ready', 'error');
-CREATE TYPE notification_type_enum AS ENUM ('newPassword', 'newIp', 'sharedItems', 'requestAccess');
+CREATE TYPE notification_type_enum AS ENUM ('newPassword', 'newIp', 'newDeviceLogin', 'sharedItems', 'requestAccess');
+CREATE TYPE sex_enum AS ENUM ('male', 'female', 'other');
+CREATE TYPE language_enum AS ENUM ('ro', 'ru', 'en');
 
 -- Users
 CREATE TABLE users (
@@ -13,8 +15,10 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255), -- Added
+    last_name VARCHAR(255),  -- Added
     role role_enum NOT NULL DEFAULT 'user',
-    sex VARCHAR(32),
+    sex sex_enum, -- Changed to ENUM
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
@@ -37,6 +41,7 @@ CREATE TABLE preferences (
     density density_enum NOT NULL DEFAULT 'comfortable',
     open_files openfiles_enum NOT NULL DEFAULT 'preview',
     layout layout_enum NOT NULL DEFAULT 'grid'
+    language language_enum NOT NULL DEFAULT 'en'
 );
 
 -- Notification Preferences
@@ -53,7 +58,6 @@ CREATE TABLE notifications (
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     type notification_type_enum NOT NULL,
     message TEXT NOT NULL,
-    link TEXT,
     read BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
