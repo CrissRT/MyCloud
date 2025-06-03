@@ -12,7 +12,7 @@ export enum Language {
 
 export enum Density {
   COMFORTABLE = 'comfortable',
-  cosy = 'cosy',
+  COSY = 'cosy',
   COMPACT = 'compact'
 }
 
