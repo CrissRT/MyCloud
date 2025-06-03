@@ -3,24 +3,27 @@
   "version": "0.0.1",
   "description": "The backend server for the application",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts"
+    "dev": "tsx src/app.ts"
   },
   "keywords": [],
   "author": "Rotari Cristian",
   "license": "ISC",
   "dependencies": {
     "@tsoa/runtime": "^6.6.0",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "pg": "^8.16.0",
     "tsoa": "^6.6.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
     "@types/node": "22.15.24",
+    "@types/pg": "^8.15.4",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
 }
