@@ -30,7 +30,9 @@ CREATE TABLE sessions (
     ip VARCHAR(64),
     refresh_token TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    last_active TIMESTAMP WITH TIME ZONE DEFAULT now()
+    last_active TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    login_attempts INTEGER NOT NULL DEFAULT 0,
+    last_login_attempt TIMESTAMP WITH TIME ZONE
 );
 
 -- General Preferences
