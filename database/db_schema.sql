@@ -28,7 +28,7 @@ CREATE TABLE sessions (
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     device_info TEXT,
     ip VARCHAR(64),
-    refresh_token TEXT,
+    cookie TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     last_active TIMESTAMP WITH TIME ZONE DEFAULT now(),
     login_attempts INTEGER NOT NULL DEFAULT 0,
