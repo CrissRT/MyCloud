@@ -78,7 +78,8 @@ CREATE TABLE files (
     upload_status upload_status_enum NOT NULL DEFAULT 'processing',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    isfavourite BOOLEAN NOT NULL DEFAULT FALSE
+    is_favorite BOOLEAN NOT NULL DEFAULT FALSE,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- Files Sharable
@@ -86,7 +87,7 @@ CREATE TABLE files_sharable (
     id SERIAL PRIMARY KEY,
     file_id INTEGER REFERENCES files(id) ON DELETE CASCADE,
     share_link TEXT NOT NULL,
-    share_link_expire TIMESTAMP WITH TIME ZONE,
+    share_link_expire TIMESTAMP WITH TIME ZONE
 );
 
 -- Folders
@@ -94,9 +95,10 @@ CREATE TABLE folders (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
-    parent_folder_id INTEGER REFERENCES folders(id) ON DELETE CASCADE,
     size_bytes BIGINT NOT NULL DEFAULT 0,
+    parent_folder_id INTEGER REFERENCES folders(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    isfavourite BOOLEAN NOT NULL DEFAULT FALSE
+    is_favorite BOOLEAN NOT NULL DEFAULT FALSE,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
