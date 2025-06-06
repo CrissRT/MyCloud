@@ -32,6 +32,11 @@ app.get('/users', async (_, res) => {
 });
 
 const PORT = process.env.PORT;
+if (isNaN(Number(PORT))) {
+  console.error(`Invalid PORT value: ${PORT}. Please set a valid port number in the environment variables.`);
+  process.exit(1);
+}
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
