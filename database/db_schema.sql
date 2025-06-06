@@ -15,10 +15,10 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255), -- Added
-    last_name VARCHAR(255),  -- Added
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     role role_enum NOT NULL DEFAULT 'user',
-    sex sex_enum, -- Changed to ENUM
+    sex sex_enum,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
@@ -78,7 +78,8 @@ CREATE TABLE files (
     share_link TEXT,
     share_link_expire TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    isfavourite BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- Files Sharable
@@ -87,4 +88,15 @@ CREATE TABLE files_sharable (
     file_id INTEGER REFERENCES files(id) ON DELETE CASCADE,
     share_link TEXT NOT NULL,
     dead_time TIMESTAMP WITH TIME ZONE NOT NULL
+);
+
+-- Folders
+CREATE TABLE folders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    parent_folder_id INTEGER REFERENCES folders(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    isfavourite BOOLEAN NOT NULL DEFAULT FALSE
 );
