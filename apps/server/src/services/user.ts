@@ -1,7 +1,8 @@
-import { User, UserSession } from '@server/models/user';
+import { User, UserSession } from '@server/models';
 
-export type UserRegisterParams = Pick<User, 'email' | 'password' | 'sex' | 'firstName' | 'lastName'> &
-  Pick<UserSession, 'deviceInfo' | 'ip'>;
+export type UserRegisterParams = Partial<
+  Pick<User, 'email' | 'password' | 'sex' | 'firstName' | 'lastName'> & Pick<UserSession, 'deviceInfo' | 'ip'>
+>;
 
 export class UsersService {
   public register() {
