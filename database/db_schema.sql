@@ -70,7 +70,7 @@ CREATE TABLE files (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     parent_folder_id INTEGER REFERENCES folders(id) ON DELETE CASCADE,
-    title VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     original_name VARCHAR(255) NOT NULL,
     file_path TEXT NOT NULL,
     mime_type VARCHAR(128) NOT NULL,
