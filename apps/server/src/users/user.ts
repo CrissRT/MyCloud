@@ -14,6 +14,8 @@ export interface User {
   email: string;
   username: string;
   password: string;
+  firstName: string;
+  lastName: string;
   role: Role;
   sex: Sex;
 }
@@ -23,7 +25,9 @@ export interface UserSession {
   userId: number;
   deviceInfo: string;
   ip: string;
-  refreshToken: string | null;
+  cookie: string | null;
   createdAt: Date;
   lastActive: Date;
+  loginAttempts: number;
+  lastLoginAttempt: Date;
 }
