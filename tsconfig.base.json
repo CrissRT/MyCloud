@@ -9,9 +9,7 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["packages/shared/src/*"],
-      "@client/*": ["apps/client/src/*"],
-      "@server/*": ["apps/server/src/*"]
+      "@shared/*": ["packages/shared/src/*"]
     },
     "esModuleInterop": true,
     "resolveJsonModule": true,
