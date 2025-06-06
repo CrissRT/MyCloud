@@ -2,12 +2,14 @@ import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
 
+import { Language } from '@server/models';
+
 i18next
   .use(Backend)
   .use(middleware.LanguageDetector)
   .init({
-    fallbackLng: 'en',
-    preload: ['en', 'ro'],
+    fallbackLng: Language.EN,
+    preload: [Language.EN, Language.RU, Language.RO],
     backend: {
       loadPath: 'src/i18n/locales/{{lng}}.json'
     },
