@@ -2,7 +2,7 @@
 CREATE TYPE role_enum AS ENUM ('admin', 'user');
 CREATE TYPE appearance_enum AS ENUM ('dark', 'light', 'device');
 CREATE TYPE density_enum AS ENUM ('comfortable', 'cosy', 'compact');
-CREATE TYPE openfiles_enum AS ENUM ('preview', 'newTab');
+CREATE TYPE open_files_enum AS ENUM ('preview', 'newTab');
 CREATE TYPE layout_enum AS ENUM ('list', 'grid');
 CREATE TYPE upload_status_enum AS ENUM ('processing', 'ready', 'error');
 CREATE TYPE notification_type_enum AS ENUM ('newPassword', 'newIp', 'newDeviceLogin', 'sharedItems', 'requestAccess');
@@ -41,7 +41,7 @@ CREATE TABLE preferences (
     user_id INTEGER UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     appearance appearance_enum NOT NULL DEFAULT 'device',
     density density_enum NOT NULL DEFAULT 'comfortable',
-    open_files openfiles_enum NOT NULL DEFAULT 'preview',
+    open_files open_files_enum NOT NULL DEFAULT 'preview',
     layout layout_enum NOT NULL DEFAULT 'grid',
     language language_enum NOT NULL DEFAULT 'en'
 );
