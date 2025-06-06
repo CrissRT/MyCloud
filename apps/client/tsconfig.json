@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
-      "@client/*": ["src/*"]
+      "@client/*": ["apps/client/src/*"]
     },
     "plugins": [
       {
