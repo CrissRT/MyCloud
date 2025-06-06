@@ -18,7 +18,7 @@ export interface User {
   lastName: string;
   role: Role;
   sex: Sex;
-  birthDate: Date
+  birthDate: Date;
 }
 
 export interface UserSession {

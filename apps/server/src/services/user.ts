@@ -6,9 +6,9 @@ export type UserRegisterParams = Pick<User, 'email' | 'password' | 'sex' | 'firs
 export class UsersService {
   public register() {
     return {
-    //   id: Math.floor(Math.random() * 10000), // Random
-    //   status: 'Happy',
-    //   ...userCreationParams
+      //   id: Math.floor(Math.random() * 10000), // Random
+      //   status: 'Happy',
+      //   ...userCreationParams
     };
   }
 }
