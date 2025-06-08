@@ -8,6 +8,7 @@ import { zodiosApp } from '@zodios/express';
 import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
 
 import { authApi } from './api';
+import { authRouter } from './routes/auth';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,8 @@ configDotenv({ path: path.resolve(__dirname, '../../../.env') });
 configDotenv({ path: path.resolve(__dirname, '../.env') });
 
 const app = zodiosApp();
+
+app.use('/auth', authRouter);
 
 export const pool = new Pool({
   user: process.env.POSTGRES_USER,
