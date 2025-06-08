@@ -41,3 +41,7 @@ export const userSessionSchema = z.object({
 });
 
 export type UserSession = z.infer<typeof userSessionSchema>;
+
+export const userRegisterSchema = userSchema.omit({ id: true, role: true, username: true });
+
+export type UserRegister = z.infer<typeof userRegisterSchema>;
