@@ -1,9 +1,10 @@
 import { hash } from 'bcryptjs';
+import cookie from 'cookie';
 import express from 'express';
 
 import { createUser, getUserByEmail } from '@server/db';
 import { getSaltRounds } from '@server/utils';
-import { Role, userRegisterSchema } from '@shared/models';
+import { Role, UserAuthResponse, userRegisterSchema } from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -31,18 +32,33 @@ router.post('/register', async (req, res) => {
       return;
     }
 
-    const hashedPassword = await hash(resultParse.data.password, SALT_ROUNDS);
+    const { password, ...parsedUser } = resultParse.data;
+
+    const hashedPassword = await hash(password, SALT_ROUNDS);
+
+    const userName = resultParse.data.email.split('@')[0];
+
+    const responseUser: UserAuthResponse = {
+      ...parsedUser,
+      username: userName,
+      role: Role.USER
+    };
 
     const newUser = {
-      ...resultParse.data,
-      username: resultParse.data.email.split('@')[0],
+      ...parsedUser,
+      username: userName,
       role: Role.USER,
       password: hashedPassword
     };
 
     await createUser(newUser);
 
-    res.status(201).json('test');
+    const userSessionCookie = cookie.serialize('user_session', JSON.stringify(responseUser), {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7 // 1 week
+    });
+    res.setHeader('Set-Cookie', userSessionCookie);
+    res.status(201).json(responseUser);
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });

@@ -18,7 +18,7 @@ export const getUserByEmail = async (email: string) => {
   const result = await pool.query(query, values);
 
   if (result.rows.length === 0) return null;
-  
+
   const user: User = result.rows[0];
   return user;
 };
