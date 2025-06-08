@@ -1,3 +1,4 @@
+export * from './errors';
 export * from './file';
 export * from './folder';
 export * from './generalPreference';

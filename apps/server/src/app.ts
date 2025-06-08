@@ -32,7 +32,7 @@ const swaggerDocument = openApiBuilder({
   version: '1.0.0',
   description: 'A simple user API'
 })
-  .addServer({ url: '/api/v1' })
+  .addServer({ url: '/' })
   .addSecurityScheme('admin', bearerAuthScheme())
   .addPublicApi(authApi)
   .build();
