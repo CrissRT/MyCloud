@@ -8,9 +8,6 @@
     "allowJs": false,
     "isolatedModules": true,
     "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["packages/shared/src/*"]
-    },
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

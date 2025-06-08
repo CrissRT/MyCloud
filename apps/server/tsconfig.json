@@ -3,9 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
-      "@server/*": ["apps/server/src/*"]
+      "@server/*": ["apps/server/src/*"],
+      "@shared/*": ["packages/shared/src/*"]
     }
   },
-  "include": ["src", "../../packages/shared/src/models"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
