@@ -21,7 +21,7 @@ const swaggerDocument = openApiBuilder({
   .addPublicApi(authApi)
   .build();
 
-app.router.get('/docs/swagger.json', (_req, res) => {
+app.get('/docs/swagger.json', (_req, res) => {
   res.json(swaggerDocument);
 });
 app.use('/docs', serve);
