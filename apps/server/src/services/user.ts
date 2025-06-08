@@ -28,7 +28,7 @@ export class UsersService {
 
       // Insert new user into the database
       const userResult = await pool.query(
-        'INSERT INTO users (email, username, password, fist_name, last_name, birth_date, role, sex, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING id',
+        'INSERT INTO users (email, username, password, first_name, last_name, birth_date, role, sex, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING id',
         [email, userNameDb, passwordDb, firstName, lastName, birthDate, Role.USER, sex]
       );
 
