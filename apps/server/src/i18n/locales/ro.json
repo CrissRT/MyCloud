@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "userAlreadyExists": "Un utilizator cu acest email există deja",
+    "userRegistrationFailed": "Înregistrarea utilizatorului a eșuat",
+    "internalServerError": "A apărut o eroare internă a serverului"
+  }
+}
