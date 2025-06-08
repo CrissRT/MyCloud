@@ -57,6 +57,9 @@ router.post('/register', async (req, res) => {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 7 // 1 week
     });
+
+    //   Add the the session db operations
+
     res.setHeader('Set-Cookie', userSessionCookie);
     res.status(201).json(responseUser);
   } catch (error) {
