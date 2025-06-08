@@ -103,7 +103,7 @@ router.post('/login', async (req, res) => {
 
     const passwordMatch = await compare(password, foundUser.password);
     if (!passwordMatch) {
-      // add logic to increment login attempts and check if user is locked out
+      // Todo: add logic to increment login attempts and check if user is locked out
       res.status(401).json({
         code: 'INVALID_CREDENTIALS',
         message: 'Invalid email or password'
