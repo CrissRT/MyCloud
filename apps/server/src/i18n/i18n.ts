@@ -1,6 +1,8 @@
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
+import { z } from 'zod';
+import { zodI18nMap } from 'zod-i18n-map';
 
 import { Language } from '@server/models';
 
@@ -19,4 +21,7 @@ i18next
     }
   });
 
+z.setErrorMap(zodI18nMap);
+
+export { z };
 export const i18n = i18next;
