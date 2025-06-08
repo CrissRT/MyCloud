@@ -16,6 +16,7 @@ router.post('/register', async (req, res) => {
 
     if (!resultParse.success) {
       res.status(400).json({
+        //   TODO: add i18n support
         code: 'VALIDATION_ERROR',
         message: resultParse.error.message
       });
@@ -26,6 +27,7 @@ router.post('/register', async (req, res) => {
 
     if (foundUser) {
       res.status(400).json({
+        //   TODO: add i18n support
         code: 'USER_ALREADY_EXISTS',
         message: 'User with this email already exists'
       });
