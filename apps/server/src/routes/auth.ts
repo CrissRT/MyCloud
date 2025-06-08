@@ -83,6 +83,7 @@ router.post('/login', async (req, res) => {
     const resultParse = userLoginSchema.safeParse(req.body);
 
     if (!resultParse.success) {
+      // Todo: add logic to increment login attempts and check if user is locked out
       res.status(400).json({
         code: 'VALIDATION_ERROR',
         message: resultParse.error.message
