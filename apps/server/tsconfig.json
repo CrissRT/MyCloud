@@ -6,6 +6,6 @@
       "@server/*": ["apps/server/src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../../packages/shared/src/models"],
   "exclude": ["node_modules"]
 }

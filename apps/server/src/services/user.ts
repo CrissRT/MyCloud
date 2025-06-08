@@ -3,7 +3,7 @@ import { configDotenv } from 'dotenv';
 import { TFunction } from 'i18next';
 
 import { pool } from '@server/app';
-import { Role, User, UserSession } from '@server/models';
+import { Role, User, UserSession } from 'packages/shared/src/models';
 import { BadRequestError, InternalServerError } from '@server/utils';
 
 configDotenv();
