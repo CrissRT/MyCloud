@@ -43,6 +43,8 @@ export const userSessionSchema = z.object({
 
 export type UserSession = z.infer<typeof userSessionSchema>;
 
-export const userRegisterSchema = userSchema.omit({ id: true, role: true, username: true, createdAt: true });
+export const userRegisterSchema = userSchema
+  .omit({ id: true, role: true, username: true, createdAt: true })
+  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true, cookie: true }));
 
 export type UserRegister = z.infer<typeof userRegisterSchema>;
