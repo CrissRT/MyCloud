@@ -30,7 +30,7 @@ export const createUser = async ({
   birthDate,
   role,
   sex
-}: Omit<User, 'id'>) => {
+}: Omit<User, 'id' | 'createdAt'>) => {
   const query =
     'INSERT INTO users (email, username, password, first_name, last_name, birth_date, role, sex, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING id';
   const values = [email, username, password, firstName, lastName, birthDate, role, sex];
