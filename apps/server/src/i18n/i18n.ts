@@ -4,7 +4,7 @@ import * as middleware from 'i18next-http-middleware';
 import { z } from 'zod';
 import { zodI18nMap } from 'zod-i18n-map';
 
-import { Language } from '@server/models';
+import { Language } from '@shared/models';
 
 i18next
   .use(Backend)

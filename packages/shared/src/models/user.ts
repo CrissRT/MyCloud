@@ -23,7 +23,8 @@ export const userSchema = z.object({
   lastName: z.string().min(1).max(255),
   role: z.nativeEnum(Role),
   sex: z.nativeEnum(Sex),
-  birthDate: z.date()
+  birthDate: z.preprocess((val) => new Date(String(val)), z.date()),
+  createdAt: z.date()
 });
 
 export type User = z.infer<typeof userSchema>;
@@ -41,3 +42,15 @@ export const userSessionSchema = z.object({
 });
 
 export type UserSession = z.infer<typeof userSessionSchema>;
+
+export const userRegisterSchema = userSchema
+  .omit({ id: true, role: true, username: true, createdAt: true })
+  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
+
+export type UserRegister = z.infer<typeof userRegisterSchema>;
+
+export const userAuthResponseSchema = userSchema
+  .omit({ id: true, password: true, createdAt: true })
+  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
+
+export type UserAuthResponse = z.infer<typeof userAuthResponseSchema>;

@@ -13,7 +13,9 @@
     "build": "concurrently \"pnpm -F server build\" \"pnpm -F client build\"",
     "start": "concurrently \"pnpm -F server start\" \"pnpm -F client start\"",
     "add-server": "pnpm -F server add",
+    "uninstall-server": "pnpm -F server uninstall",
     "add-client": "pnpm -F client add",
+    "uninstall-client": "pnpm -F client uninstall",
     "db:up": "docker-compose up -d",
     "db:down": "docker-compose down"
   },
