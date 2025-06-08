@@ -24,7 +24,7 @@ export class UsersService {
       if (foundUser.rows.length > 0) throw new BadRequestError(t('errors.userAlreadyExists'));
 
       const userNameDb = email.split('@')[0];
-      const passwordDb = hash(password, SALT_ROUNDS);
+      const passwordDb = await hash(password, SALT_ROUNDS);
 
       // Insert new user into the database
       const userResult = await pool.query(
