@@ -20,7 +20,9 @@
     "i18next-http-middleware": "^3.7.4",
     "pg": "^8.16.0",
     "tsoa": "^6.6.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.25.56",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
