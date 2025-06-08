@@ -23,7 +23,7 @@ export const userSchema = z.object({
   lastName: z.string().min(1).max(255),
   role: z.nativeEnum(Role),
   sex: z.nativeEnum(Sex),
-  birthDate: z.date(),
+  birthDate: z.preprocess((val) => new Date(String(val)), z.date()),
   createdAt: z.date()
 });
 
