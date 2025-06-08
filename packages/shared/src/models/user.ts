@@ -54,3 +54,12 @@ export const userAuthResponseSchema = userSchema
   .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
 
 export type UserAuthResponse = z.infer<typeof userAuthResponseSchema>;
+
+export const userLoginSchema = userSchema
+  .pick({
+    email: true,
+    password: true
+  })
+  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
+
+export type UserLogin = z.infer<typeof userLoginSchema>;
