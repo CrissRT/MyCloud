@@ -5,7 +5,6 @@ import { getUserByEmail } from '@server/db';
 // import { getSaltRounds } from '@server/utils/constants';
 import { userRegisterSchema } from '@shared/models';
 
-
 // const SALT_ROUNDS = getSaltRounds();
 
 const router = express.Router();

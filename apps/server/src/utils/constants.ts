@@ -8,15 +8,20 @@ const __dirname = path.dirname(__filename);
 const { Pool } = pkg;
 
 // Load root .env first, then local .env (local overrides root)
-configDotenv({ path: path.resolve(__dirname, '../../../.env') });
+configDotenv({ path: path.resolve(__dirname, '../../../../.env') });
 configDotenv({ path: path.resolve(__dirname, '../.env') });
 
 const getPostgresConfig = () => {
   const user = process.env.POSTGRES_USER;
+  console.log("🚀 ~ getPostgresConfig ~ user:", user)
   const host = process.env.POSTGRES_HOST;
+  console.log("🚀 ~ getPostgresConfig ~ host:", host)
   const database = process.env.POSTGRES_DB;
+  console.log("🚀 ~ getPostgresConfig ~ database:", database)
   const password = process.env.POSTGRES_PASSWORD;
+  console.log("🚀 ~ getPostgresConfig ~ password:", password)
   const port = Number(process.env.POSTGRES_PORT);
+  console.log("🚀 ~ getPostgresConfig ~ port:", port)
 
   if (!user || !host || !database || !password || isNaN(port) || port <= 0) {
     console.error('Invalid PostgreSQL configuration in environment variables.');
