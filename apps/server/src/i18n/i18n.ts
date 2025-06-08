@@ -1,9 +1,10 @@
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
-import { Language } from 'packages/shared/src/models';
 import { z } from 'zod';
 import { zodI18nMap } from 'zod-i18n-map';
+
+import { Language } from '@shared/models';
 
 i18next
   .use(Backend)

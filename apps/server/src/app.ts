@@ -3,11 +3,11 @@ import path from 'path';
 import pkg from 'pg';
 import { serve, setup } from 'swagger-ui-express';
 import { fileURLToPath } from 'url';
-import { z } from 'zod';
 
-import { makeApi } from '@zodios/core';
 import { zodiosApp } from '@zodios/express';
 import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
+
+import { authApi } from './api';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,7 +18,6 @@ configDotenv({ path: path.resolve(__dirname, '../../../.env') });
 configDotenv({ path: path.resolve(__dirname, '../.env') });
 
 const app = zodiosApp();
-// app.use(express.json());
 
 export const pool = new Pool({
   user: process.env.POSTGRES_USER,
@@ -28,22 +27,6 @@ export const pool = new Pool({
   port: Number(process.env.POSTGRES_PORT)
 });
 
-// --- Zodios API definition ---
-const api = makeApi([
-  {
-    method: 'get',
-    path: '/ping',
-    alias: 'ping',
-    response: z.object({ message: z.string() }),
-    description: 'Health check endpoint'
-  }
-]);
-
-// Register endpoint handlers
-app.get('/ping', async (_, res) => {
-  res.json({ message: 'pong' });
-});
-
 const swaggerDocument = openApiBuilder({
   title: 'User API',
   version: '1.0.0',
@@ -51,7 +34,7 @@ const swaggerDocument = openApiBuilder({
 })
   .addServer({ url: '/api/v1' })
   .addSecurityScheme('admin', bearerAuthScheme())
-  .addPublicApi(api)
+  .addPublicApi(authApi)
   .build();
 
 app.router.get('/docs/swagger.json', (_req, res) => {
