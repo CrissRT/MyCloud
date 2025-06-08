@@ -8,7 +8,8 @@ export const getUserById = async (id: string) => {
 
   if (result.rows.length === 0) return null;
 
-  return result.rows[0];
+  const user: User = result.rows[0];
+  return user;
 };
 
 export const getUserByEmail = async (email: string) => {
@@ -17,8 +18,9 @@ export const getUserByEmail = async (email: string) => {
   const result = await pool.query(query, values);
 
   if (result.rows.length === 0) return null;
-
-  return result.rows[0];
+  
+  const user: User = result.rows[0];
+  return user;
 };
 
 export const createUser = async ({
@@ -38,5 +40,6 @@ export const createUser = async ({
 
   if (result.rowCount === 0) return null;
 
-  return result.rows[0];
+  const id = Number(result.rows[0].id);
+  return id;
 };
