@@ -1,12 +1,10 @@
 // import { hash } from 'bcryptjs';
-import { configDotenv } from 'dotenv';
 import express from 'express';
 
 import { getUserByEmail } from '@server/db';
 // import { getSaltRounds } from '@server/utils/constants';
 import { userRegisterSchema } from '@shared/models';
 
-configDotenv();
 
 // const SALT_ROUNDS = getSaltRounds();
 
@@ -35,9 +33,6 @@ router.post('/register', async (req, res) => {
     }
 
     //   const hashedPassword = hash(resultParse.data.password, SALT_ROUNDS);
-      
-
-
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
