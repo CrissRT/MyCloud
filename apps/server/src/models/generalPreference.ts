@@ -1,3 +1,5 @@
+import { z } from '@server/i18n/i18n';
+
 export enum Appearance {
   LIGHT = 'light',
   DARK = 'dark',
@@ -26,12 +28,14 @@ export enum Layout {
   GRID = 'grid'
 }
 
-export interface GeneralPreferences {
-  id: number;
-  userId: number;
-  appearance: Appearance;
-  density: Density;
-  openFiles: OpenFiles;
-  layout: Layout;
-  language: Language;
-}
+export const generalPreferencesSchema = z.object({
+  id: z.number().int().nonnegative(),
+  userId: z.number().int().nonnegative(),
+  appearance: z.nativeEnum(Appearance),
+  density: z.nativeEnum(Density),
+  openFiles: z.nativeEnum(OpenFiles),
+  layout: z.nativeEnum(Layout),
+  language: z.nativeEnum(Language)
+});
+
+export type GeneralPreferences = z.infer<typeof generalPreferencesSchema>;

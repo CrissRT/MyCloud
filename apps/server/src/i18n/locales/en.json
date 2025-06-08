@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "userAlreadyExists": "A user with this email already exists",
+    "userRegistrationFailed": "User registration failed",
+    "internalServerError": "An internal server error occurred"
+  }
+}

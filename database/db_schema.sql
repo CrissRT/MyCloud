@@ -15,8 +15,9 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
+    first_name VARCHAR(255) CHECK (char_length(first_name) >= 3),
+    last_name VARCHAR(255) CHECK (char_length(last_name) >= 3),
+    birth_date DATE,
     role role_enum NOT NULL DEFAULT 'user',
     sex sex_enum,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
@@ -32,7 +33,7 @@ CREATE TABLE sessions (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     last_active TIMESTAMP WITH TIME ZONE DEFAULT now(),
     login_attempts INTEGER NOT NULL DEFAULT 0,
-    last_login_attempt TIMESTAMP WITH TIME ZONE
+    last_login_attempt TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
 -- General Preferences
