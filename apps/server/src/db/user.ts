@@ -40,6 +40,6 @@ export const createUser = async ({
 
   if (result.rowCount === 0) return null;
 
-  const id = Number(result.rows[0].id);
-  return id;
+  const user: User = result.rows[0];
+  return user;
 };

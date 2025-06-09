@@ -17,7 +17,9 @@ export const getSessionsByUserId = async (userId: number) => {
 
   if (result.rows.length === 0) return null;
 
-  return result.rows;
+  const sessions: UserSession[] = result.rows;
+
+  return sessions;
 };
 
 export const createSession = async ({
@@ -37,4 +39,25 @@ export const createSession = async ({
   if (result.rowCount === 0) return null;
 
   return result.rows[0];
+};
+
+export const updateSession = async (session: UserSession) => {
+  const query =
+    'UPDATE sessions SET user_id = $1, device_info = $2, ip = $3, cookie = $4, last_active = $5, login_attempts = $6, last_login_attempt = $7 WHERE id = $8';
+  const values = [
+    session.userId,
+    session.deviceInfo,
+    session.ip,
+    session.cookie,
+    session.lastActive,
+    session.loginAttempts,
+    session.lastLoginAttempt,
+    session.id
+  ];
+  const result = await pool.query(query, values);
+
+  if (result.rowCount === 0) return null;
+
+  const updatedSession: UserSession = result.rows[0];
+  return updatedSession;
 };
