@@ -22,6 +22,18 @@ export const getSessionsByUserId = async (userId: number) => {
   return sessions;
 };
 
+export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInfo: string) => {
+  const query = 'SELECT * FROM sessions WHERE user_id = $1 AND device_info = $2';
+  const values = [userId, deviceInfo];
+  const result = await pool.query(query, values);
+
+  if (result.rows.length === 0) return null;
+
+  const sessions: UserSession[] = result.rows;
+
+  return sessions;
+};
+
 export const createSession = async ({
   userId,
   deviceInfo,

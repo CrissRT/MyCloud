@@ -3,8 +3,8 @@ import cookie from 'cookie';
 import dayjs from 'dayjs';
 import express from 'express';
 
-import { createUser, getUserByEmail } from '@server/db';
-import { createSession, getSessionsByUserId, updateSession } from '@server/db';
+import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@server/db';
+import { createSession, updateSession } from '@server/db';
 import { getSaltRounds } from '@server/utils';
 import { Role, UserAuthResponse, userLoginSchema, userRegisterSchema } from '@shared/models';
 
@@ -119,16 +119,16 @@ router.post('/login', async (req, res) => {
     if (!foundUser) {
       res.status(401).json({
         code: 'INVALID_CREDENTIALS',
-        message: 'Invalid email or password'
+        message: 'User with this email does not exist'
       });
       return;
     }
 
+    const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(foundUser.id, resultParse.data.deviceInfo);
+
     const passwordMatch = await compare(password, foundUser.password);
     if (!passwordMatch) {
-      const foundSessions = await getSessionsByUserId(foundUser.id);
-
-      if (!foundSessions || foundSessions.length === 0) {
+      if (!sameDeviceSessions || sameDeviceSessions.length === 0) {
         createSession({
           userId: foundUser.id,
           deviceInfo: resultParse.data.deviceInfo,
@@ -139,40 +139,36 @@ router.post('/login', async (req, res) => {
           lastLoginAttempt: new Date()
         });
       } else {
-        const sameDeviceSession = foundSessions.find((session) => session.deviceInfo === resultParse.data.deviceInfo);
-        if (!sameDeviceSession) {
-          createSession({
-            userId: foundUser.id,
-            deviceInfo: resultParse.data.deviceInfo,
-            ip: resultParse.data.ip,
-            cookie: null,
-            lastActive: new Date(),
-            loginAttempts: 1,
-            lastLoginAttempt: new Date()
+        const updatedSession = {
+          ...sameDeviceSessions[0],
+          ip: resultParse.data.ip,
+          cookie: null,
+          lastActive: new Date(),
+          loginAttempts: sameDeviceSessions[0].loginAttempts + 1,
+          lastLoginAttempt: new Date()
+        };
+
+        // Update the session in the database
+        await updateSession(updatedSession);
+
+        // Check if the user is locked out
+        if (
+          updatedSession.loginAttempts >= 10 &&
+          dayjs(updatedSession.lastLoginAttempt).isAfter(dayjs().subtract(30, 'minute'))
+        ) {
+          console.warn(`User ${email} is locked out due to too many failed login attempts.`);
+          res.status(403).json({
+            code: 'USER_LOCKED_OUT',
+            message: 'User is locked out due to too many failed login attempts'
           });
-        } else {
-          const updatedSession = {
-            ...sameDeviceSession,
-            lastActive: new Date(),
-            loginAttempts: sameDeviceSession.loginAttempts + 1,
-            lastLoginAttempt: new Date()
-          };
-
-          // Update the session in the database
+          return;
+        } else if (
+          updatedSession.loginAttempts >= 10 &&
+          dayjs(updatedSession.lastLoginAttempt).isBefore(dayjs().subtract(30, 'minute'))
+        ) {
+          // if user has more than 10 failed login attempts, but last attempt was more than 30 minutes ago, reset login attempts
+          updatedSession.loginAttempts = 1;
           await updateSession(updatedSession);
-
-          // Check if the user is locked out
-          if (
-            updatedSession.loginAttempts >= 10 &&
-            dayjs(updatedSession.lastLoginAttempt).isAfter(dayjs().subtract(30, 'minute'))
-          ) {
-            console.warn(`User ${email} is locked out due to too many failed login attempts.`);
-            res.status(403).json({
-              code: 'USER_LOCKED_OUT',
-              message: 'User is locked out due to too many failed login attempts'
-            });
-            return;
-          }
         }
       }
 
@@ -200,6 +196,17 @@ router.post('/login', async (req, res) => {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 7 // 1 week
     });
+
+    if (!sameDeviceSessions || sameDeviceSessions.length === 0)
+      createSession({
+        userId: foundUser.id,
+        deviceInfo: resultParse.data.deviceInfo,
+        ip: resultParse.data.ip,
+        cookie: userSessionCookie,
+        lastActive: new Date(),
+        loginAttempts: 0,
+        lastLoginAttempt: new Date()
+      });
 
     res.setHeader('Set-Cookie', userSessionCookie);
     res.status(200).json(responseUser);
