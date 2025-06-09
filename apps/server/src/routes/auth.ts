@@ -126,7 +126,6 @@ router.post('/login', async (req, res) => {
 
     const passwordMatch = await compare(password, foundUser.password);
     if (!passwordMatch) {
-      // Todo: add logic to increment login attempts and check if user is locked out
       const foundSessions = await getSessionsByUserId(foundUser.id);
 
       if (!foundSessions || foundSessions.length === 0) {
@@ -141,7 +140,6 @@ router.post('/login', async (req, res) => {
         });
       } else {
         const sameDeviceSession = foundSessions.find((session) => session.deviceInfo === resultParse.data.deviceInfo);
-        // Todo: add logic to check if last login attempt was more than 30 minutes ago otherwise and more than 10 login attempts, else lock the user out
         if (!sameDeviceSession) {
           createSession({
             userId: foundUser.id,
