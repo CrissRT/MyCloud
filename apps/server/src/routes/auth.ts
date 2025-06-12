@@ -119,7 +119,7 @@ router.post('/login', async (req, res) => {
       });
       return;
     }
-
+    
     const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(foundUser.id, resultParse.data.deviceInfo);
 
     const passwordMatch = await compare(password, foundUser.password);
@@ -164,9 +164,6 @@ router.post('/login', async (req, res) => {
         ) {
           // if user has more than 10 failed login attempts, but last attempt was more than 30 minutes ago, reset login attempts
           updatedSession.loginAttempts = 1;
-          await updateSession(updatedSession);
-        } else {
-          updatedSession.loginAttempts = maxLoginAttempts;
           await updateSession(updatedSession);
         }
       }

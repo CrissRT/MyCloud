@@ -1,4 +1,4 @@
-import { pool } from '@server/utils';
+import { convertObjectKeysSnakeCaseToCamelCase, pool } from '@server/utils';
 import { UserSession } from '@shared/models';
 
 export const getSessionById = async (id: number) => {
@@ -7,7 +7,9 @@ export const getSessionById = async (id: number) => {
   const result = await pool.query(query, values);
 
   if (result.rows.length === 0) return null;
-  return result.rows[0];
+  const session: UserSession = result.rows[0];
+
+  return convertObjectKeysSnakeCaseToCamelCase(session);
 };
 
 export const getSessionsByUserId = async (userId: number) => {
@@ -19,7 +21,7 @@ export const getSessionsByUserId = async (userId: number) => {
 
   const sessions: UserSession[] = result.rows;
 
-  return sessions;
+  return convertObjectKeysSnakeCaseToCamelCase(sessions)
 };
 
 export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInfo: string) => {
@@ -31,7 +33,7 @@ export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInf
 
   const sessions: UserSession[] = result.rows;
 
-  return sessions;
+  return convertObjectKeysSnakeCaseToCamelCase(sessions);
 };
 
 export const createSession = async ({
@@ -50,7 +52,8 @@ export const createSession = async ({
 
   if (result.rowCount === 0) return null;
 
-  return result.rows[0];
+  const resultSession: UserSession = result.rows[0];
+  return convertObjectKeysSnakeCaseToCamelCase(resultSession);
 };
 
 export const updateSession = async (session: UserSession) => {
@@ -71,5 +74,5 @@ export const updateSession = async (session: UserSession) => {
   if (result.rowCount === 0) return null;
 
   const updatedSession: UserSession = result.rows[0];
-  return updatedSession;
+  return convertObjectKeysSnakeCaseToCamelCase(updatedSession);
 };
