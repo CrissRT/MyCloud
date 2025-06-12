@@ -5,7 +5,14 @@ import express from 'express';
 import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
 import { getSaltRounds, getSerializedUserSessionCookie, maxLoginAttempts, setCookieHeader } from '@server/utils';
-import { errorCodes, Role, UserAuthResponse, userLoginSchema, userRegisterSchema } from '@shared/models';
+import {
+  authHeadersSchema,
+  errorCodes,
+  Role,
+  UserAuthResponse,
+  userLoginSchema,
+  userRegisterSchema
+} from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -14,19 +21,32 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   try {
     // Validate the request body against the user registration schema
-    const resultParse = userRegisterSchema.safeParse(req.body);
+    const resultParseBody = userRegisterSchema.safeParse(req.body);
+
+    // Validate the request headers against the auth headers schema
+    const resultParseHeaders = authHeadersSchema.safeParse(req.headers);
 
     // If validation fails, return a 400 error with the validation error message
-    if (!resultParse.success) {
+    if (!resultParseBody.success) {
       res.status(400).json({
         //   TODO: add i18n support
         code: errorCodes.VALIDATION_ERROR,
-        message: resultParse.error.message
+        message: resultParseBody.error.message
       });
       return;
     }
+
+    // If headers validation fails, return a 400 error with the validation error message
+    if (!resultParseHeaders.success) {
+      res.status(400).json({
+        code: errorCodes.VALIDATION_ERROR,
+        message: resultParseHeaders.error.message
+      });
+      return;
+    }
+
     // Check if the user already exists by email
-    const email = resultParse.data.email;
+    const email = resultParseBody.data.email;
     const foundUser = await getUserByEmail(email);
 
     // If a user with the given email already exists, return a 400 error
@@ -39,30 +59,28 @@ router.post('/register', async (req, res) => {
       return;
     }
 
-    const hashedPassword = await hash(resultParse.data.password, SALT_ROUNDS);
+    const hashedPassword = await hash(resultParseBody.data.password, SALT_ROUNDS);
 
-    const userName = resultParse.data.email.split('@')[0];
+    const userName = resultParseBody.data.email.split('@')[0];
 
     const responseUser: UserAuthResponse = {
-      email: resultParse.data.email,
+      email: resultParseBody.data.email,
       username: userName,
-      firstName: resultParse.data.firstName,
-      lastName: resultParse.data.lastName,
+      firstName: resultParseBody.data.firstName,
+      lastName: resultParseBody.data.lastName,
       role: Role.USER,
-      sex: resultParse.data.sex,
-      birthDate: resultParse.data.birthDate,
-      deviceInfo: resultParse.data.deviceInfo,
-      ip: resultParse.data.ip
+      sex: resultParseBody.data.sex,
+      birthDate: resultParseBody.data.birthDate
     };
 
     const createdUser = await createUser({
-      email: resultParse.data.email,
+      email: resultParseBody.data.email,
       username: userName,
-      firstName: resultParse.data.firstName,
-      lastName: resultParse.data.lastName,
+      firstName: resultParseBody.data.firstName,
+      lastName: resultParseBody.data.lastName,
       role: Role.USER,
-      sex: resultParse.data.sex,
-      birthDate: resultParse.data.birthDate,
+      sex: resultParseBody.data.sex,
+      birthDate: resultParseBody.data.birthDate,
       password: hashedPassword
     });
 
@@ -81,8 +99,8 @@ router.post('/register', async (req, res) => {
     // Create a session for the user
     await createSession({
       userId: createdUser.id,
-      deviceInfo: resultParse.data.deviceInfo,
-      ip: resultParse.data.ip,
+      deviceInfo: resultParseHeaders.data['User-Agent'],
+      ip: resultParseHeaders.data['X-Forwarded-For'],
       cookie: userSessionCookie,
       lastActive: new Date(),
       loginAttempts: 0,
@@ -99,17 +117,26 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const resultParse = userLoginSchema.safeParse(req.body);
+    const resultParseBody = userLoginSchema.safeParse(req.body);
+    const resultParseHeaders = authHeadersSchema.safeParse(req.headers);
 
-    if (!resultParse.success) {
+    if (!resultParseBody.success) {
       res.status(400).json({
         code: errorCodes.VALIDATION_ERROR,
-        message: resultParse.error.message
+        message: resultParseBody.error.message
       });
       return;
     }
 
-    const { email, password } = resultParse.data;
+    if (!resultParseHeaders.success) {
+      res.status(400).json({
+        code: errorCodes.VALIDATION_ERROR,
+        message: resultParseHeaders.error.message
+      });
+      return;
+    }
+
+    const { email, password } = resultParseBody.data;
     const foundUser = await getUserByEmail(email);
 
     if (!foundUser) {
@@ -120,15 +147,18 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(foundUser.id, resultParse.data.deviceInfo);
+    const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(
+      foundUser.id,
+      resultParseHeaders.data['User-Agent']
+    );
 
     const passwordMatch = await compare(password, foundUser.password);
     if (!passwordMatch) {
       if (!sameDeviceSessions || sameDeviceSessions.length === 0) {
         createSession({
           userId: foundUser.id,
-          deviceInfo: resultParse.data.deviceInfo,
-          ip: resultParse.data.ip,
+          deviceInfo: resultParseHeaders.data['User-Agent'],
+          ip: resultParseHeaders.data['X-Forwarded-For'],
           cookie: null,
           lastActive: new Date(),
           loginAttempts: 1,
@@ -137,7 +167,7 @@ router.post('/login', async (req, res) => {
       } else {
         const updatedSession = {
           ...sameDeviceSessions[0],
-          ip: resultParse.data.ip,
+          ip: resultParseHeaders.data['X-Forwarded-For'],
           cookie: null,
           lastActive: new Date(),
           loginAttempts: sameDeviceSessions[0].loginAttempts + 1,
@@ -183,9 +213,7 @@ router.post('/login', async (req, res) => {
       lastName: foundUser.lastName,
       role: foundUser.role,
       sex: foundUser.sex,
-      birthDate: foundUser.birthDate,
-      deviceInfo: resultParse.data.deviceInfo,
-      ip: resultParse.data.ip
+      birthDate: foundUser.birthDate
     };
 
     const userSessionCookie = getSerializedUserSessionCookie(responseUser);
@@ -193,8 +221,8 @@ router.post('/login', async (req, res) => {
     if (!sameDeviceSessions || sameDeviceSessions.length === 0)
       createSession({
         userId: foundUser.id,
-        deviceInfo: resultParse.data.deviceInfo,
-        ip: resultParse.data.ip,
+        deviceInfo: resultParseHeaders.data['User-Agent'],
+        ip: resultParseHeaders.data['X-Forwarded-For'],
         cookie: userSessionCookie,
         lastActive: new Date(),
         loginAttempts: 0,

@@ -41,25 +41,25 @@ export const userSessionSchema = z.object({
   lastLoginAttempt: z.date()
 });
 
+export const authHeadersSchema = z.object({
+  'X-Forwarded-For': z.string().ip(),
+  'User-Agent': z.string().min(1)
+});
+
+export type AuthHeaders = z.infer<typeof authHeadersSchema>;
+
 export type UserSession = z.infer<typeof userSessionSchema>;
 
-export const userRegisterSchema = userSchema
-  .omit({ id: true, role: true, username: true, createdAt: true })
-  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
+export const userRegisterSchema = userSchema.omit({ id: true, role: true, username: true, createdAt: true });
 
 export type UserRegister = z.infer<typeof userRegisterSchema>;
 
-export const userAuthResponseSchema = userSchema
-  .omit({ id: true, password: true, createdAt: true })
-  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
+export const userAuthResponseSchema = userSchema.omit({ id: true, password: true, createdAt: true });
 
 export type UserAuthResponse = z.infer<typeof userAuthResponseSchema>;
 
-export const userLoginSchema = userSchema
-  .pick({
-    email: true,
-    password: true
-  })
-  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
-
+export const userLoginSchema = userSchema.pick({
+  email: true,
+  password: true
+});
 export type UserLogin = z.infer<typeof userLoginSchema>;
