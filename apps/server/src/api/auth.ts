@@ -1,12 +1,5 @@
-import { authHeadersSchema, errors, userAuthResponseSchema, userLoginSchema, userRegisterSchema } from '@shared/models';
+import { errors, userAuthResponseSchema, userLoginSchema, userRegisterSchema } from '@shared/models';
 import { makeApi } from '@zodios/core';
-
-const authHeaders = {
-  name: 'Headers',
-  type: 'Header',
-  schema: authHeadersSchema,
-  description: 'IP address of the user & User-Agent header of the request '
-} as const;
 
 export const authApi = makeApi([
   {
@@ -22,8 +15,7 @@ export const authApi = makeApi([
         type: 'Body',
         schema: userRegisterSchema,
         description: 'User registration details'
-      },
-      authHeaders
+      }
     ]
   },
   {
@@ -39,8 +31,7 @@ export const authApi = makeApi([
         type: 'Body',
         schema: userLoginSchema,
         description: 'User login details'
-      },
-      authHeaders
+      }
     ]
   }
 ]);

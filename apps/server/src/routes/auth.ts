@@ -99,8 +99,8 @@ router.post('/register', async (req, res) => {
     // Create a session for the user
     await createSession({
       userId: createdUser.id,
-      deviceInfo: resultParseHeaders.data['User-Agent'],
-      ip: resultParseHeaders.data['X-Forwarded-For'],
+      deviceInfo: resultParseHeaders.data['user-agent'],
+      ip: resultParseHeaders.data['x-forwarded-for'],
       cookie: userSessionCookie,
       lastActive: new Date(),
       loginAttempts: 0,
@@ -149,7 +149,7 @@ router.post('/login', async (req, res) => {
 
     const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(
       foundUser.id,
-      resultParseHeaders.data['User-Agent']
+      resultParseHeaders.data['user-agent']
     );
 
     const passwordMatch = await compare(password, foundUser.password);
@@ -157,8 +157,8 @@ router.post('/login', async (req, res) => {
       if (!sameDeviceSessions || sameDeviceSessions.length === 0) {
         createSession({
           userId: foundUser.id,
-          deviceInfo: resultParseHeaders.data['User-Agent'],
-          ip: resultParseHeaders.data['X-Forwarded-For'],
+          deviceInfo: resultParseHeaders.data['user-agent'],
+          ip: resultParseHeaders.data['x-forwarded-for'],
           cookie: null,
           lastActive: new Date(),
           loginAttempts: 1,
@@ -167,7 +167,7 @@ router.post('/login', async (req, res) => {
       } else {
         const updatedSession = {
           ...sameDeviceSessions[0],
-          ip: resultParseHeaders.data['X-Forwarded-For'],
+          ip: resultParseHeaders.data['x-forwarded-for'],
           cookie: null,
           lastActive: new Date(),
           loginAttempts: sameDeviceSessions[0].loginAttempts + 1,
@@ -221,8 +221,8 @@ router.post('/login', async (req, res) => {
     if (!sameDeviceSessions || sameDeviceSessions.length === 0)
       createSession({
         userId: foundUser.id,
-        deviceInfo: resultParseHeaders.data['User-Agent'],
-        ip: resultParseHeaders.data['X-Forwarded-For'],
+        deviceInfo: resultParseHeaders.data['user-agent'],
+        ip: resultParseHeaders.data['x-forwarded-for'],
         cookie: userSessionCookie,
         lastActive: new Date(),
         loginAttempts: 0,

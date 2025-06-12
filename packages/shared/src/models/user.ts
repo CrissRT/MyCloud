@@ -42,8 +42,8 @@ export const userSessionSchema = z.object({
 });
 
 export const authHeadersSchema = z.object({
-  'X-Forwarded-For': z.string().ip(),
-  'User-Agent': z.string().min(1)
+  'x-forwarded-for': z.string().ip(),
+  'user-agent': z.string().min(1)
 });
 
 export type AuthHeaders = z.infer<typeof authHeadersSchema>;
