@@ -107,7 +107,8 @@ router.post('/register', async (req, res) => {
       lastLoginAttempt: new Date()
     });
 
-    res = setCookieHeader(res, userSessionCookie);
+    setCookieHeader(res, userSessionCookie);
+
     res.status(201).json(responseUser);
   } catch (error) {
     console.error('Error during registration:', error);
@@ -229,7 +230,7 @@ router.post('/login', async (req, res) => {
         lastLoginAttempt: new Date()
       });
 
-    res = setCookieHeader(res, userSessionCookie);
+    setCookieHeader(res, userSessionCookie);
     res.status(200).json(responseUser);
   } catch (error) {
     console.error('Error during login:', error);

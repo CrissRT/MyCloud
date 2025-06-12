@@ -1,5 +1,22 @@
+import { z } from 'zod';
+
 import { errors, userAuthResponseSchema, userLoginSchema, userRegisterSchema } from '@shared/models';
 import { makeApi } from '@zodios/core';
+
+const authHeaders = [
+  {
+    name: 'x-forwarded-for',
+    type: 'Header',
+    schema: z.string().ip(),
+    description: 'Client IP address'
+  },
+  {
+    name: 'user-agent',
+    type: 'Header',
+    schema: z.string().min(1),
+    description: 'User agent string'
+  }
+] as const;
 
 export const authApi = makeApi([
   {
@@ -15,7 +32,14 @@ export const authApi = makeApi([
         type: 'Body',
         schema: userRegisterSchema,
         description: 'User registration details'
-      }
+      },
+      {
+        name: 'x-forwarded-for',
+        type: 'Header',
+        schema: z.string().ip(),
+        description: 'Client IP address'
+      },
+      ...authHeaders
     ]
   },
   {
@@ -31,7 +55,8 @@ export const authApi = makeApi([
         type: 'Body',
         schema: userLoginSchema,
         description: 'User login details'
-      }
+      },
+      ...authHeaders
     ]
   }
 ]);
