@@ -16,5 +16,5 @@ export const getSerializedUserSessionCookie = (user: UserAuthResponse) =>
 
 export const setCookieHeader = (res: Response, cookie: string) => {
   res.setHeader('Set-Cookie', cookie);
-  return res
+  return res;
 };
