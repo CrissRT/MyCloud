@@ -6,7 +6,6 @@ import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@s
 import { createSession, updateSession } from '@server/db';
 import { getSaltRounds, getSerializedUserSessionCookie, maxLoginAttempts, setCookieHeader } from '@server/utils';
 import {
-  authHeadersSchema,
   errorCodes,
   Role,
   UserAuthResponse,
@@ -23,24 +22,12 @@ router.post('/register', async (req, res) => {
     // Validate the request body against the user registration schema
     const resultParseBody = userRegisterSchema.safeParse(req.body);
 
-    // Validate the request headers against the auth headers schema
-    const resultParseHeaders = authHeadersSchema.safeParse(req.headers);
-
     // If validation fails, return a 400 error with the validation error message
     if (!resultParseBody.success) {
       res.status(400).json({
         //   TODO: add i18n support
         code: errorCodes.VALIDATION_ERROR,
         message: resultParseBody.error.message
-      });
-      return;
-    }
-
-    // If headers validation fails, return a 400 error with the validation error message
-    if (!resultParseHeaders.success) {
-      res.status(400).json({
-        code: errorCodes.VALIDATION_ERROR,
-        message: resultParseHeaders.error.message
       });
       return;
     }
@@ -99,8 +86,8 @@ router.post('/register', async (req, res) => {
     // Create a session for the user
     await createSession({
       userId: createdUser.id,
-      deviceInfo: resultParseHeaders.data['user-agent'],
-      ip: resultParseHeaders.data['x-forwarded-for'],
+      deviceInfo: req.headers['user-agent'] || 'unknown',
+      ip: String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown',
       cookie: userSessionCookie,
       lastActive: new Date(),
       loginAttempts: 0,
@@ -119,20 +106,11 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const resultParseBody = userLoginSchema.safeParse(req.body);
-    const resultParseHeaders = authHeadersSchema.safeParse(req.headers);
 
     if (!resultParseBody.success) {
       res.status(400).json({
         code: errorCodes.VALIDATION_ERROR,
         message: resultParseBody.error.message
-      });
-      return;
-    }
-
-    if (!resultParseHeaders.success) {
-      res.status(400).json({
-        code: errorCodes.VALIDATION_ERROR,
-        message: resultParseHeaders.error.message
       });
       return;
     }
@@ -150,16 +128,19 @@ router.post('/login', async (req, res) => {
 
     const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(
       foundUser.id,
-      resultParseHeaders.data['user-agent']
+      req.headers['user-agent'] || 'unknown'
     );
+
+    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
 
     const passwordMatch = await compare(password, foundUser.password);
     if (!passwordMatch) {
       if (!sameDeviceSessions || sameDeviceSessions.length === 0) {
         createSession({
           userId: foundUser.id,
-          deviceInfo: resultParseHeaders.data['user-agent'],
-          ip: resultParseHeaders.data['x-forwarded-for'],
+          deviceInfo,
+          ip,
           cookie: null,
           lastActive: new Date(),
           loginAttempts: 1,
@@ -168,7 +149,7 @@ router.post('/login', async (req, res) => {
       } else {
         const updatedSession = {
           ...sameDeviceSessions[0],
-          ip: resultParseHeaders.data['x-forwarded-for'],
+          ip,
           cookie: null,
           lastActive: new Date(),
           loginAttempts: sameDeviceSessions[0].loginAttempts + 1,
@@ -222,8 +203,8 @@ router.post('/login', async (req, res) => {
     if (!sameDeviceSessions || sameDeviceSessions.length === 0)
       createSession({
         userId: foundUser.id,
-        deviceInfo: resultParseHeaders.data['user-agent'],
-        ip: resultParseHeaders.data['x-forwarded-for'],
+        deviceInfo,
+        ip,
         cookie: userSessionCookie,
         lastActive: new Date(),
         loginAttempts: 0,

@@ -41,13 +41,6 @@ export const userSessionSchema = z.object({
   lastLoginAttempt: z.date()
 });
 
-export const authHeadersSchema = z.object({
-  'x-forwarded-for': z.string().ip(),
-  'user-agent': z.string().min(1)
-});
-
-export type AuthHeaders = z.infer<typeof authHeadersSchema>;
-
 export type UserSession = z.infer<typeof userSessionSchema>;
 
 export const userRegisterSchema = userSchema.omit({ id: true, role: true, username: true, createdAt: true });
