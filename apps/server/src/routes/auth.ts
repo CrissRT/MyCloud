@@ -77,11 +77,14 @@ router.post('/register', async (req, res) => {
 
     const userSessionCookie = getSerializedUserSessionCookie(responseUser);
 
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
+    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
+
     // Create a session for the user
     await createSession({
       userId: createdUser.id,
-      deviceInfo: req.headers['user-agent'] || 'unknown',
-      ip: String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown',
+      deviceInfo,
+      ip,
       cookie: userSessionCookie,
       lastActive: new Date(),
       loginAttempts: 0,
