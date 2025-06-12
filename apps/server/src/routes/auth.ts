@@ -1,12 +1,11 @@
 import { compare, hash } from 'bcryptjs';
-import cookie from 'cookie';
 import dayjs from 'dayjs';
 import express from 'express';
 
 import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
-import { getSaltRounds } from '@server/utils';
-import { Role, UserAuthResponse, userLoginSchema, userRegisterSchema } from '@shared/models';
+import { getSaltRounds, getSerializedUserSessionCookie, maxLoginAttempts, setCookieHeader } from '@server/utils';
+import { errorCodes, Role, UserAuthResponse, userLoginSchema, userRegisterSchema } from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -21,7 +20,7 @@ router.post('/register', async (req, res) => {
     if (!resultParse.success) {
       res.status(400).json({
         //   TODO: add i18n support
-        code: 'VALIDATION_ERROR',
+        code: errorCodes.VALIDATION_ERROR,
         message: resultParse.error.message
       });
       return;
@@ -34,7 +33,7 @@ router.post('/register', async (req, res) => {
     if (foundUser) {
       res.status(400).json({
         //   TODO: add i18n support
-        code: 'USER_ALREADY_EXISTS',
+        code: errorCodes.USER_ALREADY_EXISTS,
         message: 'User with this email already exists'
       });
       return;
@@ -71,16 +70,13 @@ router.post('/register', async (req, res) => {
     if (!createdUser) {
       console.error('Failed to create user in the database');
       res.status(500).json({
-        code: 'INTERNAL_SERVER_ERROR',
+        code: errorCodes.INTERNAL_SERVER_ERROR,
         message: 'Failed to create user'
       });
       return;
     }
 
-    const userSessionCookie = cookie.serialize('user_session', JSON.stringify(responseUser), {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7 // 1 week
-    });
+    const userSessionCookie = getSerializedUserSessionCookie(responseUser);
 
     // Create a session for the user
     await createSession({
@@ -93,11 +89,11 @@ router.post('/register', async (req, res) => {
       lastLoginAttempt: new Date()
     });
 
-    res.setHeader('Set-Cookie', userSessionCookie);
+    res = setCookieHeader(res, userSessionCookie);
     res.status(201).json(responseUser);
   } catch (error) {
     console.error('Error during registration:', error);
-    res.status(500).json({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
+    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: 'Internal server error' });
   }
 });
 
@@ -107,7 +103,7 @@ router.post('/login', async (req, res) => {
 
     if (!resultParse.success) {
       res.status(400).json({
-        code: 'VALIDATION_ERROR',
+        code: errorCodes.VALIDATION_ERROR,
         message: resultParse.error.message
       });
       return;
@@ -118,7 +114,7 @@ router.post('/login', async (req, res) => {
 
     if (!foundUser) {
       res.status(401).json({
-        code: 'INVALID_CREDENTIALS',
+        code: errorCodes.INVALID_CREDENTIALS,
         message: 'User with this email does not exist'
       });
       return;
@@ -153,28 +149,31 @@ router.post('/login', async (req, res) => {
 
         // Check if the user is locked out
         if (
-          updatedSession.loginAttempts >= 10 &&
+          updatedSession.loginAttempts >= maxLoginAttempts &&
           dayjs(updatedSession.lastLoginAttempt).isAfter(dayjs().subtract(30, 'minute'))
         ) {
           console.warn(`User ${email} is locked out due to too many failed login attempts.`);
           res.status(403).json({
-            code: 'USER_LOCKED_OUT',
+            code: errorCodes.USER_LOCKED_OUT,
             message: 'User is locked out due to too many failed login attempts'
           });
           return;
         } else if (
-          updatedSession.loginAttempts >= 10 &&
+          updatedSession.loginAttempts >= maxLoginAttempts &&
           dayjs(updatedSession.lastLoginAttempt).isBefore(dayjs().subtract(30, 'minute'))
         ) {
           // if user has more than 10 failed login attempts, but last attempt was more than 30 minutes ago, reset login attempts
           updatedSession.loginAttempts = 1;
+          await updateSession(updatedSession);
+        } else {
+          updatedSession.loginAttempts = maxLoginAttempts;
           await updateSession(updatedSession);
         }
       }
 
       console.warn(`Failed login attempt for user: ${email}`);
       res.status(401).json({
-        code: 'INVALID_CREDENTIALS',
+        code: errorCodes.INVALID_CREDENTIALS,
         message: 'Invalid email or password'
       });
       return;
@@ -192,10 +191,7 @@ router.post('/login', async (req, res) => {
       ip: resultParse.data.ip
     };
 
-    const userSessionCookie = cookie.serialize('user_session', JSON.stringify(responseUser), {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7 // 1 week
-    });
+    const userSessionCookie = getSerializedUserSessionCookie(responseUser);
 
     if (!sameDeviceSessions || sameDeviceSessions.length === 0)
       createSession({
@@ -208,11 +204,11 @@ router.post('/login', async (req, res) => {
         lastLoginAttempt: new Date()
       });
 
-    res.setHeader('Set-Cookie', userSessionCookie);
+    res = setCookieHeader(res, userSessionCookie);
     res.status(200).json(responseUser);
   } catch (error) {
     console.error('Error during login:', error);
-    res.status(500).json({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
+    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: 'Internal server error' });
   }
 });
 

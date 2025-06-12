@@ -55,3 +55,5 @@ export const getPortOfServer = () => {
 };
 
 export const pool = new Pool(getPostgresConfig());
+
+export const maxLoginAttempts = 10;

@@ -50,3 +50,11 @@ export const errors = [
   { status: 510, schema: httpErrorSchema }, // Not Extended
   { status: 511, schema: httpErrorSchema } // Network Authentication Required
 ];
+
+export const errorCodes = {
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  USER_ALREADY_EXISTS: 'USER_ALREADY_EXISTS',
+  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+  INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
+  USER_LOCKED_OUT: 'USER_LOCKED_OUT'
+}
