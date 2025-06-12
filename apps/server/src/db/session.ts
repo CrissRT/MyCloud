@@ -21,7 +21,7 @@ export const getSessionsByUserId = async (userId: number) => {
 
   const sessions: UserSession[] = result.rows;
 
-  return convertObjectKeysSnakeCaseToCamelCase(sessions)
+  return convertObjectKeysSnakeCaseToCamelCase(sessions);
 };
 
 export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInfo: string) => {

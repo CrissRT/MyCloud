@@ -119,7 +119,7 @@ router.post('/login', async (req, res) => {
       });
       return;
     }
-    
+
     const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(foundUser.id, resultParse.data.deviceInfo);
 
     const passwordMatch = await compare(password, foundUser.password);
