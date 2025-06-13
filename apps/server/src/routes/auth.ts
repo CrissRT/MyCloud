@@ -22,6 +22,9 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
   try {
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
+    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
+
     // Validate the request body against the user registration schema
     const resultParseBody = userRegisterSchema.safeParse(req.body);
 
@@ -30,6 +33,16 @@ router.post('/register', async (req, res) => {
       res.status(400).json({
         code: errorCodes.ZOD_ERROR,
         message: resultParseBody.error.message
+      });
+      return;
+    }
+
+    const foundSession = await findRelevantSession(ip, deviceInfo);
+
+    if (foundSession && isBanned(foundSession)) {
+      res.status(403).json({
+        code: errorCodes.USER_LOCKED_OUT,
+        message: req.t('errors.userLockedOut')
       });
       return;
     }
@@ -72,9 +85,6 @@ router.post('/register', async (req, res) => {
     });
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
-
-    const deviceInfo = req.headers['user-agent'] || 'unknown';
-    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
 
     // Create a session for the user
     await createSession({

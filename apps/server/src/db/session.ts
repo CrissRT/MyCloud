@@ -81,8 +81,18 @@ export const createSession = async ({
 };
 
 export const updateSession = async (session: UserSession) => {
-  const query =
-    'UPDATE sessions SET user_id = $1, device_info = $2, ip = $3, cookie = $4, last_active = $5, login_attempts = $6 WHERE id = $7  RETURNING *';
+  const query = `UPDATE sessions
+     SET user_id = $1,
+         device_info = $2,
+         ip = $3,
+         cookie = $4,
+         last_active = $5,
+         login_attempts = $6,
+         ban_duration_minutes = $7,
+         ban_start = $8,
+         created_at = $9
+     WHERE id = $10
+     RETURNING *`;
   const values = [
     session.userId,
     session.deviceInfo,
@@ -90,6 +100,9 @@ export const updateSession = async (session: UserSession) => {
     session.cookie,
     session.lastActive,
     session.loginAttempts,
+    session.banDurationMinutes,
+    session.banStart,
+    session.createdAt,
     session.id
   ];
   const result = await pool.query(query, values);
@@ -112,8 +125,7 @@ export const findRelevantSession = async (ip: string, deviceInfo: string): Promi
 
   const candidates = bothMatch.length > 0 ? bothMatch : allSessions;
 
-  // Sort by lastActive instead of lastLoginAttempt
-  candidates.sort((a, b) => dayjs(b.lastActive).valueOf() - dayjs(a.lastActive).valueOf());
+  candidates.sort((a, b) => dayjs(b.banStart).valueOf() - dayjs(a.banStart).valueOf());
 
   return candidates[0];
 };
