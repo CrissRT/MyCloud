@@ -4,8 +4,8 @@ import { serve, setup } from 'swagger-ui-express';
 import { authApi } from '@server/api';
 import { zodMiddleware } from '@server/api/middlewares';
 import { i18n } from '@server/i18n/i18n';
-import { authRouter } from '@server/routes/auth';
-import { getPortOfServer } from '@server/utils/constants';
+import { authRouter } from '@server/routes';
+import { getPortOfServer } from '@server/utils';
 import { zodiosApp } from '@zodios/express';
 import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
 
