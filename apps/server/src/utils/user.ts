@@ -2,7 +2,13 @@ import dayjs from 'dayjs';
 
 import { UserSession, UserSessionCreate } from '@shared/models';
 
-import { LOCKOUT_TIERS_MINUTES, MAX_LOGIN_ATTEMPTS, MAX_TIERS, PERMANENT_BAN_FLAG, RESET_AFTER_INACTIVITY_DAYS } from './constants';
+import {
+  LOCKOUT_TIERS_MINUTES,
+  MAX_LOGIN_ATTEMPTS,
+  MAX_TIERS,
+  PERMANENT_BAN_FLAG,
+  RESET_AFTER_INACTIVITY_DAYS
+} from './constants';
 
 export const isBanned = (session: UserSession | UserSessionCreate): boolean => {
   if (session.banDurationMinutes === null || session.banStart === null) return false;
