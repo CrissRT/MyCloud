@@ -111,7 +111,8 @@ router.post('/login', async (req, res) => {
       });
       return;
     }
-
+    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
     const { email, password } = resultParseBody.data;
     const foundUser = await getUserByEmail(email);
 
@@ -123,13 +124,7 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(
-      foundUser.id,
-      req.headers['user-agent'] || 'unknown'
-    );
-
-    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
-    const deviceInfo = req.headers['user-agent'] || 'unknown';
+    const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(foundUser.id, deviceInfo);
 
     const passwordMatch = await compare(password, foundUser.password);
     if (!passwordMatch) {
