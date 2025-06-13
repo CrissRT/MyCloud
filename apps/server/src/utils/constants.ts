@@ -56,4 +56,7 @@ export const getPortOfServer = () => {
 
 export const pool = new Pool(getPostgresConfig());
 
-export const maxLoginAttempts = 10;
+export const LOCKOUT_TIERS_MINUTES = [5, 15, 60, 180, 720, 1440]; // up to 24 hours
+export const MAX_TIERS = LOCKOUT_TIERS_MINUTES.length;
+export const PERMANENT_BAN_FLAG = -1;
+export const MAX_LOGIN_ATTEMPTS = 10; // Maximum login attempts before lockout

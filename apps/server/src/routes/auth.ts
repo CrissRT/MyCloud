@@ -4,8 +4,8 @@ import express from 'express';
 
 import { createUser, findRelevantSession, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
-import { getSaltRounds, getSerializedUserSessionCookie, setCookieHeader } from '@server/utils';
-import { isLockedOut, shouldResetLockout } from '@server/utils/user';
+import { getSaltRounds, getSerializedUserSessionCookie, MAX_LOGIN_ATTEMPTS, setCookieHeader } from '@server/utils';
+import { getNextBanDuration, isBanned } from '@server/utils/user';
 import {
   AuthResponse,
   errorCodes,
@@ -13,7 +13,7 @@ import {
   userLoginSchema,
   userRegisterSchema,
   UserSession,
-  UserSessionCreateOrUpdate
+  UserSessionCreate
 } from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
@@ -92,9 +92,12 @@ router.post('/register', async (req, res) => {
       deviceInfo,
       ip,
       cookie: userSessionCookie,
-      lastActive: new Date(),
+      lastActive: dayjs().toDate(),
       loginAttempts: 0,
-      lastLoginAttempt: new Date()
+      lastLoginAttempt: dayjs().toDate(),
+      createdAt: dayjs().toDate(),
+      banStart: null,
+      banDurationMinutes: null
     });
 
     setCookieHeader(res, userSessionCookie);
@@ -132,7 +135,7 @@ router.post('/login', async (req, res) => {
 
     // Get or create session
     const foundSession = await findRelevantSession(ip, deviceInfo);
-    let session: UserSession | UserSessionCreateOrUpdate | null = foundSession;
+    let session: UserSession | UserSessionCreate | null = foundSession;
 
     if (!session) {
       session = {
@@ -143,21 +146,20 @@ router.post('/login', async (req, res) => {
         lastActive: dayjs().toDate(),
         loginAttempts: 0,
         lastLoginAttempt: dayjs().toDate(),
-        createdAt: dayjs().toDate()
+        createdAt: dayjs().toDate(),
+        banStart: null,
+        banDurationMinutes: null
       };
     }
 
-    // Lockout check
-    if (isLockedOut(session)) {
+    // Check ban
+    if (isBanned(session)) {
       res.status(403).json({
         code: errorCodes.USER_LOCKED_OUT,
         message: req.t('errors.userLockedOut')
       });
       return;
     }
-
-    // Reset if lockout window passed
-    if (shouldResetLockout(session)) session.loginAttempts = 0;
 
     const passwordMatch = await compare(password, foundUser.password);
 
@@ -166,7 +168,14 @@ router.post('/login', async (req, res) => {
       session.lastLoginAttempt = dayjs().toDate();
       session.lastActive = dayjs().toDate();
 
-      session = foundSession ? await updateSession(foundSession) : await createSession(session);
+      // Evaluate if new ban should be applied
+      if (session.loginAttempts % MAX_LOGIN_ATTEMPTS === 0) {
+        const banDuration = getNextBanDuration(session.loginAttempts);
+        session.banStart = dayjs().toDate();
+        session.banDurationMinutes = banDuration;
+      }
+
+      session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
 
       res.status(401).json({
         code: errorCodes.INVALID_CREDENTIALS,
@@ -175,16 +184,11 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    // If password is correct, check again for lockout (security: don’t allow bypass)
-    if (isLockedOut(session)) {
-      res.status(403).json({
-        code: errorCodes.USER_LOCKED_OUT,
-        message: req.t('errors.userLockedOut')
-      });
-      return;
-    }
+    // Correct password — clear bans and attempts
+    session.loginAttempts = 0;
+    session.banStart = null;
+    session.banDurationMinutes = null;
 
-    // Successful login path
     const userCookie = getSerializedUserSessionCookie({
       email: foundUser.email,
       username: foundUser.username,
@@ -195,13 +199,11 @@ router.post('/login', async (req, res) => {
       birthDate: foundUser.birthDate
     });
 
-    // Reset login attempts and update session
-    session.loginAttempts = 0;
     session.cookie = userCookie;
     session.lastActive = dayjs().toDate();
     session.lastLoginAttempt = dayjs().toDate();
 
-    session = foundSession ? await updateSession(foundSession) : await createSession(session);
+    session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
 
     const response: AuthResponse = {
       email: foundUser.email,

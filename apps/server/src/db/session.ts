@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { convertObjectKeysSnakeCaseToCamelCase, pool } from '@server/utils';
-import { UserSession } from '@shared/models';
+import { UserSession, UserSessionCreate } from '@shared/models';
 
 export const getSessionById = async (id: number) => {
   const query = 'SELECT * FROM sessions WHERE id = $1';
@@ -69,11 +69,23 @@ export const createSession = async ({
   cookie,
   lastActive,
   loginAttempts,
-  lastLoginAttempt
-}: Omit<UserSession, 'id' | 'createdAt'>) => {
+  lastLoginAttempt,
+  banStart = null,
+  banDurationMinutes = null
+}: UserSessionCreate) => {
   const query =
-    'INSERT INTO sessions (user_id, device_info, ip, cookie, last_active, login_attempts, last_login_attempt, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING id';
-  const values = [userId, deviceInfo, ip, cookie, lastActive, loginAttempts, lastLoginAttempt];
+    'INSERT INTO sessions (user_id, device_info, ip, cookie, last_active, login_attempts, last_login_attempt, created_at, ban_start, ban_duration_minutes) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), $8, $9) RETURNING id';
+  const values = [
+    userId,
+    deviceInfo,
+    ip,
+    cookie,
+    lastActive,
+    loginAttempts,
+    lastLoginAttempt,
+    banStart,
+    banDurationMinutes
+  ];
   const result = await pool.query(query, values);
 
   if (result.rowCount === 0) return null;
@@ -104,25 +116,18 @@ export const updateSession = async (session: UserSession) => {
 };
 
 export const findRelevantSession = async (ip: string, deviceInfo: string): Promise<UserSession | null> => {
-  const [byIp, byDevice] = await Promise.all([
-    getSessionsByIp(ip),
-    getSessionsByDeviceInfo(deviceInfo)
-  ]);
+  const [byIp, byDevice] = await Promise.all([getSessionsByIp(ip), getSessionsByDeviceInfo(deviceInfo)]);
 
   const allSessions: UserSession[] = [...(byIp || []), ...(byDevice || [])];
 
   if (allSessions.length === 0) return null;
 
   // Filter sessions where both IP and deviceInfo match
-  const bothMatch = allSessions.filter(session =>
-    session.ip === ip && session.deviceInfo === deviceInfo
-  );
+  const bothMatch = allSessions.filter((session) => session.ip === ip && session.deviceInfo === deviceInfo);
 
   const candidates = bothMatch.length > 0 ? bothMatch : allSessions;
 
-  candidates.sort((a, b) =>
-    dayjs(b.lastLoginAttempt).valueOf() - dayjs(a.lastLoginAttempt).valueOf()
-  );
+  candidates.sort((a, b) => dayjs(b.lastLoginAttempt).valueOf() - dayjs(a.lastLoginAttempt).valueOf());
 
   return candidates[0];
 };
