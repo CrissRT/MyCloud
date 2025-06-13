@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
       res.status(400).json({
         //   TODO: add i18n support
         code: errorCodes.ZOD_ERROR,
-        message: resultParseBody.error.formErrors
+        message: resultParseBody.error.message
       });
       return;
     }
@@ -102,6 +102,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    console.log("🚀 ~ res.status ~ req.t('errors.invalidCredentials'):", req.t('errors.invalidCredentials'));
     const resultParseBody = userLoginSchema.safeParse(req.body);
 
     if (!resultParseBody.success) {
@@ -212,7 +213,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json(responseUser);
   } catch (error) {
     console.error('Error during login:', error);
-    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: 'Internal server error' });
+    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: req.t('errors.internalServerError') });
   }
 });
 
