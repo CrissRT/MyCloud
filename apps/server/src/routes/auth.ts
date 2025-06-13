@@ -153,7 +153,7 @@ router.post('/login', async (req, res) => {
         // Check if the user is locked out
         if (
           updatedSession.loginAttempts >= maxLoginAttempts &&
-          isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs().toDate(), { value: 30, unit: 'minute' })
+          isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs(), { value: 30, unit: 'minute' })
         ) {
           console.warn(`User ${email} is locked out due to too many failed login attempts.`);
           res.status(403).json({
@@ -163,7 +163,7 @@ router.post('/login', async (req, res) => {
           return;
         } else if (
           updatedSession.loginAttempts >= maxLoginAttempts &&
-          !isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs().toDate(), { value: 30, unit: 'minute' })
+          !isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs(), { value: 30, unit: 'minute' })
         ) {
           // if user has more than 10 failed login attempts, but last attempt was more than 30 minutes ago, reset login attempts
           updatedSession.loginAttempts = 1;
