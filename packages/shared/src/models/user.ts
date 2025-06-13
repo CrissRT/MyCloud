@@ -43,13 +43,17 @@ export const userSessionSchema = z.object({
 
 export type UserSession = z.infer<typeof userSessionSchema>;
 
+export const userSessionCreateOrUpdateSchema = userSessionSchema.omit({ id: true });
+
+export type UserSessionCreateOrUpdate = z.infer<typeof userSessionCreateOrUpdateSchema>;
+
 export const userRegisterSchema = userSchema.omit({ id: true, role: true, username: true, createdAt: true });
 
 export type UserRegister = z.infer<typeof userRegisterSchema>;
 
-export const userAuthResponseSchema = userSchema.omit({ id: true, password: true, createdAt: true });
+export const authResponseSchema = userSchema.omit({ id: true, password: true, createdAt: true });
 
-export type UserAuthResponse = z.infer<typeof userAuthResponseSchema>;
+export type AuthResponse = z.infer<typeof authResponseSchema>;
 
 export const userLoginSchema = userSchema.pick({
   email: true,

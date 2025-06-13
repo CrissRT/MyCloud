@@ -2,11 +2,19 @@ import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
 
-import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@server/db';
+import { createUser, findRelevantSession, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
-import { getSaltRounds, getSerializedUserSessionCookie, maxLoginAttempts, setCookieHeader } from '@server/utils';
-import { errorCodes, Role, UserAuthResponse, userLoginSchema, userRegisterSchema } from '@shared/models';
-import { isWithinLastMinutes } from '@shared/utils';
+import { getSaltRounds, getSerializedUserSessionCookie, setCookieHeader } from '@server/utils';
+import { isLockedOut, shouldResetLockout } from '@server/utils/user';
+import {
+  AuthResponse,
+  errorCodes,
+  Role,
+  userLoginSchema,
+  userRegisterSchema,
+  UserSession,
+  UserSessionCreateOrUpdate
+} from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -40,10 +48,9 @@ router.post('/register', async (req, res) => {
     }
 
     const hashedPassword = await hash(resultParseBody.data.password, SALT_ROUNDS);
-
     const userName = resultParseBody.data.email.split('@')[0];
 
-    const responseUser: UserAuthResponse = {
+    const response: AuthResponse = {
       email: resultParseBody.data.email,
       username: userName,
       firstName: resultParseBody.data.firstName,
@@ -74,7 +81,7 @@ router.post('/register', async (req, res) => {
       return;
     }
 
-    const userSessionCookie = getSerializedUserSessionCookie(responseUser);
+    const userSessionCookie = getSerializedUserSessionCookie(response);
 
     const deviceInfo = req.headers['user-agent'] || 'unknown';
     const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
@@ -92,7 +99,7 @@ router.post('/register', async (req, res) => {
 
     setCookieHeader(res, userSessionCookie);
 
-    res.status(201).json(responseUser);
+    res.status(201).json(response);
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: req.t('errors.internalServerError') });
@@ -101,20 +108,20 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const resultParseBody = userLoginSchema.safeParse(req.body);
-
-    if (!resultParseBody.success) {
+    const parse = userLoginSchema.safeParse(req.body);
+    if (!parse.success) {
       res.status(400).json({
         code: errorCodes.ZOD_ERROR,
-        message: resultParseBody.error.message
+        message: parse.error.message
       });
       return;
     }
-    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
-    const deviceInfo = req.headers['user-agent'] || 'unknown';
-    const { email, password } = resultParseBody.data;
-    const foundUser = await getUserByEmail(email);
 
+    const ip = String(req.headers['x-forwarded-for'])?.split(',')[0] || req.ip || 'unknown';
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
+    const { email, password } = parse.data;
+
+    const foundUser = await getUserByEmail(email);
     if (!foundUser) {
       res.status(401).json({
         code: errorCodes.INVALID_CREDENTIALS,
@@ -123,55 +130,44 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const sameDeviceSessions = await getSessionsByUserIdAndDeviceInfo(foundUser.id, deviceInfo);
+    // Get or create session
+    const foundSession = await findRelevantSession(ip, deviceInfo);
+    let session: UserSession | UserSessionCreateOrUpdate | null = foundSession;
+
+    if (!session) {
+      session = {
+        userId: foundUser.id,
+        deviceInfo,
+        ip,
+        cookie: null,
+        lastActive: dayjs().toDate(),
+        loginAttempts: 0,
+        lastLoginAttempt: dayjs().toDate(),
+        createdAt: dayjs().toDate()
+      };
+    }
+
+    // Lockout check
+    if (isLockedOut(session)) {
+      res.status(403).json({
+        code: errorCodes.USER_LOCKED_OUT,
+        message: req.t('errors.userLockedOut')
+      });
+      return;
+    }
+
+    // Reset if lockout window passed
+    if (shouldResetLockout(session)) session.loginAttempts = 0;
 
     const passwordMatch = await compare(password, foundUser.password);
+
     if (!passwordMatch) {
-      if (!sameDeviceSessions || sameDeviceSessions.length === 0) {
-        createSession({
-          userId: foundUser.id,
-          deviceInfo,
-          ip,
-          cookie: null,
-          lastActive: dayjs().toDate(),
-          loginAttempts: 1,
-          lastLoginAttempt: dayjs().toDate()
-        });
-      } else {
-        const updatedSession = {
-          ...sameDeviceSessions[0],
-          ip,
-          cookie: null,
-          lastActive: dayjs().toDate(),
-          loginAttempts: sameDeviceSessions[0].loginAttempts + 1,
-          lastLoginAttempt: dayjs().toDate()
-        };
+      session.loginAttempts += 1;
+      session.lastLoginAttempt = dayjs().toDate();
+      session.lastActive = dayjs().toDate();
 
-        // Update the session in the database
-        await updateSession(updatedSession);
+      session = foundSession ? await updateSession(foundSession) : await createSession(session);
 
-        // Check if the user is locked out
-        if (
-          updatedSession.loginAttempts >= maxLoginAttempts &&
-          isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs(), { value: 30, unit: 'minute' })
-        ) {
-          console.warn(`User ${email} is locked out due to too many failed login attempts.`);
-          res.status(403).json({
-            code: errorCodes.USER_LOCKED_OUT,
-            message: req.t('errors.userLockedOut')
-          });
-          return;
-        } else if (
-          updatedSession.loginAttempts >= maxLoginAttempts &&
-          !isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs(), { value: 30, unit: 'minute' })
-        ) {
-          // if user has more than 10 failed login attempts, but last attempt was more than 30 minutes ago, reset login attempts
-          updatedSession.loginAttempts = 1;
-          await updateSession(updatedSession);
-        }
-      }
-
-      console.warn(`Failed login attempt for user: ${email}`);
       res.status(401).json({
         code: errorCodes.INVALID_CREDENTIALS,
         message: req.t('errors.invalidCredentials')
@@ -179,7 +175,35 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const responseUser: UserAuthResponse = {
+    // If password is correct, check again for lockout (security: don’t allow bypass)
+    if (isLockedOut(session)) {
+      res.status(403).json({
+        code: errorCodes.USER_LOCKED_OUT,
+        message: req.t('errors.userLockedOut')
+      });
+      return;
+    }
+
+    // Successful login path
+    const userCookie = getSerializedUserSessionCookie({
+      email: foundUser.email,
+      username: foundUser.username,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+      sex: foundUser.sex,
+      birthDate: foundUser.birthDate
+    });
+
+    // Reset login attempts and update session
+    session.loginAttempts = 0;
+    session.cookie = userCookie;
+    session.lastActive = dayjs().toDate();
+    session.lastLoginAttempt = dayjs().toDate();
+
+    session = foundSession ? await updateSession(foundSession) : await createSession(session);
+
+    const response: AuthResponse = {
       email: foundUser.email,
       username: foundUser.username,
       firstName: foundUser.firstName,
@@ -189,24 +213,14 @@ router.post('/login', async (req, res) => {
       birthDate: foundUser.birthDate
     };
 
-    const userSessionCookie = getSerializedUserSessionCookie(responseUser);
-
-    if (!sameDeviceSessions || sameDeviceSessions.length === 0)
-      await createSession({
-        userId: foundUser.id,
-        deviceInfo,
-        ip,
-        cookie: userSessionCookie,
-        lastActive: dayjs().toDate(),
-        loginAttempts: 0,
-        lastLoginAttempt: dayjs().toDate()
-      });
-
-    setCookieHeader(res, userSessionCookie);
-    res.status(200).json(responseUser);
+    setCookieHeader(res, userCookie);
+    res.status(200).json(response);
   } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: req.t('errors.internalServerError') });
+    console.error('Login error:', error);
+    res.status(500).json({
+      code: errorCodes.INTERNAL_SERVER_ERROR,
+      message: req.t('errors.internalServerError')
+    });
   }
 });
 

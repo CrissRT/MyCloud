@@ -1,4 +1,4 @@
-import { errors, userAuthResponseSchema, userLoginSchema, userRegisterSchema } from '@shared/models';
+import { errors, authResponseSchema, userLoginSchema, userRegisterSchema } from '@shared/models';
 import { makeApi } from '@zodios/core';
 
 export const authApi = makeApi([
@@ -6,7 +6,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/register',
     alias: 'register',
-    response: userAuthResponseSchema,
+    response: authResponseSchema,
     description: 'Register a new user',
     errors: errors,
     parameters: [
@@ -22,7 +22,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/login',
     alias: 'login',
-    response: userAuthResponseSchema,
+    response: authResponseSchema,
     description: 'Login a user',
     errors: errors,
     parameters: [

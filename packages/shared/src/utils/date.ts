@@ -21,6 +21,6 @@ export const getDuration = (time: number, unit?: DurationUnitType, lng?: Languag
 
 export const isWithinLastMinutes = (
   firstDate: dayjs.ConfigType,
-  secondDate: dayjs.ConfigType,
+  secondDate: dayjs.ConfigType = dayjs(),
   subtract: { value: number; unit?: ManipulateType } = { value: 30, unit: 'minute' }
 ) => dayjs(firstDate).isAfter(dayjs(secondDate).subtract(subtract.value, subtract.unit));

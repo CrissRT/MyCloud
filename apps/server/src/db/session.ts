@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { convertObjectKeysSnakeCaseToCamelCase, pool } from '@server/utils';
 import { UserSession } from '@shared/models';
 
@@ -24,9 +26,33 @@ export const getSessionsByUserId = async (userId: number) => {
   return sessions;
 };
 
-export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInfo: string) => {
-  const query = 'SELECT * FROM sessions WHERE user_id = $1 AND device_info = $2';
-  const values = [userId, deviceInfo];
+// export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInfo: string) => {
+//   const query = 'SELECT * FROM sessions WHERE user_id = $1 AND device_info = $2';
+//   const values = [userId, deviceInfo];
+//   const result = await pool.query(query, values);
+
+//   if (result.rows.length === 0) return null;
+
+//   const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
+
+//   return sessions;
+// };
+
+export const getSessionsByIp = async (ip: string) => {
+  const query = 'SELECT * FROM sessions WHERE ip = $1';
+  const values = [ip];
+  const result = await pool.query(query, values);
+
+  if (result.rows.length === 0) return null;
+
+  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
+
+  return sessions;
+};
+
+export const getSessionsByDeviceInfo = async (deviceInfo: string) => {
+  const query = 'SELECT * FROM sessions WHERE device_info = $1';
+  const values = [deviceInfo];
   const result = await pool.query(query, values);
 
   if (result.rows.length === 0) return null;
@@ -75,4 +101,28 @@ export const updateSession = async (session: UserSession) => {
 
   const updatedSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
   return updatedSession;
+};
+
+export const findRelevantSession = async (ip: string, deviceInfo: string): Promise<UserSession | null> => {
+  const [byIp, byDevice] = await Promise.all([
+    getSessionsByIp(ip),
+    getSessionsByDeviceInfo(deviceInfo)
+  ]);
+
+  const allSessions: UserSession[] = [...(byIp || []), ...(byDevice || [])];
+
+  if (allSessions.length === 0) return null;
+
+  // Filter sessions where both IP and deviceInfo match
+  const bothMatch = allSessions.filter(session =>
+    session.ip === ip && session.deviceInfo === deviceInfo
+  );
+
+  const candidates = bothMatch.length > 0 ? bothMatch : allSessions;
+
+  candidates.sort((a, b) =>
+    dayjs(b.lastLoginAttempt).valueOf() - dayjs(a.lastLoginAttempt).valueOf()
+  );
+
+  return candidates[0];
 };

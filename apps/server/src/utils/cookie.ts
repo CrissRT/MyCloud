@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import { Response } from 'express';
 
-import { UserAuthResponse } from '@shared/models';
+import { AuthResponse } from '@shared/models';
 
 const maxAgeCookie = 60 * 60 * 24 * 7; // 1 week
 const cookieOptions = {
@@ -12,7 +12,7 @@ const cookieOptions = {
   sameSite: 'strict' // Prevent CSRF attacks
 } as const;
 
-export const getSerializedUserSessionCookie = (user: UserAuthResponse) =>
+export const getSerializedUserSessionCookie = (user: AuthResponse) =>
   cookie.serialize('user_session', JSON.stringify(user), cookieOptions);
 
 export const setCookieHeader = (res: Response, cookie: string) => {
