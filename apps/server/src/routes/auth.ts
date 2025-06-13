@@ -1,6 +1,7 @@
 import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
+import { z } from "zod/v4";
 
 import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
@@ -20,8 +21,8 @@ router.post('/register', async (req, res) => {
     if (!resultParseBody.success) {
       res.status(400).json({
         //   TODO: add i18n support
-        code: errorCodes.VALIDATION_ERROR,
-        message: resultParseBody.error.message // This will be translated if zod-i18n-map is set up
+        code: errorCodes.ZOD_ERROR,
+        message: z.prettifyError(resultParseBody.error)
       });
       return;
     }
@@ -106,7 +107,7 @@ router.post('/login', async (req, res) => {
 
     if (!resultParseBody.success) {
       res.status(400).json({
-        code: errorCodes.VALIDATION_ERROR,
+        code: errorCodes.ZOD_ERROR,
         message: resultParseBody.error.message
       });
       return;
