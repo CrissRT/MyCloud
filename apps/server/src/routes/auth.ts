@@ -5,7 +5,7 @@ import express from 'express';
 import { createUser, findRelevantSession, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
 import { getSaltRounds, getSerializedUserSessionCookie, MAX_LOGIN_ATTEMPTS, setCookieHeader } from '@server/utils';
-import { getNextBanDuration, isBanned } from '@server/utils/user';
+import { getNextBanDuration, isBanned, shouldResetBanDueToInactivity } from '@server/utils/user';
 import {
   AuthResponse,
   errorCodes,
@@ -39,7 +39,13 @@ router.post('/register', async (req, res) => {
 
     const foundSession = await findRelevantSession(ip, deviceInfo);
 
-    if (foundSession && isBanned(foundSession)) {
+    if (foundSession && shouldResetBanDueToInactivity(foundSession)) {
+      await updateSession({
+        ...foundSession,
+        banStart: null,
+        banDurationMinutes: null
+      });
+    } else if (foundSession && isBanned(foundSession)) {
       res.status(403).json({
         code: errorCodes.USER_LOCKED_OUT,
         message: req.t('errors.userLockedOut')
@@ -149,8 +155,11 @@ router.post('/login', async (req, res) => {
       };
     }
 
-    // Check ban
-    if (isBanned(session)) {
+    if (shouldResetBanDueToInactivity(session)) {
+      session.banDurationMinutes = null;
+      session.banStart = null;
+    } else if (isBanned(session)) {
+      // Check ban
       res.status(403).json({
         code: errorCodes.USER_LOCKED_OUT,
         message: req.t('errors.userLockedOut')
