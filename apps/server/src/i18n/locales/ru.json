@@ -2,6 +2,9 @@
   "errors": {
     "userAlreadyExists": "Пользователь с таким email уже существует",
     "userRegistrationFailed": "Регистрация пользователя не удалась",
-    "internalServerError": "Произошла внутренняя ошибка сервера"
+    "internalServerError": "Произошла внутренняя ошибка сервера",
+    "failedToCreateUser": "Не удалось создать пользователя",
+    "userLockedOut": "Пользователь заблокирован из-за слишком большого количества неудачных попыток входа",
+    "invalidCredentials": "Неверные учетные данные"
   }
 }

@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
       res.status(400).json({
         //   TODO: add i18n support
         code: errorCodes.VALIDATION_ERROR,
-        message: resultParseBody.error.message
+        message: resultParseBody.error.message // This will be translated if zod-i18n-map is set up
       });
       return;
     }
@@ -35,7 +35,7 @@ router.post('/register', async (req, res) => {
       res.status(400).json({
         //   TODO: add i18n support
         code: errorCodes.USER_ALREADY_EXISTS,
-        message: 'User with this email already exists'
+        message: req.t('errors.userAlreadyExists')
       });
       return;
     }
@@ -70,7 +70,7 @@ router.post('/register', async (req, res) => {
       console.error('Failed to create user in the database');
       res.status(500).json({
         code: errorCodes.INTERNAL_SERVER_ERROR,
-        message: 'Failed to create user'
+        message: req.t('errors.failedToCreateUser')
       });
       return;
     }
@@ -96,7 +96,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json(responseUser);
   } catch (error) {
     console.error('Error during registration:', error);
-    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: 'Internal server error' });
+    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: req.t('errors.internalServerError') });
   }
 });
 
@@ -118,7 +118,7 @@ router.post('/login', async (req, res) => {
     if (!foundUser) {
       res.status(401).json({
         code: errorCodes.INVALID_CREDENTIALS,
-        message: 'User with this email does not exist'
+        message: req.t('errors.invalidCredentials')
       });
       return;
     }
@@ -164,7 +164,7 @@ router.post('/login', async (req, res) => {
           console.warn(`User ${email} is locked out due to too many failed login attempts.`);
           res.status(403).json({
             code: errorCodes.USER_LOCKED_OUT,
-            message: 'User is locked out due to too many failed login attempts'
+            message: req.t('errors.userLockedOut')
           });
           return;
         } else if (
@@ -180,7 +180,7 @@ router.post('/login', async (req, res) => {
       console.warn(`Failed login attempt for user: ${email}`);
       res.status(401).json({
         code: errorCodes.INVALID_CREDENTIALS,
-        message: 'Invalid email or password'
+        message: req.t('errors.invalidCredentials')
       });
       return;
     }

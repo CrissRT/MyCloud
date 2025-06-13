@@ -2,6 +2,9 @@
   "errors": {
     "userAlreadyExists": "Un utilizator cu acest email există deja",
     "userRegistrationFailed": "Înregistrarea utilizatorului a eșuat",
-    "internalServerError": "A apărut o eroare internă a serverului"
+    "internalServerError": "A apărut o eroare internă a serverului",
+    "failedToCreateUser": "Crearea utilizatorului a eșuat",
+    "userLockedOut": "Utilizatorul este blocat din cauza prea multor încercări eșuate de autentificare",
+    "invalidCredentials": "Datele de autentificare sunt invalide"
   }
 }
