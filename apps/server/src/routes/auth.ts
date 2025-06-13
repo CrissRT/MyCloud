@@ -19,7 +19,6 @@ router.post('/register', async (req, res) => {
     // If validation fails, return a 400 error with the validation error message
     if (!resultParseBody.success) {
       res.status(400).json({
-        //   TODO: add i18n support
         code: errorCodes.ZOD_ERROR,
         message: resultParseBody.error.message
       });
@@ -33,7 +32,6 @@ router.post('/register', async (req, res) => {
     // If a user with the given email already exists, return a 400 error
     if (foundUser) {
       res.status(400).json({
-        //   TODO: add i18n support
         code: errorCodes.USER_ALREADY_EXISTS,
         message: req.t('errors.userAlreadyExists')
       });
