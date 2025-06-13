@@ -5,7 +5,7 @@ import express from 'express';
 import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
 import { getSaltRounds, getSerializedUserSessionCookie, maxLoginAttempts, setCookieHeader } from '@server/utils';
-import { errorCodes, Role, UserAuthResponse, userRegisterSchema } from '@shared/models';
+import { errorCodes, Role, UserAuthResponse, userLoginSchema, userRegisterSchema } from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
 
