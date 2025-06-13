@@ -6,6 +6,7 @@ import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@s
 import { createSession, updateSession } from '@server/db';
 import { getSaltRounds, getSerializedUserSessionCookie, maxLoginAttempts, setCookieHeader } from '@server/utils';
 import { errorCodes, Role, UserAuthResponse, userLoginSchema, userRegisterSchema } from '@shared/models';
+import { isWithinLastMinutes } from '@shared/utils';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -132,18 +133,18 @@ router.post('/login', async (req, res) => {
           deviceInfo,
           ip,
           cookie: null,
-          lastActive: new Date(),
+          lastActive: dayjs().toDate(),
           loginAttempts: 1,
-          lastLoginAttempt: new Date()
+          lastLoginAttempt: dayjs().toDate()
         });
       } else {
         const updatedSession = {
           ...sameDeviceSessions[0],
           ip,
           cookie: null,
-          lastActive: new Date(),
+          lastActive: dayjs().toDate(),
           loginAttempts: sameDeviceSessions[0].loginAttempts + 1,
-          lastLoginAttempt: new Date()
+          lastLoginAttempt: dayjs().toDate()
         };
 
         // Update the session in the database
@@ -152,7 +153,7 @@ router.post('/login', async (req, res) => {
         // Check if the user is locked out
         if (
           updatedSession.loginAttempts >= maxLoginAttempts &&
-          dayjs(updatedSession.lastLoginAttempt).isAfter(dayjs().subtract(30, 'minute'))
+          isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs().toDate(), { value: 30, unit: 'minute' })
         ) {
           console.warn(`User ${email} is locked out due to too many failed login attempts.`);
           res.status(403).json({
@@ -162,7 +163,7 @@ router.post('/login', async (req, res) => {
           return;
         } else if (
           updatedSession.loginAttempts >= maxLoginAttempts &&
-          dayjs(updatedSession.lastLoginAttempt).isBefore(dayjs().subtract(30, 'minute'))
+          !isWithinLastMinutes(updatedSession.lastLoginAttempt, dayjs().toDate(), { value: 30, unit: 'minute' })
         ) {
           // if user has more than 10 failed login attempts, but last attempt was more than 30 minutes ago, reset login attempts
           updatedSession.loginAttempts = 1;
@@ -196,9 +197,9 @@ router.post('/login', async (req, res) => {
         deviceInfo,
         ip,
         cookie: userSessionCookie,
-        lastActive: new Date(),
+        lastActive: dayjs().toDate(),
         loginAttempts: 0,
-        lastLoginAttempt: new Date()
+        lastLoginAttempt: dayjs().toDate()
       });
 
     setCookieHeader(res, userSessionCookie);
