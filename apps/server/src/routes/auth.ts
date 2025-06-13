@@ -102,7 +102,6 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    console.log("🚀 ~ res.status ~ req.t('errors.invalidCredentials'):", req.t('errors.invalidCredentials'));
     const resultParseBody = userLoginSchema.safeParse(req.body);
 
     if (!resultParseBody.success) {
