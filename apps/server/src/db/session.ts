@@ -58,7 +58,7 @@ export const createSession = async ({
 
 export const updateSession = async (session: UserSession) => {
   const query =
-    'UPDATE sessions SET user_id = $1, device_info = $2, ip = $3, cookie = $4, last_active = $5, login_attempts = $6, last_login_attempt = $7 WHERE id = $8';
+    'UPDATE sessions SET user_id = $1, device_info = $2, ip = $3, cookie = $4, last_active = $5, login_attempts = $6, last_login_attempt = $7 WHERE id = $8  RETURNING *';
   const values = [
     session.userId,
     session.deviceInfo,

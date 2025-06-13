@@ -7,6 +7,7 @@ const maxAgeCookie = 60 * 60 * 24 * 7; // 1 week
 const cookieOptions = {
   httpOnly: true,
   maxAge: maxAgeCookie,
+  path: '/',
   secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
   sameSite: 'strict' // Prevent CSRF attacks
 } as const;

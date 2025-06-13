@@ -198,7 +198,7 @@ router.post('/login', async (req, res) => {
     const userSessionCookie = getSerializedUserSessionCookie(responseUser);
 
     if (!sameDeviceSessions || sameDeviceSessions.length === 0)
-      createSession({
+      await createSession({
         userId: foundUser.id,
         deviceInfo,
         ip,
