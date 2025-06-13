@@ -84,7 +84,6 @@ router.post('/register', async (req, res) => {
       cookie: userSessionCookie,
       lastActive: dayjs().toDate(),
       loginAttempts: 0,
-      lastLoginAttempt: dayjs().toDate(),
       createdAt: dayjs().toDate(),
       banStart: null,
       banDurationMinutes: null
@@ -134,7 +133,6 @@ router.post('/login', async (req, res) => {
         cookie: null,
         lastActive: dayjs().toDate(),
         loginAttempts: 0,
-        lastLoginAttempt: dayjs().toDate(),
         createdAt: dayjs().toDate(),
         banStart: null,
         banDurationMinutes: null
@@ -154,7 +152,6 @@ router.post('/login', async (req, res) => {
 
     if (!passwordMatch) {
       session.loginAttempts += 1;
-      session.lastLoginAttempt = dayjs().toDate();
 
       // Evaluate if new ban should be applied
       if (session.loginAttempts % MAX_LOGIN_ATTEMPTS === 0) {
@@ -189,7 +186,6 @@ router.post('/login', async (req, res) => {
 
     session.cookie = userCookie;
     session.lastActive = dayjs().toDate();
-    session.lastLoginAttempt = dayjs().toDate();
 
     session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
 

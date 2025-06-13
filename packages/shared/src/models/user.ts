@@ -38,7 +38,6 @@ export const userSessionSchema = z.object({
   createdAt: z.date(),
   lastActive: z.date(),
   loginAttempts: z.number().int().nonnegative(),
-  lastLoginAttempt: z.date(),
   banDurationMinutes: z.number().int().nullable(), // null = no ban, -1 = permanent ban
   banStart: z.date().nullable()
 });

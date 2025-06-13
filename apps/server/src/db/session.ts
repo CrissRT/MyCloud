@@ -69,23 +69,12 @@ export const createSession = async ({
   cookie,
   lastActive,
   loginAttempts,
-  lastLoginAttempt,
   banStart = null,
   banDurationMinutes = null
 }: UserSessionCreate) => {
   const query =
-    'INSERT INTO sessions (user_id, device_info, ip, cookie, last_active, login_attempts, last_login_attempt, created_at, ban_start, ban_duration_minutes) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), $8, $9) RETURNING id';
-  const values = [
-    userId,
-    deviceInfo,
-    ip,
-    cookie,
-    lastActive,
-    loginAttempts,
-    lastLoginAttempt,
-    banStart,
-    banDurationMinutes
-  ];
+    'INSERT INTO sessions (user_id, device_info, ip, cookie, last_active, login_attempts, created_at, ban_start, ban_duration_minutes) VALUES ($1, $2, $3, $4, $5, $6, NOW(), $7, $8) RETURNING id';
+  const values = [userId, deviceInfo, ip, cookie, lastActive, loginAttempts, banStart, banDurationMinutes];
   const result = await pool.query(query, values);
   const resultSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
   return resultSession;
@@ -93,7 +82,7 @@ export const createSession = async ({
 
 export const updateSession = async (session: UserSession) => {
   const query =
-    'UPDATE sessions SET user_id = $1, device_info = $2, ip = $3, cookie = $4, last_active = $5, login_attempts = $6, last_login_attempt = $7 WHERE id = $8  RETURNING *';
+    'UPDATE sessions SET user_id = $1, device_info = $2, ip = $3, cookie = $4, last_active = $5, login_attempts = $6 WHERE id = $7  RETURNING *';
   const values = [
     session.userId,
     session.deviceInfo,
@@ -101,7 +90,6 @@ export const updateSession = async (session: UserSession) => {
     session.cookie,
     session.lastActive,
     session.loginAttempts,
-    session.lastLoginAttempt,
     session.id
   ];
   const result = await pool.query(query, values);
@@ -124,7 +112,8 @@ export const findRelevantSession = async (ip: string, deviceInfo: string): Promi
 
   const candidates = bothMatch.length > 0 ? bothMatch : allSessions;
 
-  candidates.sort((a, b) => dayjs(b.lastLoginAttempt).valueOf() - dayjs(a.lastLoginAttempt).valueOf());
+  // Sort by lastActive instead of lastLoginAttempt
+  candidates.sort((a, b) => dayjs(b.lastActive).valueOf() - dayjs(a.lastActive).valueOf());
 
   return candidates[0];
 };

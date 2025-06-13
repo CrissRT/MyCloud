@@ -33,7 +33,6 @@ CREATE TABLE sessions (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     last_active TIMESTAMP WITH TIME ZONE DEFAULT now(),
     login_attempts INTEGER NOT NULL DEFAULT 0,
-    last_login_attempt TIMESTAMP WITH TIME ZONE DEFAULT now(),
     ban_duration_minutes INTEGER,
     ban_start TIMESTAMP WITH TIME ZONE
 );
