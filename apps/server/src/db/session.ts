@@ -87,9 +87,6 @@ export const createSession = async ({
     banDurationMinutes
   ];
   const result = await pool.query(query, values);
-
-  if (result.rowCount === 0) return null;
-
   const resultSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
   return resultSession;
 };

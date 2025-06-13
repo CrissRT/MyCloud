@@ -71,16 +71,6 @@ router.post('/register', async (req, res) => {
       password: hashedPassword
     });
 
-    // If user creation fails, return a 500 error
-    if (!createdUser) {
-      console.error('Failed to create user in the database');
-      res.status(500).json({
-        code: errorCodes.INTERNAL_SERVER_ERROR,
-        message: req.t('errors.failedToCreateUser')
-      });
-      return;
-    }
-
     const userSessionCookie = getSerializedUserSessionCookie(response);
 
     const deviceInfo = req.headers['user-agent'] || 'unknown';
@@ -101,7 +91,6 @@ router.post('/register', async (req, res) => {
     });
 
     setCookieHeader(res, userSessionCookie);
-
     res.status(201).json(response);
   } catch (error) {
     console.error('Error during registration:', error);
@@ -166,7 +155,6 @@ router.post('/login', async (req, res) => {
     if (!passwordMatch) {
       session.loginAttempts += 1;
       session.lastLoginAttempt = dayjs().toDate();
-      session.lastActive = dayjs().toDate();
 
       // Evaluate if new ban should be applied
       if (session.loginAttempts % MAX_LOGIN_ATTEMPTS === 0) {

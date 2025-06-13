@@ -37,9 +37,6 @@ export const createUser = async ({
     'INSERT INTO users (email, username, password, first_name, last_name, birth_date, role, sex, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *';
   const values = [email, username, password, firstName, lastName, birthDate, role, sex];
   const result = await pool.query(query, values);
-
-  if (result.rowCount === 0) return null;
-
   const user: User = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
   return user;
 };
