@@ -7,9 +7,9 @@ export const getSessionById = async (id: number) => {
   const result = await pool.query(query, values);
 
   if (result.rows.length === 0) return null;
-  const session: UserSession = result.rows[0];
+  const session: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
 
-  return convertObjectKeysSnakeCaseToCamelCase(session);
+  return session;
 };
 
 export const getSessionsByUserId = async (userId: number) => {
@@ -19,9 +19,9 @@ export const getSessionsByUserId = async (userId: number) => {
 
   if (result.rows.length === 0) return null;
 
-  const sessions: UserSession[] = result.rows;
+  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
 
-  return convertObjectKeysSnakeCaseToCamelCase(sessions);
+  return sessions;
 };
 
 export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInfo: string) => {
@@ -31,9 +31,9 @@ export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInf
 
   if (result.rows.length === 0) return null;
 
-  const sessions: UserSession[] = result.rows;
+  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
 
-  return convertObjectKeysSnakeCaseToCamelCase(sessions);
+  return sessions;
 };
 
 export const createSession = async ({
@@ -52,8 +52,8 @@ export const createSession = async ({
 
   if (result.rowCount === 0) return null;
 
-  const resultSession: UserSession = result.rows[0];
-  return convertObjectKeysSnakeCaseToCamelCase(resultSession);
+  const resultSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
+  return resultSession;
 };
 
 export const updateSession = async (session: UserSession) => {
@@ -73,6 +73,6 @@ export const updateSession = async (session: UserSession) => {
 
   if (result.rowCount === 0) return null;
 
-  const updatedSession: UserSession = result.rows[0];
-  return convertObjectKeysSnakeCaseToCamelCase(updatedSession);
+  const updatedSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
+  return updatedSession;
 };
