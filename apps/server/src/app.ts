@@ -6,12 +6,15 @@ import { zodiosApp } from '@zodios/express';
 import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
 
 import { authApi } from './api';
+import { zodMiddleware } from './api/middlewares';
 import { authRouter } from './routes/auth';
 import { getPortOfServer } from './utils/constants';
 
 const app = zodiosApp();
 
 app.use(handle(i18n));
+
+app.use(zodMiddleware);
 
 app.use('/auth', authRouter);
 

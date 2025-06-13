@@ -1,4 +1,4 @@
-import { z } from '@server/i18n';
+import { z } from 'zod';
 
 export enum Role {
   USER = 'user',

@@ -1,8 +1,6 @@
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
-import { z } from 'zod';
-import { makeZodI18nMap } from 'zod-i18n-map';
 import enTranslationZod from 'zod-i18n-map/locales/en/zod.json';
 import roTranslationZod from 'zod-i18n-map/locales/ro/zod.json';
 import ruTranslationZod from 'zod-i18n-map/locales/ru/zod.json';
@@ -27,11 +25,9 @@ await i18next
       [Language.RO]: { translation: roTranslation, zod: roTranslationZod }
     },
     detection: {
-      order: ['querystring', 'cookie', 'header'],
+      order: ['querystring', 'header', 'cookie'],
       caches: ['cookie', 'header']
     }
   });
-z.setErrorMap(makeZodI18nMap({ ns: 'zod', t: i18next.t }));
 
-export { z };
 export const i18n = i18next;

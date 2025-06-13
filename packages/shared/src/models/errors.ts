@@ -1,4 +1,4 @@
-import { z } from '@server/i18n';
+import { z } from 'zod';
 
 const httpErrorSchema = z.object({
   code: z.string(),
