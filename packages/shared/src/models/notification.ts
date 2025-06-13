@@ -1,4 +1,4 @@
-import { z } from '@server/i18n/i18n';
+import { z } from '@server/i18n';
 
 export enum NotificationType {
   NEW_PASSWORD = 'newPassword',

@@ -1,7 +1,6 @@
 import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
-import { z } from "zod/v4";
 
 import { createUser, getSessionsByUserIdAndDeviceInfo, getUserByEmail } from '@server/db';
 import { createSession, updateSession } from '@server/db';
@@ -22,7 +21,7 @@ router.post('/register', async (req, res) => {
       res.status(400).json({
         //   TODO: add i18n support
         code: errorCodes.ZOD_ERROR,
-        message: z.prettifyError(resultParseBody.error)
+        message: resultParseBody.error.formErrors
       });
       return;
     }
