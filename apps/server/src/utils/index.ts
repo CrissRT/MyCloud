@@ -1,3 +1,3 @@
 export * from './constants';
-export * from './convertors';
+export * from './converters';
 export * from './cookie';
