@@ -12,6 +12,8 @@ export type AuthResponse = z.infer<typeof authResponseSchema>;
 
 export const userLoginSchema = userSchema.pick({
   email: true,
-  password: true
+  password: true,
+  storageSpaceInMB: true,
+  usedStorageInBytes: true
 });
 export type Login = z.infer<typeof userLoginSchema>;

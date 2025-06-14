@@ -20,7 +20,10 @@ CREATE TABLE users (
     birth_date DATE,
     role role_enum NOT NULL DEFAULT 'user',
     sex sex_enum,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    storage_space_in_mb BIGINT NOT NULL DEFAULT 15360,
+    used_storage_space_in_bytes BIGINT NOT NULL DEFAULT 0,
+
 );
 
 -- Sessions
