@@ -2,13 +2,12 @@ import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
 
-import { createSession, createUser, getReservedStorageInMB, getUserByEmail, updateSession } from '@server/db';
+import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
 import {
   checkIfEnoughSpaceInMB,
   DEFAULT_STORAGE_SPACE_IN_MB,
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
-  getAvailableSpaceinMB,
   getNextBanDuration,
   getSaltRounds,
   getSerializedUserSessionCookie,
@@ -61,11 +60,7 @@ router.post('/register', async (req, res) => {
       return;
     }
 
-    console.log('Parsed body:', await getReservedStorageInMB());
     const isEnoughSpaceToAllocate = await checkIfEnoughSpaceInMB(DEFAULT_STORAGE_SPACE_IN_MB);
-    const availableSpaceInMB = await getAvailableSpaceinMB();
-    const allocatedSpaceInMB = isEnoughSpaceToAllocate ? DEFAULT_STORAGE_SPACE_IN_MB : availableSpaceInMB;
-
     if (!isEnoughSpaceToAllocate) {
       res.status(400).json({
         code: errorCodes.INSUFFICIENT_STORAGE,
@@ -85,7 +80,7 @@ router.post('/register', async (req, res) => {
       role: Role.USER,
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
-      storageSpaceInMB: allocatedSpaceInMB,
+      storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
       usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
     };
 
@@ -98,7 +93,7 @@ router.post('/register', async (req, res) => {
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
       password: hashedPassword,
-      storageSpaceInMB: allocatedSpaceInMB,
+      storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
       usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
     });
 
