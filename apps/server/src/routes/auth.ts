@@ -2,18 +2,25 @@ import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
 
-import { createUser, getUserByEmail } from '@server/db';
-import { createSession, updateSession } from '@server/db';
-import { getSaltRounds, getSerializedUserSessionCookie, MAX_LOGIN_ATTEMPTS, setCookieHeader } from '@server/utils';
-import { findRelevantSession, getNextBanDuration, isBanned, shouldResetBanDueToInactivity } from '@server/utils/user';
+import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
+import {
+  findRelevantSession,
+  getNextBanDuration,
+  getSaltRounds,
+  getSerializedUserSessionCookie,
+  isBanned,
+  MAX_LOGIN_ATTEMPTS,
+  setCookieHeader,
+  shouldResetBanDueToInactivity
+} from '@server/utils';
 import {
   AuthResponse,
   errorCodes,
+  registerSchema,
   Role,
-  userLoginSchema,
-  userRegisterSchema,
-  UserSession,
-  UserSessionCreate
+  Session,
+  SessionCreate,
+  userLoginSchema
 } from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
@@ -26,7 +33,7 @@ router.post('/register', async (req, res) => {
     const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
 
     // Validate the request body against the user registration schema
-    const resultParseBody = userRegisterSchema.safeParse(req.body);
+    const resultParseBody = registerSchema.safeParse(req.body);
 
     // If validation fails, return a 400 error with the validation error message
     if (!resultParseBody.success) {
@@ -123,7 +130,7 @@ router.post('/login', async (req, res) => {
 
     // Get or create session
     const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
-    let session: UserSession | UserSessionCreate | null = foundSession;
+    let session: Session | SessionCreate | null = foundSession;
 
     if (!session) {
       session = {
