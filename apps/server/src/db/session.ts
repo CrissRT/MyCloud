@@ -26,17 +26,17 @@ export const getSessionsByUserId = async (userId: number) => {
   return sessions;
 };
 
-// export const getSessionsByUserIdAndDeviceInfo = async (userId: number, deviceInfo: string) => {
-//   const query = 'SELECT * FROM sessions WHERE user_id = $1 AND device_info = $2';
-//   const values = [userId, deviceInfo];
-//   const result = await pool.query(query, values);
+export const getSessionsByDeviceInfoAndIp = async (deviceInfo: string, ip: string) => {
+  const query = 'SELECT * FROM sessions WHERE device_info = $1 AND ip = $2';
+  const values = [deviceInfo, ip];
+  const result = await pool.query(query, values);
 
-//   if (result.rows.length === 0) return null;
+  if (result.rows.length === 0) return null;
 
-//   const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
+  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
 
-//   return sessions;
-// };
+  return sessions;
+};
 
 export const getSessionsByIp = async (ip: string) => {
   const query = 'SELECT * FROM sessions WHERE ip = $1';
@@ -113,19 +113,14 @@ export const updateSession = async (session: UserSession) => {
   return updatedSession;
 };
 
-export const findRelevantSession = async (ip: string, deviceInfo: string): Promise<UserSession | null> => {
-  const [byIp, byDevice] = await Promise.all([getSessionsByIp(ip), getSessionsByDeviceInfo(deviceInfo)]);
+export const findRelevantSession = async (ip: string, deviceInfo: string, userId?: number) => {
+  const allSessions = await getSessionsByDeviceInfoAndIp(deviceInfo, ip);
 
-  const allSessions: UserSession[] = [...(byIp || []), ...(byDevice || [])];
+  if (!allSessions || allSessions.length === 0) return null;
 
-  if (allSessions.length === 0) return null;
+  const filteredByUserId = userId ? allSessions.filter((session) => session.userId === userId) : allSessions
 
-  // Filter sessions where both IP and deviceInfo match
-  const bothMatch = allSessions.filter((session) => session.ip === ip && session.deviceInfo === deviceInfo);
+  filteredByUserId.sort((a, b) => dayjs(b.banStart).valueOf() - dayjs(a.banStart).valueOf());
 
-  const candidates = bothMatch.length > 0 ? bothMatch : allSessions;
-
-  candidates.sort((a, b) => dayjs(b.banStart).valueOf() - dayjs(a.banStart).valueOf());
-
-  return candidates[0];
+  return filteredByUserId[0];
 };

@@ -138,7 +138,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Get or create session
-    const foundSession = await findRelevantSession(ip, deviceInfo);
+    const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
     let session: UserSession | UserSessionCreate | null = foundSession;
 
     if (!session) {
