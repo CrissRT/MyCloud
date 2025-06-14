@@ -45,7 +45,11 @@ export const findRelevantSession = async (ip: string, deviceInfo: string, userId
 
   if (!allSessions || allSessions.length === 0) return null;
 
-  allSessions.sort((a, b) => dayjs(b.banStart).valueOf() - dayjs(a.banStart).valueOf());
-
-  return allSessions[0];
+    const sessionsWithTimestamps = allSessions.map(session => ({
+    ...session,
+    banStartTimestamp: session.banStart ? dayjs(session.banStart).valueOf() : 0,
+  }));
+  sessionsWithTimestamps.sort((a, b) => b.banStartTimestamp - a.banStartTimestamp);
+  
+  return sessionsWithTimestamps[0];
 };
