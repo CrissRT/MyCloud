@@ -2,10 +2,17 @@ import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
 
-import { createUser, getUserByEmail } from '@server/db';
-import { createSession, updateSession } from '@server/db';
-import { getSaltRounds, getSerializedUserSessionCookie, MAX_LOGIN_ATTEMPTS, setCookieHeader } from '@server/utils';
-import { findRelevantSession, getNextBanDuration, isBanned, shouldResetBanDueToInactivity } from '@server/utils/user';
+import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
+import {
+  findRelevantSession,
+  getNextBanDuration,
+  getSaltRounds,
+  getSerializedUserSessionCookie,
+  isBanned,
+  MAX_LOGIN_ATTEMPTS,
+  setCookieHeader,
+  shouldResetBanDueToInactivity
+} from '@server/utils';
 import {
   AuthResponse,
   errorCodes,
