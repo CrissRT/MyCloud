@@ -26,7 +26,7 @@ export const userSchema = z.object({
   birthDate: z.preprocess((val) => new Date(String(val)), z.date()),
   createdAt: z.date(),
   storageSpaceInMB: z.bigint().default(15360n), // 15 GB = 15360 MB
-  usedStorageInBytes: z.bigint().default(0n), // Default to 0 bytes used
+  usedStorageInBytes: z.bigint().default(0n) // Default to 0 bytes used
 });
 
 export type User = z.infer<typeof userSchema>;
