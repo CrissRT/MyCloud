@@ -80,8 +80,8 @@ router.post('/register', async (req, res) => {
       role: Role.USER,
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
-      storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
-      usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
+      storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
+      usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
     };
 
     const createdUser = await createUser({
@@ -208,8 +208,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: foundUser.storageSpaceInMB,
-      usedStorageInBytes: foundUser.usedStorageInBytes
+      storageSpaceInMB: String(foundUser.storageSpaceInMB),
+      usedStorageInBytes: String(foundUser.usedStorageInBytes)
     });
 
     session.cookie = userCookie;
@@ -225,8 +225,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: foundUser.storageSpaceInMB,
-      usedStorageInBytes: foundUser.usedStorageInBytes
+      storageSpaceInMB: String(foundUser.storageSpaceInMB),
+      usedStorageInBytes: String(foundUser.usedStorageInBytes)
     };
 
     setCookieHeader(res, userCookie);

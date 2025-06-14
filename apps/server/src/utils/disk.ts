@@ -16,14 +16,13 @@ export const getTotalDiskSpaceinMB = async () => {
 };
 
 export const checkIfEnoughSpaceInMB = async (requiredSpaceInMB: bigint | number) => {
-  const [availablePhysicalMB, totalPhysicalMB, reservedLogicalMB] = await Promise.all([
+  const [availablePhysicalMB, reservedLogicalMB] = await Promise.all([
     getAvailableDiskSpaceinMB(), // available free space on current disk
-    getTotalDiskSpaceinMB(), // total size of disk where backend is running
     getReservedStorageInMB() // sum of all allocated storage from DB
   ]);
 
   const enoughPhysical = availablePhysicalMB >= requiredSpaceInMB;
-  const enoughUnreserved = totalPhysicalMB - reservedLogicalMB >= requiredSpaceInMB;
+  const enoughUnreserved = availablePhysicalMB - reservedLogicalMB >= requiredSpaceInMB;
 
   return enoughPhysical && enoughUnreserved;
 };

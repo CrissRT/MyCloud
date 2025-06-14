@@ -13,16 +13,21 @@ export const registerSchema = userSchema.omit({
 
 export type Register = z.infer<typeof registerSchema>;
 
-export const authResponseSchema = userSchema.omit({
-  id: true,
-  password: true,
-  createdAt: true
-});
-
-export type AuthResponse = z.infer<typeof authResponseSchema>;
-
 export const userLoginSchema = userSchema.pick({
   email: true,
   password: true
 });
 export type Login = z.infer<typeof userLoginSchema>;
+
+export const authResponseSchema = userSchema
+  .omit({
+    id: true,
+    password: true,
+    createdAt: true
+  })
+  .extend({
+    storageSpaceInMB: z.string().regex(/^\d+$/),
+    usedStorageInBytes: z.string().regex(/^\d+$/)
+  });
+
+export type AuthResponse = z.infer<typeof authResponseSchema>;
