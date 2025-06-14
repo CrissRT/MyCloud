@@ -17,3 +17,15 @@ export const convertObjectKeysSnakeCaseToCamelCase = <T>(obj: T): T => {
   }
   return obj;
 };
+
+export const convertBytesToMB = (bytes: bigint | number) => BigInt(bytes) / BigInt(1024 * 1024);
+
+export const convertMBToBytes = (mb: bigint | number) => BigInt(mb) * BigInt(1024 * 1024);
+
+export const convertMBToGB = (mb: bigint | number) => BigInt(mb) / BigInt(1024);
+
+export const convertGBToMB = (gb: bigint | number) => BigInt(gb) * BigInt(1024);
+
+export const convertGBToBytes = (gb: bigint | number) => BigInt(gb) * BigInt(1024 * 1024 * 1024);
+
+export const convertBytesToGB = (bytes: bigint | number) => BigInt(bytes) / BigInt(1024 * 1024 * 1024);
