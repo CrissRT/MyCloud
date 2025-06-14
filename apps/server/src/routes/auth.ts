@@ -5,6 +5,8 @@ import express from 'express';
 import { createSession, createUser, getReservedStorageInMB, getUserByEmail, updateSession } from '@server/db';
 import {
   checkIfEnoughSpaceInMB,
+  DEFAULT_STORAGE_SPACE_IN_MB,
+  DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
   getAvailableSpaceinMB,
   getNextBanDuration,
@@ -60,9 +62,9 @@ router.post('/register', async (req, res) => {
     }
 
     console.log('Parsed body:', await getReservedStorageInMB());
-    const isEnoughSpaceToAllocate = await checkIfEnoughSpaceInMB(resultParseBody.data.storageSpaceInMB);
+    const isEnoughSpaceToAllocate = await checkIfEnoughSpaceInMB(DEFAULT_STORAGE_SPACE_IN_MB);
     const availableSpaceInMB = await getAvailableSpaceinMB();
-    const allocatedSpaceInMB = isEnoughSpaceToAllocate ? resultParseBody.data.storageSpaceInMB : availableSpaceInMB;
+    const allocatedSpaceInMB = isEnoughSpaceToAllocate ? DEFAULT_STORAGE_SPACE_IN_MB : availableSpaceInMB;
 
     if (!isEnoughSpaceToAllocate) {
       res.status(400).json({
@@ -84,7 +86,7 @@ router.post('/register', async (req, res) => {
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
       storageSpaceInMB: allocatedSpaceInMB,
-      usedStorageInBytes: resultParseBody.data.usedStorageInBytes
+      usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
     };
 
     const createdUser = await createUser({
@@ -96,8 +98,8 @@ router.post('/register', async (req, res) => {
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
       password: hashedPassword,
-      storageSpaceInMB: resultParseBody.data.storageSpaceInMB,
-      usedStorageInBytes: resultParseBody.data.usedStorageInBytes
+      storageSpaceInMB: allocatedSpaceInMB,
+      usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
     });
 
     const userSessionCookie = getSerializedUserSessionCookie(response);

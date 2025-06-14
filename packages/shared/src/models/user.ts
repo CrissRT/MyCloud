@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { z } from 'zod';
 
 export enum Role {
@@ -23,10 +24,16 @@ export const userSchema = z.object({
   lastName: z.string().min(3).max(255),
   role: z.nativeEnum(Role),
   sex: z.nativeEnum(Sex),
-  birthDate: z.preprocess((val) => new Date(String(val)), z.date()),
+  birthDate: z.preprocess((val) => dayjs(String(val)).toDate(), z.date()),
   createdAt: z.date(),
-  storageSpaceInMB: z.bigint().default(15360n), // 15 GB = 15360 MB
-  usedStorageInBytes: z.bigint().default(0n) // Default to 0 bytes used
+  storageSpaceInMB: z
+    .string()
+    .regex(/^\d+$/)
+    .transform((val) => BigInt(String(val))),
+  usedStorageInBytes: z
+    .string()
+    .regex(/^\d+$/)
+    .transform((val) => BigInt(String(val)))
 });
 
 export type User = z.infer<typeof userSchema>;

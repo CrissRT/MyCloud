@@ -8,3 +8,4 @@ export const getReservedStorageInMB = async () => {
 
   return BigInt(result.rows[0].sum);
 };
+// TODO: test this function
