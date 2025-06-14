@@ -37,22 +37,6 @@ router.post('/register', async (req, res) => {
       return;
     }
 
-    const foundSession = await findRelevantSession(ip, deviceInfo);
-
-    if (foundSession && shouldResetBanDueToInactivity(foundSession)) {
-      await updateSession({
-        ...foundSession,
-        banStart: null,
-        banDurationMinutes: null
-      });
-    } else if (foundSession && isBanned(foundSession)) {
-      res.status(403).json({
-        code: errorCodes.USER_LOCKED_OUT,
-        message: req.t('errors.userLockedOut')
-      });
-      return;
-    }
-
     // Check if the user already exists by email
     const email = resultParseBody.data.email;
     const foundUser = await getUserByEmail(email);
