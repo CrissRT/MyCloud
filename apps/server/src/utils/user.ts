@@ -11,7 +11,7 @@ import {
   RESET_AFTER_INACTIVITY_DAYS
 } from './constants';
 
-export const isBanned = (session: UserSession | UserSessionCreate): boolean => {
+export const isBanned = (session: UserSession | UserSessionCreate) => {
   if (session.banDurationMinutes === null || session.banStart === null) return false;
 
   if (session.banDurationMinutes === PERMANENT_BAN_FLAG) return true;
@@ -20,7 +20,7 @@ export const isBanned = (session: UserSession | UserSessionCreate): boolean => {
   return dayjs().isBefore(unbanAt);
 };
 
-export const getNextBanDuration = (attempts: number): number | -1 => {
+export const getNextBanDuration = (attempts: number) => {
   const tier = Math.floor(attempts / MAX_LOGIN_ATTEMPTS);
   return LOCKOUT_TIERS_MINUTES[tier] ?? LOCKOUT_TIERS_MINUTES[MAX_TIERS - 1];
 };
