@@ -47,6 +47,8 @@ export const findRelevantSession = async (ip: string, deviceInfo: string, userId
 
   const filteredByUserId = userId ? allSessions.filter((session) => session.userId === userId) : allSessions;
 
+  if (filteredByUserId.length === 0) return null;
+
   filteredByUserId.sort((a, b) => dayjs(b.banStart).valueOf() - dayjs(a.banStart).valueOf());
 
   return filteredByUserId[0];
