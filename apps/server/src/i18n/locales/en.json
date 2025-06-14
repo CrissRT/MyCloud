@@ -2,6 +2,9 @@
   "errors": {
     "userAlreadyExists": "A user with this email already exists",
     "userRegistrationFailed": "User registration failed",
-    "internalServerError": "An internal server error occurred"
+    "internalServerError": "An internal server error occurred",
+    "failedToCreateUser": "Failed to create user",
+    "userLockedOut": "User is locked out due to too many failed login attempts",
+    "invalidCredentials": "Invalid credentials"
   }
 }

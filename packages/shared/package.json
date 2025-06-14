@@ -4,6 +4,7 @@
   "description": "Shared utilities and types",
   "author": "Rotari Cristian",
   "dependencies": {
+    "dayjs": "^1.11.13",
     "zod": "^3.25.56"
   }
 }

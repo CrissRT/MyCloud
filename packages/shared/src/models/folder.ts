@@ -1,4 +1,4 @@
-import { z } from '@server/i18n/i18n';
+import { z } from 'zod';
 
 export const folderSchema = z.object({
   id: z.number().int().nonnegative(),

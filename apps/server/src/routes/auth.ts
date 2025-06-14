@@ -1,10 +1,20 @@
-import { hash } from 'bcryptjs';
-import cookie from 'cookie';
+import { compare, hash } from 'bcryptjs';
+import dayjs from 'dayjs';
 import express from 'express';
 
 import { createUser, getUserByEmail } from '@server/db';
-import { getSaltRounds } from '@server/utils';
-import { Role, UserAuthResponse, userRegisterSchema } from '@shared/models';
+import { createSession, updateSession } from '@server/db';
+import { getSaltRounds, getSerializedUserSessionCookie, MAX_LOGIN_ATTEMPTS, setCookieHeader } from '@server/utils';
+import { findRelevantSession, getNextBanDuration, isBanned, shouldResetBanDueToInactivity } from '@server/utils/user';
+import {
+  AuthResponse,
+  errorCodes,
+  Role,
+  userLoginSchema,
+  userRegisterSchema,
+  UserSession,
+  UserSessionCreate
+} from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -12,61 +22,194 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
   try {
-    const resultParse = userRegisterSchema.safeParse(req.body);
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
+    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
 
-    if (!resultParse.success) {
+    // Validate the request body against the user registration schema
+    const resultParseBody = userRegisterSchema.safeParse(req.body);
+
+    // If validation fails, return a 400 error with the validation error message
+    if (!resultParseBody.success) {
       res.status(400).json({
-        //   TODO: add i18n support
-        code: 'VALIDATION_ERROR',
-        message: resultParse.error.message
+        code: errorCodes.ZOD_ERROR,
+        message: resultParseBody.error.message
       });
       return;
     }
-    const email = resultParse.data.email;
+
+    // Check if the user already exists by email
+    const email = resultParseBody.data.email;
     const foundUser = await getUserByEmail(email);
 
+    // If a user with the given email already exists, return a 400 error
     if (foundUser) {
       res.status(400).json({
-        //   TODO: add i18n support
-        code: 'USER_ALREADY_EXISTS',
-        message: 'User with this email already exists'
+        code: errorCodes.USER_ALREADY_EXISTS,
+        message: req.t('errors.userAlreadyExists')
       });
       return;
     }
 
-    const { password, ...parsedUser } = resultParse.data;
+    const hashedPassword = await hash(resultParseBody.data.password, SALT_ROUNDS);
+    const userName = resultParseBody.data.email.split('@')[0];
 
-    const hashedPassword = await hash(password, SALT_ROUNDS);
-
-    const userName = resultParse.data.email.split('@')[0];
-
-    const responseUser: UserAuthResponse = {
-      ...parsedUser,
+    const response: AuthResponse = {
+      email: resultParseBody.data.email,
       username: userName,
-      role: Role.USER
-    };
-
-    const newUser = {
-      ...parsedUser,
-      username: userName,
+      firstName: resultParseBody.data.firstName,
+      lastName: resultParseBody.data.lastName,
       role: Role.USER,
-      password: hashedPassword
+      sex: resultParseBody.data.sex,
+      birthDate: resultParseBody.data.birthDate
     };
 
-    await createUser(newUser);
-
-    const userSessionCookie = cookie.serialize('user_session', JSON.stringify(responseUser), {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7 // 1 week
+    const createdUser = await createUser({
+      email: resultParseBody.data.email,
+      username: userName,
+      firstName: resultParseBody.data.firstName,
+      lastName: resultParseBody.data.lastName,
+      role: Role.USER,
+      sex: resultParseBody.data.sex,
+      birthDate: resultParseBody.data.birthDate,
+      password: hashedPassword
     });
 
-    //   Add the the session db operations
+    const userSessionCookie = getSerializedUserSessionCookie(response);
 
-    res.setHeader('Set-Cookie', userSessionCookie);
-    res.status(201).json(responseUser);
+    // Create a session for the user
+    await createSession({
+      userId: createdUser.id,
+      deviceInfo,
+      ip,
+      cookie: userSessionCookie,
+      lastActive: dayjs().toDate(),
+      loginAttempts: 0,
+      createdAt: dayjs().toDate(),
+      banStart: null,
+      banDurationMinutes: null
+    });
+
+    setCookieHeader(res, userSessionCookie);
+    res.status(201).json(response);
   } catch (error) {
     console.error('Error during registration:', error);
-    res.status(500).json({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
+    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: req.t('errors.internalServerError') });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const parse = userLoginSchema.safeParse(req.body);
+    if (!parse.success) {
+      res.status(400).json({
+        code: errorCodes.ZOD_ERROR,
+        message: parse.error.message
+      });
+      return;
+    }
+
+    const ip = String(req.headers['x-forwarded-for'])?.split(',')[0] || req.ip || 'unknown';
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
+    const { email, password } = parse.data;
+
+    const foundUser = await getUserByEmail(email);
+    if (!foundUser) {
+      res.status(401).json({
+        code: errorCodes.INVALID_CREDENTIALS,
+        message: req.t('errors.invalidCredentials')
+      });
+      return;
+    }
+
+    // Get or create session
+    const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
+    let session: UserSession | UserSessionCreate | null = foundSession;
+
+    if (!session) {
+      session = {
+        userId: foundUser.id,
+        deviceInfo,
+        ip,
+        cookie: null,
+        lastActive: dayjs().toDate(),
+        loginAttempts: 0,
+        createdAt: dayjs().toDate(),
+        banStart: null,
+        banDurationMinutes: null
+      };
+    }
+
+    if (shouldResetBanDueToInactivity(session)) {
+      session.banDurationMinutes = null;
+      session.banStart = null;
+    } else if (isBanned(session)) {
+      // Check ban
+      res.status(403).json({
+        code: errorCodes.USER_LOCKED_OUT,
+        message: req.t('errors.userLockedOut')
+      });
+      return;
+    }
+
+    const passwordMatch = await compare(password, foundUser.password);
+
+    if (!passwordMatch) {
+      session.loginAttempts += 1;
+
+      // Evaluate if new ban should be applied
+      if (session.loginAttempts % MAX_LOGIN_ATTEMPTS === 0) {
+        const banDuration = getNextBanDuration(session.loginAttempts);
+        session.banStart = dayjs().toDate();
+        session.banDurationMinutes = banDuration;
+      }
+
+      session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
+
+      res.status(401).json({
+        code: errorCodes.INVALID_CREDENTIALS,
+        message: req.t('errors.invalidCredentials')
+      });
+      return;
+    }
+
+    // Correct password — clear bans and attempts
+    session.loginAttempts = 0;
+    session.banStart = null;
+    session.banDurationMinutes = null;
+
+    const userCookie = getSerializedUserSessionCookie({
+      email: foundUser.email,
+      username: foundUser.username,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+      sex: foundUser.sex,
+      birthDate: foundUser.birthDate
+    });
+
+    session.cookie = userCookie;
+    session.lastActive = dayjs().toDate();
+
+    session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
+
+    const response: AuthResponse = {
+      email: foundUser.email,
+      username: foundUser.username,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+      sex: foundUser.sex,
+      birthDate: foundUser.birthDate
+    };
+
+    setCookieHeader(res, userCookie);
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({
+      code: errorCodes.INTERNAL_SERVER_ERROR,
+      message: req.t('errors.internalServerError')
+    });
   }
 });
 

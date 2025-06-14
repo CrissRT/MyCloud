@@ -55,3 +55,9 @@ export const getPortOfServer = () => {
 };
 
 export const pool = new Pool(getPostgresConfig());
+
+export const LOCKOUT_TIERS_MINUTES = [5, 15, 60, 180, 720, 1440]; // up to 24 hours
+export const MAX_TIERS = LOCKOUT_TIERS_MINUTES.length;
+export const PERMANENT_BAN_FLAG = -1;
+export const RESET_AFTER_INACTIVITY_DAYS = 7; // Reset ban if inactive for 7 days
+export const MAX_LOGIN_ATTEMPTS = 10; // Maximum login attempts before lockout

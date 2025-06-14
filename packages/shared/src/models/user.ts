@@ -1,4 +1,4 @@
-import { z } from '@server/i18n/i18n';
+import { z } from 'zod';
 
 export enum Role {
   USER = 'user',
@@ -38,19 +38,26 @@ export const userSessionSchema = z.object({
   createdAt: z.date(),
   lastActive: z.date(),
   loginAttempts: z.number().int().nonnegative(),
-  lastLoginAttempt: z.date()
+  banDurationMinutes: z.number().int().nullable(), // null = no ban, -1 = permanent ban
+  banStart: z.date().nullable()
 });
 
 export type UserSession = z.infer<typeof userSessionSchema>;
 
-export const userRegisterSchema = userSchema
-  .omit({ id: true, role: true, username: true, createdAt: true })
-  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
+export const userSessionCreateSchema = userSessionSchema.omit({ id: true });
+
+export type UserSessionCreate = z.infer<typeof userSessionCreateSchema>;
+
+export const userRegisterSchema = userSchema.omit({ id: true, role: true, username: true, createdAt: true });
 
 export type UserRegister = z.infer<typeof userRegisterSchema>;
 
-export const userAuthResponseSchema = userSchema
-  .omit({ id: true, password: true, createdAt: true })
-  .merge(userSessionSchema.pick({ deviceInfo: true, ip: true }));
+export const authResponseSchema = userSchema.omit({ id: true, password: true, createdAt: true });
 
-export type UserAuthResponse = z.infer<typeof userAuthResponseSchema>;
+export type AuthResponse = z.infer<typeof authResponseSchema>;
+
+export const userLoginSchema = userSchema.pick({
+  email: true,
+  password: true
+});
+export type UserLogin = z.infer<typeof userLoginSchema>;
