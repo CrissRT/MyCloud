@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { getSessionsByDeviceInfoAndIpAndUserId } from '@server/db';
-import { UserSession, UserSessionCreate } from '@shared/models';
+import { Session, SessionCreate } from '@shared/models';
 
 import {
   LOCKOUT_TIERS_MINUTES,
@@ -11,7 +11,7 @@ import {
   RESET_AFTER_INACTIVITY_DAYS
 } from './constants';
 
-export const isBanned = (session: UserSession | UserSessionCreate) => {
+export const isBanned = (session: Session | SessionCreate) => {
   if (session.banDurationMinutes === null || session.banStart === null) return false;
 
   if (session.banDurationMinutes === PERMANENT_BAN_FLAG) return true;
@@ -25,7 +25,7 @@ export const getNextBanDuration = (attempts: number) => {
   return LOCKOUT_TIERS_MINUTES[tier] ?? LOCKOUT_TIERS_MINUTES[MAX_TIERS - 1];
 };
 
-export const shouldResetBanDueToInactivity = (session: UserSession | UserSessionCreate) => {
+export const shouldResetBanDueToInactivity = (session: Session | SessionCreate) => {
   if (!session.banStart) return false;
 
   const isPermanent = session.banDurationMinutes === PERMANENT_BAN_FLAG;

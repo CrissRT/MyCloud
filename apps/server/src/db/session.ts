@@ -1,5 +1,5 @@
 import { convertObjectKeysSnakeCaseToCamelCase, pool } from '@server/utils';
-import { UserSession, UserSessionCreate } from '@shared/models';
+import { Session, SessionCreate } from '@shared/models';
 
 export const getSessionById = async (id: number) => {
   const query = 'SELECT * FROM sessions WHERE id = $1';
@@ -7,7 +7,7 @@ export const getSessionById = async (id: number) => {
   const result = await pool.query(query, values);
 
   if (result.rows.length === 0) return null;
-  const session: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
+  const session: Session = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
 
   return session;
 };
@@ -19,7 +19,7 @@ export const getSessionsByUserId = async (userId: number) => {
 
   if (result.rows.length === 0) return null;
 
-  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
+  const sessions: Session[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
 
   return sessions;
 };
@@ -31,7 +31,7 @@ export const getSessionsByDeviceInfoAndIpAndUserId = async (deviceInfo: string, 
 
   if (result.rows.length === 0) return null;
 
-  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
+  const sessions: Session[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
 
   return sessions;
 };
@@ -43,7 +43,7 @@ export const getSessionsByIp = async (ip: string) => {
 
   if (result.rows.length === 0) return null;
 
-  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
+  const sessions: Session[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
 
   return sessions;
 };
@@ -55,7 +55,7 @@ export const getSessionsByDeviceInfo = async (deviceInfo: string) => {
 
   if (result.rows.length === 0) return null;
 
-  const sessions: UserSession[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
+  const sessions: Session[] = convertObjectKeysSnakeCaseToCamelCase(result.rows);
 
   return sessions;
 };
@@ -69,16 +69,16 @@ export const createSession = async ({
   loginAttempts,
   banStart = null,
   banDurationMinutes = null
-}: UserSessionCreate) => {
+}: SessionCreate) => {
   const query =
     'INSERT INTO sessions (user_id, device_info, ip, cookie, last_active, login_attempts, created_at, ban_start, ban_duration_minutes) VALUES ($1, $2, $3, $4, $5, $6, NOW(), $7, $8) RETURNING id';
   const values = [userId, deviceInfo, ip, cookie, lastActive, loginAttempts, banStart, banDurationMinutes];
   const result = await pool.query(query, values);
-  const resultSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
+  const resultSession: Session = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
   return resultSession;
 };
 
-export const updateSession = async (session: UserSession) => {
+export const updateSession = async (session: Session) => {
   const query = `UPDATE sessions
      SET user_id = $1,
          device_info = $2,
@@ -105,6 +105,6 @@ export const updateSession = async (session: UserSession) => {
 
   if (result.rowCount === 0) return null;
 
-  const updatedSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
+  const updatedSession: Session = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
   return updatedSession;
 };

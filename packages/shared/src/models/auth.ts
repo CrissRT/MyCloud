@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 import { userSchema } from './user';
 
-export const userRegisterSchema = userSchema.omit({ id: true, role: true, username: true, createdAt: true });
+export const registerSchema = userSchema.omit({ id: true, role: true, username: true, createdAt: true });
 
-export type UserRegister = z.infer<typeof userRegisterSchema>;
+export type Register = z.infer<typeof registerSchema>;
 
 export const authResponseSchema = userSchema.omit({ id: true, password: true, createdAt: true });
 
@@ -14,4 +14,4 @@ export const userLoginSchema = userSchema.pick({
   email: true,
   password: true
 });
-export type UserLogin = z.infer<typeof userLoginSchema>;
+export type Login = z.infer<typeof userLoginSchema>;

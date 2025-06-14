@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const userSessionSchema = z.object({
+export const sessionSchema = z.object({
   id: z.number().int().nonnegative(),
   userId: z.number().int().nonnegative(),
   deviceInfo: z.string().min(1),
@@ -13,8 +13,8 @@ export const userSessionSchema = z.object({
   banStart: z.date().nullable()
 });
 
-export type UserSession = z.infer<typeof userSessionSchema>;
+export type Session = z.infer<typeof sessionSchema>;
 
-export const userSessionCreateSchema = userSessionSchema.omit({ id: true });
+export const userSessionCreateSchema = sessionSchema.omit({ id: true });
 
-export type UserSessionCreate = z.infer<typeof userSessionCreateSchema>;
+export type SessionCreate = z.infer<typeof userSessionCreateSchema>;
