@@ -1,7 +1,7 @@
 import checkDiskSpace from 'check-disk-space';
 
 import { getReservedStorageInMB } from '@server/db';
-import { convertBytesToGB, convertBytesToMB, convertGBToMB } from '@server/utils';
+import { convertBytesToMB, convertGBToMB } from '@server/utils';
 
 export const getAvailableSpaceinMB = async () => {
   const currentPath = process.cwd(); // Current working dir (where app is running)
@@ -13,18 +13,6 @@ export const getTotalSpaceinMB = async () => {
   const currentPath = process.cwd(); // Current working dir (where app is running)
   const { size } = await checkDiskSpace(currentPath);
   return convertBytesToMB(size); // Convert bytes to MB
-};
-
-export const getAvailableSpaceinGB = async () => {
-  const currentPath = process.cwd(); // Current working dir (where app is running)
-  const { free } = await checkDiskSpace(currentPath);
-  return convertBytesToGB(free); // Convert bytes to GB
-};
-
-export const getTotalSpaceinGB = async () => {
-  const currentPath = process.cwd(); // Current working dir (where app is running)
-  const { size } = await checkDiskSpace(currentPath);
-  return convertBytesToGB(size); // Convert bytes to GB
 };
 
 export const checkIfEnoughSpaceInMB = async (requiredSpaceInMB: bigint | number) => {
