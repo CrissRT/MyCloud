@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { getSessionsByDeviceInfoAndIp } from '@server/db';
 import { UserSession, UserSessionCreate } from '@shared/models';
 
 import {
@@ -37,4 +38,16 @@ export const shouldResetBanDueToInactivity = (session: UserSession | UserSession
   const banStarted = dayjs(session.banStart);
 
   return banStarted.isBefore(oneWeekAgo);
+};
+
+export const findRelevantSession = async (ip: string, deviceInfo: string, userId?: number) => {
+  const allSessions = await getSessionsByDeviceInfoAndIp(deviceInfo, ip);
+
+  if (!allSessions || allSessions.length === 0) return null;
+
+  const filteredByUserId = userId ? allSessions.filter((session) => session.userId === userId) : allSessions;
+
+  filteredByUserId.sort((a, b) => dayjs(b.banStart).valueOf() - dayjs(a.banStart).valueOf());
+
+  return filteredByUserId[0];
 };

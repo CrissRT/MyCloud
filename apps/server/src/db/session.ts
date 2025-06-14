@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { convertObjectKeysSnakeCaseToCamelCase, pool } from '@server/utils';
 import { UserSession, UserSessionCreate } from '@shared/models';
 
@@ -111,16 +109,4 @@ export const updateSession = async (session: UserSession) => {
 
   const updatedSession: UserSession = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
   return updatedSession;
-};
-
-export const findRelevantSession = async (ip: string, deviceInfo: string, userId?: number) => {
-  const allSessions = await getSessionsByDeviceInfoAndIp(deviceInfo, ip);
-
-  if (!allSessions || allSessions.length === 0) return null;
-
-  const filteredByUserId = userId ? allSessions.filter((session) => session.userId === userId) : allSessions
-
-  filteredByUserId.sort((a, b) => dayjs(b.banStart).valueOf() - dayjs(a.banStart).valueOf());
-
-  return filteredByUserId[0];
 };
