@@ -27,7 +27,7 @@ export const getTotalSpaceinGB = async () => {
   return convertBytesToGB(size); // Convert bytes to GB
 };
 
-export const checkIfEnoughSpaceInMB = async (requiredSpaceInMB: bigint) => {
+export const checkIfEnoughSpaceInMB = async (requiredSpaceInMB: bigint | number) => {
   const [availablePhysicalMB, totalPhysicalMB, reservedLogicalMB] = await Promise.all([
     getAvailableSpaceinMB(), // available free space on current disk
     getTotalSpaceinMB(), // total size of disk where backend is running
@@ -40,5 +40,5 @@ export const checkIfEnoughSpaceInMB = async (requiredSpaceInMB: bigint) => {
   return enoughPhysical && enoughUnreserved;
 };
 
-export const checkIfEnoughSpaceInGB = async (requiredSpaceInGB: bigint) =>
+export const checkIfEnoughSpaceInGB = async (requiredSpaceInGB: bigint | number) =>
   await checkIfEnoughSpaceInMB(convertGBToMB(requiredSpaceInGB));
