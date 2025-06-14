@@ -87,9 +87,8 @@ export const updateSession = async (session: UserSession) => {
          last_active = $5,
          login_attempts = $6,
          ban_duration_minutes = $7,
-         ban_start = $8,
-         created_at = $9
-     WHERE id = $10
+         ban_start = $8
+     WHERE id = $9
      RETURNING *`;
   const values = [
     session.userId,
@@ -100,7 +99,6 @@ export const updateSession = async (session: UserSession) => {
     session.loginAttempts,
     session.banDurationMinutes,
     session.banStart,
-    session.createdAt,
     session.id
   ];
   const result = await pool.query(query, values);
