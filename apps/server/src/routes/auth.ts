@@ -62,7 +62,7 @@ router.post('/register', async (req, res) => {
 
     const isEnoughSpaceToAllocate = await checkIfEnoughSpaceInMB(DEFAULT_STORAGE_SPACE_IN_MB);
     if (!isEnoughSpaceToAllocate) {
-      res.status(400).json({
+      res.status(507).json({
         code: errorCodes.INSUFFICIENT_STORAGE,
         message: req.t('errors.insufficientStorage')
       });
