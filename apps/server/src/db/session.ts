@@ -24,9 +24,9 @@ export const getSessionsByUserId = async (userId: number) => {
   return sessions;
 };
 
-export const getSessionsByDeviceInfoAndIp = async (deviceInfo: string, ip: string) => {
-  const query = 'SELECT * FROM sessions WHERE device_info = $1 AND ip = $2';
-  const values = [deviceInfo, ip];
+export const getSessionsByDeviceInfoAndIpAndUserId = async (deviceInfo: string, ip: string, userId: number) => {
+  const query = 'SELECT * FROM sessions WHERE device_info = $1 AND ip = $2 AND user_id = $3';
+  const values = [deviceInfo, ip, userId];
   const result = await pool.query(query, values);
 
   if (result.rows.length === 0) return null;
