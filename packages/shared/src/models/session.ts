@@ -15,6 +15,6 @@ export const sessionSchema = z.object({
 
 export type Session = z.infer<typeof sessionSchema>;
 
-export const userSessionCreateSchema = sessionSchema.omit({ id: true });
+export const sessionCreateSchema = sessionSchema.omit({ id: true });
 
-export type SessionCreate = z.infer<typeof userSessionCreateSchema>;
+export type SessionCreate = z.infer<typeof sessionCreateSchema>;
