@@ -28,7 +28,7 @@ export const getNextBanDuration = (attempts: number) => {
 export const shouldResetBanDueToInactivity = (session: UserSession | UserSessionCreate) => {
   if (!session.banStart) return false;
 
-  const isPermanent = session.banDurationMinutes === -1;
+  const isPermanent = session.banDurationMinutes === PERMANENT_BAN_FLAG;
   if (isPermanent) return false;
 
   const isAtMaxBan = session.banDurationMinutes === LOCKOUT_TIERS_MINUTES[MAX_TIERS - 1];
