@@ -41,6 +41,7 @@ app
   .listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   })
-  .on('error', async () => {
-    await prisma.$disconnect();
+  .close(() => {
+    console.log('Server is shutting down...');
+    prisma.$disconnect();
   });
