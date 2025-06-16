@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import { Response } from 'express';
 
-import { AuthResponse } from '@shared/models';
+import { AuthResponse } from '@server/models';
 
 const maxAgeCookie = 60 * 60 * 24 * 7; // 1 week
 const cookieOptions = {

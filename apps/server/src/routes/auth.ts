@@ -2,7 +2,9 @@ import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
 
+import { $Enums } from '@prisma/client';
 import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
+import { AuthResponse, errorCodes, registerSchema, Session, SessionCreate, userLoginSchema } from '@server/models';
 import {
   checkIfEnoughSpaceInMB,
   DEFAULT_STORAGE_SPACE_IN_MB,
@@ -16,15 +18,6 @@ import {
   setCookieHeader,
   shouldResetBanDueToInactivity
 } from '@server/utils';
-import {
-  AuthResponse,
-  errorCodes,
-  registerSchema,
-  Role,
-  Session,
-  SessionCreate,
-  userLoginSchema
-} from '@shared/models';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -77,7 +70,7 @@ router.post('/register', async (req, res) => {
       username: userName,
       firstName: resultParseBody.data.firstName,
       lastName: resultParseBody.data.lastName,
-      role: Role.USER,
+      role: $Enums.roleEnum.user,
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
       storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
@@ -89,7 +82,7 @@ router.post('/register', async (req, res) => {
       username: userName,
       firstName: resultParseBody.data.firstName,
       lastName: resultParseBody.data.lastName,
-      role: Role.USER,
+      role: $Enums.roleEnum.user,
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
       password: hashedPassword,
@@ -208,8 +201,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMB),
-      usedStorageInBytes: String(foundUser.usedStorageInBytes)
+      storageSpaceInMB: String(foundUser.storageSpaceInMb),
+      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
     });
 
     session.cookie = userCookie;
@@ -225,8 +218,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMB),
-      usedStorageInBytes: String(foundUser.usedStorageInBytes)
+      storageSpaceInMB: String(foundUser.storageSpaceInMb),
+      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
     };
 
     setCookieHeader(res, userCookie);

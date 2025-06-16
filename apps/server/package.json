@@ -6,12 +6,19 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/app.js",
-    "dev": "tsx watch src/app.ts"
+    "dev": "tsx watch src/app.ts",
+    "db:up": "docker-compose up -d",
+    "db:down": "docker-compose down",
+    "db:rm-volumes": "docker compose down --volumes",
+    "prisma:init": "npx prisma init",
+    "prisma:db-pull": "npx prisma db pull",
+    "prisma:generate": "npx prisma generate"
   },
   "keywords": [],
   "author": "Rotari Cristian",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.9.0",
     "@zodios/core": "^10.9.6",
     "@zodios/express": "^10.6.1",
     "@zodios/openapi": "^10.5.0",
@@ -25,7 +32,6 @@
     "i18next": "^25.2.1",
     "i18next-fs-backend": "^2.6.0",
     "i18next-http-middleware": "^3.7.4",
-    "pg": "^8.16.0",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.0",
     "zod": "^3.25.56",

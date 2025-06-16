@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model notificationPreferences {
+  id                Int     @id @default(autoincrement())
+  userId            Int     @unique
+  newlySharedItems  Boolean @default(true)
+  requestsForAccess Boolean @default(true)
+  users             users   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model notifications {
+  id        Int                  @id @default(autoincrement())
+  userId    Int
+  type      notificationTypeEnum
+  message   String
+  read      Boolean              @default(false)
+  createdAt DateTime             @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime             @default(now()) @db.Timestamptz(6)
+  users     users                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model preferences {
+  id         Int            @id @default(autoincrement())
+  userId     Int            @unique
+  appearance appearanceEnum @default(device)
+  density    densityEnum    @default(comfortable)
+  openFiles  openFilesEnum  @default(preview)
+  layout     layoutEnum     @default(grid)
+  language   languageEnum   @default(en)
+  users      users          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model sessions {
+  id                 Int       @id @default(autoincrement())
+  userId             Int
+  deviceInfo         String
+  ip                 String    @db.VarChar(64)
+  cookie             String?
+  createdAt          DateTime  @default(now()) @db.Timestamptz(6)
+  lastActive         DateTime  @default(now()) @db.Timestamptz(6)
+  loginAttempts      Int       @default(0)
+  banDurationMinutes Int?
+  banStart           DateTime? @db.Timestamptz(6)
+  users              users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  id                      Int                      @id @default(autoincrement())
+  email                   String                   @unique @db.VarChar(255)
+  username                String                   @unique @db.VarChar(255)
+  password                String                   @db.VarChar(255)
+  firstName               String                   @db.VarChar(255)
+  lastName                String                   @db.VarChar(255)
+  birthDate               DateTime                 @db.Date
+  role                    roleEnum                 @default(user)
+  sex                     sexEnum                  @default(other)
+  createdAt               DateTime                 @default(now()) @db.Timestamptz(6)
+  storageSpaceInMb        BigInt                   @default(15360)
+  usedStorageSpaceInBytes BigInt                   @default(0)
+  notificationPreferences notificationPreferences?
+  notifications           notifications[]
+  preferences             preferences?
+  sessions                sessions[]
+}
+
+enum appearanceEnum {
+  dark
+  light
+  device
+}
+
+enum densityEnum {
+  comfortable
+  cosy
+  compact
+}
+
+enum languageEnum {
+  ro
+  ru
+  en
+}
+
+enum layoutEnum {
+  list
+  grid
+}
+
+enum notificationTypeEnum {
+  newPassword
+  newIp
+  newDeviceLogin
+  sharedItems
+  requestAccess
+}
+
+enum openFilesEnum {
+  preview
+  newTab
+}
+
+enum roleEnum {
+  admin
+  user
+}
+
+enum sexEnum {
+  male
+  female
+  other
+}
+
+enum uploadStatusEnum {
+  processing
+  ready
+  error
+}

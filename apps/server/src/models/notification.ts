@@ -1,12 +1,6 @@
 import { z } from 'zod';
 
-export enum NotificationType {
-  NEW_PASSWORD = 'newPassword',
-  NEW_IP = 'newIp',
-  NEW_DEVICE_LOGIN = 'newDeviceLogin',
-  SHARED_ITEMS = 'sharedItems',
-  REQUEST_ACCESS = 'requestAccess'
-}
+import { $Enums } from '@prisma/client';
 
 export const notificationPreferencesSchema = z.object({
   id: z.number().int().nonnegative(),
@@ -20,7 +14,7 @@ export type NotificationPreferences = z.infer<typeof notificationPreferencesSche
 export const notificationSchema = z.object({
   id: z.number().int().nonnegative(),
   userId: z.number().int().nonnegative(),
-  type: z.nativeEnum(NotificationType),
+  type: z.nativeEnum($Enums.notificationTypeEnum),
   message: z.string().min(1),
   read: z.boolean(),
   createdAt: z.date(),
