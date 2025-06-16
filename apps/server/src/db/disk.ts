@@ -1,4 +1,4 @@
-import { prisma } from '@server/app';
+import { prisma } from '@server/utils';
 
 export const getReservedStorageInMB = async () => {
   const result = await prisma.users.aggregate({

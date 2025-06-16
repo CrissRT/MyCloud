@@ -1,5 +1,5 @@
-import { prisma } from '@server/app';
 import { User } from '@server/models';
+import { prisma } from '@server/utils';
 
 export const getUserById = async (id: string) => {
   const user = await prisma.users.findUnique({ where: { id: Number(id) } });
