@@ -33,18 +33,18 @@ export const createSession = async (data: SessionCreate) => {
   return sessions;
 };
 
-export const updateSession = async (sessions: Session) => {
+export const updateSession = async (session: Session) => {
   const updatedSession = await prisma.sessions.update({
-    where: { id: sessions.id },
+    where: { id: session.id },
     data: {
-      userId: sessions.userId,
-      deviceInfo: sessions.deviceInfo,
-      ip: sessions.ip,
-      cookie: sessions.cookie,
-      lastActive: sessions.lastActive,
-      loginAttempts: sessions.loginAttempts,
-      banDurationMinutes: sessions.banDurationMinutes,
-      banStart: sessions.banStart
+      userId: session.userId,
+      deviceInfo: session.deviceInfo,
+      ip: session.ip,
+      cookie: session.cookie,
+      lastActive: session.lastActive,
+      loginAttempts: session.loginAttempts,
+      banDurationMinutes: session.banDurationMinutes,
+      banStart: session.banStart
     }
   });
   return updatedSession;
