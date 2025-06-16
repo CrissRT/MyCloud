@@ -2,49 +2,49 @@ import { prisma } from '@server/app';
 import { Session, SessionCreate } from '@shared/models';
 
 export const getSessionById = async (id: number) => {
-  const session: Session | null = await prisma.session.findUnique({ where: { id } });
-  return session;
+  const sessions = await prisma.sessions.findUnique({ where: { id } });
+  return sessions;
 };
 
 export const getSessionsByUserId = async (userId: number) => {
-  const sessions: Session[] = await prisma.session.findMany({ where: { userId } });
+  const sessions = await prisma.sessions.findMany({ where: { userId } });
   return sessions;
 };
 
 export const getSessionsByDeviceInfoAndIpAndUserId = async (deviceInfo: string, ip: string, userId: number) => {
-  const sessions: Session[] = await prisma.session.findMany({
+  const sessions = await prisma.sessions.findMany({
     where: { deviceInfo, ip, userId }
   });
   return sessions;
 };
 
 export const getSessionsByIp = async (ip: string) => {
-  const sessions: Session[] = await prisma.session.findMany({ where: { ip } });
+  const sessions = await prisma.sessions.findMany({ where: { ip } });
   return sessions;
 };
 
 export const getSessionsByDeviceInfo = async (deviceInfo: string) => {
-  const sessions: Session[] = await prisma.session.findMany({ where: { deviceInfo } });
+  const sessions = await prisma.sessions.findMany({ where: { deviceInfo } });
   return sessions;
 };
 
 export const createSession = async (data: SessionCreate) => {
-  const session: Session = await prisma.session.create({ data });
-  return session;
+  const sessions = await prisma.sessions.create({ data });
+  return sessions;
 };
 
-export const updateSession = async (session: Session) => {
-  const updatedSession: Session = await prisma.session.update({
-    where: { id: session.id },
+export const updateSession = async (sessions: Session) => {
+  const updatedSession = await prisma.sessions.update({
+    where: { id: sessions.id },
     data: {
-      userId: session.userId,
-      deviceInfo: session.deviceInfo,
-      ip: session.ip,
-      cookie: session.cookie,
-      lastActive: session.lastActive,
-      loginAttempts: session.loginAttempts,
-      banDurationMinutes: session.banDurationMinutes,
-      banStart: session.banStart
+      userId: sessions.userId,
+      deviceInfo: sessions.deviceInfo,
+      ip: sessions.ip,
+      cookie: sessions.cookie,
+      lastActive: sessions.lastActive,
+      loginAttempts: sessions.loginAttempts,
+      banDurationMinutes: sessions.banDurationMinutes,
+      banStart: sessions.banStart
     }
   });
   return updatedSession;

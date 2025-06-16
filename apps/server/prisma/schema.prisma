@@ -1,96 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model notification_preferences {
-  id                  Int     @id @default(autoincrement())
-  user_id             Int?    @unique
-  newly_shared_items  Boolean @default(true)
-  requests_for_access Boolean @default(true)
-  users               users?  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+model notificationPreferences {
+  id                Int     @id @default(autoincrement())
+  userId            Int?    @unique
+  newlySharedItems  Boolean @default(true)
+  requestsForAccess Boolean @default(true)
+  users             users?  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model notifications {
-  id         Int                    @id @default(autoincrement())
-  user_id    Int?
-  type       notification_type_enum
-  message    String
-  read       Boolean                @default(false)
-  created_at DateTime?              @default(now()) @db.Timestamptz(6)
-  updated_at DateTime?              @default(now()) @db.Timestamptz(6)
-  users      users?                 @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id        Int                  @id @default(autoincrement())
+  userId    Int?
+  type      notificationTypeEnum
+  message   String
+  read      Boolean              @default(false)
+  createdAt DateTime?            @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime?            @default(now()) @db.Timestamptz(6)
+  users     users?               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model preferences {
-  id         Int             @id @default(autoincrement())
-  user_id    Int?            @unique
-  appearance appearance_enum @default(device)
-  density    density_enum    @default(comfortable)
-  open_files open_files_enum @default(preview)
-  layout     layout_enum     @default(grid)
-  language   language_enum   @default(en)
-  users      users?          @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id         Int            @id @default(autoincrement())
+  userId     Int?           @unique
+  appearance appearanceEnum @default(device)
+  density    densityEnum    @default(comfortable)
+  openFiles  openFilesEnum  @default(preview)
+  layout     layoutEnum     @default(grid)
+  language   languageEnum   @default(en)
+  users      users?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model sessions {
-  id                   Int       @id @default(autoincrement())
-  user_id              Int?
-  device_info          String?
-  ip                   String?   @db.VarChar(64)
-  cookie               String?
-  created_at           DateTime? @default(now()) @db.Timestamptz(6)
-  last_active          DateTime? @default(now()) @db.Timestamptz(6)
-  login_attempts       Int       @default(0)
-  ban_duration_minutes Int?
-  ban_start            DateTime? @db.Timestamptz(6)
-  users                users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id                 Int       @id @default(autoincrement())
+  userId             Int?
+  deviceInfo         String?
+  ip                 String?   @db.VarChar(64)
+  cookie             String?
+  createdAt          DateTime? @default(now()) @db.Timestamptz(6)
+  lastActive         DateTime? @default(now()) @db.Timestamptz(6)
+  loginAttempts      Int       @default(0)
+  banDurationMinutes Int?
+  banStart           DateTime? @db.Timestamptz(6)
+  users              users?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model users {
-  id                          Int                       @id @default(autoincrement())
-  email                       String                    @unique @db.VarChar(255)
-  username                    String                    @unique @db.VarChar(255)
-  password                    String                    @db.VarChar(255)
-  first_name                  String?                   @db.VarChar(255)
-  last_name                   String?                   @db.VarChar(255)
-  birth_date                  DateTime?                 @db.Date
-  role                        role_enum                 @default(user)
-  sex                         sex_enum?
-  created_at                  DateTime?                 @default(now()) @db.Timestamptz(6)
-  storage_space_in_mb         BigInt                    @default(15360)
-  used_storage_space_in_bytes BigInt                    @default(0)
-  notification_preferences    notification_preferences?
-  notifications               notifications[]
-  preferences                 preferences?
-  sessions                    sessions[]
+  id                      Int                      @id @default(autoincrement())
+  email                   String                   @unique @db.VarChar(255)
+  username                String                   @unique @db.VarChar(255)
+  password                String                   @db.VarChar(255)
+  firstName               String?                  @db.VarChar(255)
+  lastName                String?                  @db.VarChar(255)
+  birthDate               DateTime?                @db.Date
+  role                    roleEnum                 @default(user)
+  sex                     sexEnum?
+  createdAt               DateTime?                @default(now()) @db.Timestamptz(6)
+  storageSpaceInMb        BigInt                   @default(15360)
+  usedStorageSpaceInBytes BigInt                   @default(0)
+  notificationPreferences notificationPreferences?
+  notifications           notifications[]
+  preferences             preferences?
+  sessions                sessions[]
 }
 
-enum appearance_enum {
+enum appearanceEnum {
   dark
   light
   device
 }
 
-enum density_enum {
+enum densityEnum {
   comfortable
   cosy
   compact
 }
 
-enum language_enum {
+enum languageEnum {
   ro
   ru
   en
 }
 
-enum layout_enum {
+enum layoutEnum {
   list
   grid
 }
 
-enum notification_type_enum {
+enum notificationTypeEnum {
   newPassword
   newIp
   newDeviceLogin
@@ -98,23 +102,23 @@ enum notification_type_enum {
   requestAccess
 }
 
-enum open_files_enum {
+enum openFilesEnum {
   preview
   newTab
 }
 
-enum role_enum {
+enum roleEnum {
   admin
   user
 }
 
-enum sex_enum {
+enum sexEnum {
   male
   female
   other
 }
 
-enum upload_status_enum {
+enum uploadStatusEnum {
   processing
   ready
   error

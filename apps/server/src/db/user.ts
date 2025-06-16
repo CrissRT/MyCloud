@@ -2,13 +2,13 @@ import { prisma } from '@server/app';
 import { User } from '@shared/models';
 
 export const getUserById = async (id: string) => {
-  const user = await prisma.user.findUnique({ where: { id: Number(id) } });
-  return user as User | null;
+  const user = await prisma.users.findUnique({ where: { id: Number(id) } });
+  return user;
 };
 
 export const getUserByEmail = async (email: string) => {
-  const user = await prisma.user.findUnique({ where: { email } });
-  return user as User | null;
+  const user = await prisma.users.findUnique({ where: { email } });
+  return user;
 };
 
 export const createUser = async ({
@@ -21,7 +21,7 @@ export const createUser = async ({
   role,
   sex
 }: Omit<User, 'id' | 'createdAt'>) => {
-  const user: User = await prisma.user.create({
+  const user = await prisma.users.create({
     data: {
       email,
       username,

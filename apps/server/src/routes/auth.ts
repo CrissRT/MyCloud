@@ -208,8 +208,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMB),
-      usedStorageInBytes: String(foundUser.usedStorageInBytes)
+      storageSpaceInMB: foundUser.storageSpaceInMB,
+      usedStorageInBytes: foundUser.usedStorageInBytes
     });
 
     session.cookie = userCookie;
