@@ -1,5 +1,5 @@
 import { prisma } from '@server/app';
-import { Session, SessionCreate } from '@shared/models';
+import { Session, SessionCreate } from '@server/models';
 
 export const getSessionById = async (id: number) => {
   const sessions = await prisma.sessions.findUnique({ where: { id } });

@@ -5,7 +5,7 @@ import enTranslationZod from 'zod-i18n-map/locales/en/zod.json';
 import roTranslationZod from 'zod-i18n-map/locales/ro/zod.json';
 import ruTranslationZod from 'zod-i18n-map/locales/ru/zod.json';
 
-import { Language } from '@shared/models';
+import { $Enums } from '@prisma/client';
 
 import enTranslation from './locales/en.json';
 import roTranslation from './locales/ro.json';
@@ -15,14 +15,14 @@ await i18next
   .use(Backend)
   .use(middleware.LanguageDetector)
   .init({
-    fallbackLng: Language.EN,
-    preload: [Language.EN, Language.RU, Language.RO],
+    fallbackLng: $Enums.languageEnum.en,
+    preload: [$Enums.languageEnum.en, $Enums.languageEnum.ru, $Enums.languageEnum.ro],
     ns: ['translation', 'zod'],
     defaultNS: 'translation',
     resources: {
-      [Language.EN]: { translation: enTranslation, zod: enTranslationZod },
-      [Language.RU]: { translation: ruTranslation, zod: ruTranslationZod },
-      [Language.RO]: { translation: roTranslation, zod: roTranslationZod }
+      [$Enums.languageEnum.en]: { translation: enTranslation, zod: enTranslationZod },
+      [$Enums.languageEnum.ru]: { translation: ruTranslation, zod: ruTranslationZod },
+      [$Enums.languageEnum.ro]: { translation: roTranslation, zod: roTranslationZod }
     },
     detection: {
       order: ['querystring', 'header', 'cookie'],

@@ -1,16 +1,7 @@
 import dayjs from 'dayjs';
 import { z } from 'zod';
 
-export enum Role {
-  USER = 'user',
-  ADMIN = 'admin'
-}
-
-export enum Sex {
-  MALE = 'male',
-  FEMALE = 'female',
-  OTHER = 'other'
-}
+import { $Enums } from '@prisma/client';
 
 export const userSchema = z.object({
   id: z.number().int().nonnegative(),
@@ -22,8 +13,8 @@ export const userSchema = z.object({
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),
   firstName: z.string().min(3).max(255),
   lastName: z.string().min(3).max(255),
-  role: z.nativeEnum(Role),
-  sex: z.nativeEnum(Sex),
+  role: z.nativeEnum($Enums.roleEnum),
+  sex: z.nativeEnum($Enums.sexEnum),
   birthDate: z.preprocess((val) => dayjs(String(val)).toDate(), z.date()),
   createdAt: z.date(),
   storageSpaceInMB: z

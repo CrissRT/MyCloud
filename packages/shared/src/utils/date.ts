@@ -2,8 +2,6 @@ import dayjs, { ManipulateType } from 'dayjs';
 import duration, { DurationUnitType } from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-import { Language } from '@shared/models';
-
 import 'dayjs/locale/en';
 import 'dayjs/locale/ro';
 import 'dayjs/locale/ru';
@@ -11,7 +9,7 @@ import 'dayjs/locale/ru';
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
-export const getDuration = (time: number, unit?: DurationUnitType, lng?: Language) => {
+export const getDuration = (time: number, unit?: DurationUnitType, lng?: string) => {
   if (unit) return dayjs.duration(time, unit).humanize();
   return dayjs
     .duration(time)

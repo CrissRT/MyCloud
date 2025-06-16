@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { getSessionsByDeviceInfoAndIpAndUserId } from '@server/db';
-import { Session, SessionCreate } from '@shared/models';
+import { Session, SessionCreate } from '@server/models';
 
 import {
   LOCKOUT_TIERS_MINUTES,
