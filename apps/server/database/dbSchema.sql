@@ -18,7 +18,7 @@ CREATE TABLE "users" (
     "firstName" VARCHAR(255) CHECK (char_length("firstName") >= 3) NOT NULL,
     "lastName" VARCHAR(255) CHECK (char_length("lastName") >= 3) NOT NULL,
     "birthDate" DATE NOT NULL,
-    "role" "roleEnum" NOT NULL DEFAULT 'user' NOT NULL,
+    "role" "roleEnum" NOT NULL DEFAULT 'user',
     "sex" "sexEnum" NOT NULL DEFAULT 'other',
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
     "storageSpaceInMb" BIGINT NOT NULL DEFAULT 15360,
