@@ -17,7 +17,6 @@ export const getSessionsByDeviceInfoAndIpAndUserId = async (deviceInfo: string, 
   const sessions = await prisma.sessions.findMany({
     where: { deviceInfo, ip, userId }
   });
-
   if (!sessions || sessions.length === 0) return null;
 
   return sessions;
