@@ -3,11 +3,15 @@ import { prisma } from '@server/utils';
 
 export const getUserById = async (id: number) => {
   const user = await prisma.users.findUnique({ where: { id } });
+  if (!user) return null;
+
   return user;
 };
 
 export const getUserByEmail = async (email: string) => {
   const user = await prisma.users.findUnique({ where: { email } });
+  if (!user) return null;
+
   return user;
 };
 

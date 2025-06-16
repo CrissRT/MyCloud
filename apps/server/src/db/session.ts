@@ -8,6 +8,8 @@ export const getSessionById = async (id: number) => {
 
 export const getSessionsByUserId = async (userId: number) => {
   const sessions = await prisma.sessions.findMany({ where: { userId } });
+  if (!sessions || sessions.length === 0) return null;
+
   return sessions;
 };
 
@@ -15,16 +17,23 @@ export const getSessionsByDeviceInfoAndIpAndUserId = async (deviceInfo: string, 
   const sessions = await prisma.sessions.findMany({
     where: { deviceInfo, ip, userId }
   });
+
+  if (!sessions || sessions.length === 0) return null;
+
   return sessions;
 };
 
 export const getSessionsByIp = async (ip: string) => {
   const sessions = await prisma.sessions.findMany({ where: { ip } });
+  if (!sessions || sessions.length === 0) return null;
+
   return sessions;
 };
 
 export const getSessionsByDeviceInfo = async (deviceInfo: string) => {
   const sessions = await prisma.sessions.findMany({ where: { deviceInfo } });
+  if (!sessions || sessions.length === 0) return null;
+
   return sessions;
 };
 
