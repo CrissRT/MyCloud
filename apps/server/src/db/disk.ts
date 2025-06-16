@@ -4,5 +4,5 @@ export const getReservedStorageInMB = async () => {
   const result = await prisma.users.aggregate({
     _sum: { storageSpaceInMb: true }
   });
-  return BigInt(result._sum.storageSpaceInMb ?? 0);
+  return result._sum.storageSpaceInMb ?? 0n;
 };
