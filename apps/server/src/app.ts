@@ -38,10 +38,10 @@ app
   .listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   })
-  .on('error', async (err) => { 
+  .on('error', async (err) => {
     console.error('Error:', err);
     await prisma.$disconnect();
     console.log('Disconnected from Prisma');
     console.log('Exiting process due to error');
     process.exit(1);
-  })
+  });
