@@ -5,6 +5,7 @@
     "internalServerError": "An internal server error occurred",
     "failedToCreateUser": "Failed to create user",
     "userLockedOut": "User is locked out due to too many failed login attempts",
-    "invalidCredentials": "Invalid credentials"
+    "invalidCredentials": "Invalid credentials",
+    "insufficientStorage": "Insufficient storage available"
   }
 }

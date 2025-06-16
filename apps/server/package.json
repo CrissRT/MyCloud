@@ -17,6 +17,7 @@
     "@zodios/openapi": "^10.5.0",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
+    "check-disk-space": "^3.4.0",
     "cookie": "^1.0.2",
     "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",

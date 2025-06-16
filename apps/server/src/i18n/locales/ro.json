@@ -5,6 +5,7 @@
     "internalServerError": "A apărut o eroare internă a serverului",
     "failedToCreateUser": "Crearea utilizatorului a eșuat",
     "userLockedOut": "Utilizatorul este blocat din cauza prea multor încercări eșuate de autentificare",
-    "invalidCredentials": "Datele de autentificare sunt invalide"
+    "invalidCredentials": "Datele de autentificare sunt invalide",
+    "insufficientStorage": "Spațiu de stocare insuficient disponibil"
   }
 }

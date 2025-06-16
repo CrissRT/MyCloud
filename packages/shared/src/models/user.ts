@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { z } from 'zod';
 
 export enum Role {
@@ -19,12 +20,20 @@ export const userSchema = z.object({
     .string()
     .min(8)
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),
-  firstName: z.string().min(1).max(255),
-  lastName: z.string().min(1).max(255),
+  firstName: z.string().min(3).max(255),
+  lastName: z.string().min(3).max(255),
   role: z.nativeEnum(Role),
   sex: z.nativeEnum(Sex),
-  birthDate: z.preprocess((val) => new Date(String(val)), z.date()),
-  createdAt: z.date()
+  birthDate: z.preprocess((val) => dayjs(String(val)).toDate(), z.date()),
+  createdAt: z.date(),
+  storageSpaceInMB: z
+    .string()
+    .regex(/^\d+$/)
+    .transform((val) => BigInt(String(val))),
+  usedStorageInBytes: z
+    .string()
+    .regex(/^\d+$/)
+    .transform((val) => BigInt(String(val)))
 });
 
 export type User = z.infer<typeof userSchema>;

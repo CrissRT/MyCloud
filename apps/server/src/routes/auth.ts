@@ -4,6 +4,9 @@ import express from 'express';
 
 import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
 import {
+  checkIfEnoughSpaceInMB,
+  DEFAULT_STORAGE_SPACE_IN_MB,
+  DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
   getNextBanDuration,
   getSaltRounds,
@@ -57,6 +60,15 @@ router.post('/register', async (req, res) => {
       return;
     }
 
+    const isEnoughSpaceToAllocate = await checkIfEnoughSpaceInMB(DEFAULT_STORAGE_SPACE_IN_MB);
+    if (!isEnoughSpaceToAllocate) {
+      res.status(507).json({
+        code: errorCodes.INSUFFICIENT_STORAGE,
+        message: req.t('errors.insufficientStorage')
+      });
+      return;
+    }
+
     const hashedPassword = await hash(resultParseBody.data.password, SALT_ROUNDS);
     const userName = resultParseBody.data.email.split('@')[0];
 
@@ -67,7 +79,9 @@ router.post('/register', async (req, res) => {
       lastName: resultParseBody.data.lastName,
       role: Role.USER,
       sex: resultParseBody.data.sex,
-      birthDate: resultParseBody.data.birthDate
+      birthDate: resultParseBody.data.birthDate,
+      storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
+      usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
     };
 
     const createdUser = await createUser({
@@ -78,7 +92,9 @@ router.post('/register', async (req, res) => {
       role: Role.USER,
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
-      password: hashedPassword
+      password: hashedPassword,
+      storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
+      usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
     });
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
@@ -191,7 +207,9 @@ router.post('/login', async (req, res) => {
       lastName: foundUser.lastName,
       role: foundUser.role,
       sex: foundUser.sex,
-      birthDate: foundUser.birthDate
+      birthDate: foundUser.birthDate,
+      storageSpaceInMB: String(foundUser.storageSpaceInMB),
+      usedStorageInBytes: String(foundUser.usedStorageInBytes)
     });
 
     session.cookie = userCookie;
@@ -206,7 +224,9 @@ router.post('/login', async (req, res) => {
       lastName: foundUser.lastName,
       role: foundUser.role,
       sex: foundUser.sex,
-      birthDate: foundUser.birthDate
+      birthDate: foundUser.birthDate,
+      storageSpaceInMB: String(foundUser.storageSpaceInMB),
+      usedStorageInBytes: String(foundUser.usedStorageInBytes)
     };
 
     setCookieHeader(res, userCookie);
