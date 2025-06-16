@@ -18,8 +18,11 @@
     "uninstall-client": "pnpm -F client uninstall",
     "add-shared": "pnpm -F shared add",
     "uninstall-shared": "pnpm -F shared uninstall",
-    "db:up": "docker-compose up -d",
-    "db:down": "docker-compose down"
+    "db:up": "pnpm -F server db:up",
+    "db:down": "pnpm -F server db:down",
+    "prisma:init": "pnpm -F server prisma:init",
+    "prisma:generate": "pnpm -F server prisma:generate",
+    "prisma:db-pull": "pnpm -F server prisma:db-pull"
   },
   "keywords": [],
   "author": "",
