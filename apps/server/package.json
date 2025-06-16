@@ -9,6 +9,7 @@
     "dev": "tsx watch src/app.ts",
     "db:up": "docker-compose up -d",
     "db:down": "docker-compose down",
+    "db:rm-volumes": "docker compose down --volumes",
     "prisma:init": "npx prisma init",
     "prisma:db-pull": "npx prisma db pull",
     "prisma:generate": "npx prisma generate"

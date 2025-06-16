@@ -9,46 +9,46 @@ datasource db {
 
 model notificationPreferences {
   id                Int     @id @default(autoincrement())
-  userId            Int?    @unique
+  userId            Int     @unique
   newlySharedItems  Boolean @default(true)
   requestsForAccess Boolean @default(true)
-  users             users?  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users             users   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model notifications {
   id        Int                  @id @default(autoincrement())
-  userId    Int?
+  userId    Int
   type      notificationTypeEnum
   message   String
   read      Boolean              @default(false)
-  createdAt DateTime?            @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime?            @default(now()) @db.Timestamptz(6)
-  users     users?               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt DateTime             @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime             @default(now()) @db.Timestamptz(6)
+  users     users                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model preferences {
   id         Int            @id @default(autoincrement())
-  userId     Int?           @unique
+  userId     Int            @unique
   appearance appearanceEnum @default(device)
   density    densityEnum    @default(comfortable)
   openFiles  openFilesEnum  @default(preview)
   layout     layoutEnum     @default(grid)
   language   languageEnum   @default(en)
-  users      users?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model sessions {
   id                 Int       @id @default(autoincrement())
-  userId             Int?
-  deviceInfo         String?
-  ip                 String?   @db.VarChar(64)
+  userId             Int
+  deviceInfo         String
+  ip                 String    @db.VarChar(64)
   cookie             String?
-  createdAt          DateTime? @default(now()) @db.Timestamptz(6)
-  lastActive         DateTime? @default(now()) @db.Timestamptz(6)
+  createdAt          DateTime  @default(now()) @db.Timestamptz(6)
+  lastActive         DateTime  @default(now()) @db.Timestamptz(6)
   loginAttempts      Int       @default(0)
   banDurationMinutes Int?
   banStart           DateTime? @db.Timestamptz(6)
-  users              users?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users              users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -57,12 +57,12 @@ model users {
   email                   String                   @unique @db.VarChar(255)
   username                String                   @unique @db.VarChar(255)
   password                String                   @db.VarChar(255)
-  firstName               String?                  @db.VarChar(255)
-  lastName                String?                  @db.VarChar(255)
-  birthDate               DateTime?                @db.Date
+  firstName               String                   @db.VarChar(255)
+  lastName                String                   @db.VarChar(255)
+  birthDate               DateTime                 @db.Date
   role                    roleEnum                 @default(user)
-  sex                     sexEnum?
-  createdAt               DateTime?                @default(now()) @db.Timestamptz(6)
+  sex                     sexEnum                  @default(other)
+  createdAt               DateTime                 @default(now()) @db.Timestamptz(6)
   storageSpaceInMb        BigInt                   @default(15360)
   usedStorageSpaceInBytes BigInt                   @default(0)
   notificationPreferences notificationPreferences?

@@ -20,6 +20,7 @@
     "uninstall-shared": "pnpm -F shared uninstall",
     "db:up": "pnpm -F server db:up",
     "db:down": "pnpm -F server db:down",
+    "db:rm-volumes": "pnpm -F server db:rm-volumes",
     "prisma:init": "pnpm -F server prisma:init",
     "prisma:generate": "pnpm -F server prisma:generate",
     "prisma:db-pull": "pnpm -F server prisma:db-pull"

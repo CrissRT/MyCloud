@@ -208,8 +208,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: foundUser.storageSpaceInMB,
-      usedStorageInBytes: foundUser.usedStorageInBytes
+      storageSpaceInMB: String(foundUser.storageSpaceInMb),
+      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
     });
 
     session.cookie = userCookie;
@@ -225,8 +225,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMB),
-      usedStorageInBytes: String(foundUser.usedStorageInBytes)
+      storageSpaceInMB: String(foundUser.storageSpaceInMb),
+      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
     };
 
     setCookieHeader(res, userCookie);
