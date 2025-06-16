@@ -1,26 +1,14 @@
-import { convertObjectKeysSnakeCaseToCamelCase, pool } from '@server/utils';
+import { prisma } from '@server/app';
 import { User } from '@shared/models';
 
 export const getUserById = async (id: string) => {
-  const query = 'SELECT * FROM users WHERE id = $1';
-  const values = [id];
-  const result = await pool.query(query, values);
-
-  if (result.rows.length === 0) return null;
-
-  const user: User = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
-  return user;
+  const user = await prisma.user.findUnique({ where: { id: Number(id) } });
+  return user as User | null;
 };
 
 export const getUserByEmail = async (email: string) => {
-  const query = 'SELECT * FROM users WHERE email = $1';
-  const values = [email];
-  const result = await pool.query(query, values);
-
-  if (result.rows.length === 0) return null;
-
-  const user: User = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
-  return user;
+  const user = await prisma.user.findUnique({ where: { email } });
+  return user as User | null;
 };
 
 export const createUser = async ({
@@ -33,10 +21,17 @@ export const createUser = async ({
   role,
   sex
 }: Omit<User, 'id' | 'createdAt'>) => {
-  const query =
-    'INSERT INTO users (email, username, password, first_name, last_name, birth_date, role, sex, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *';
-  const values = [email, username, password, firstName, lastName, birthDate, role, sex];
-  const result = await pool.query(query, values);
-  const user: User = convertObjectKeysSnakeCaseToCamelCase(result.rows[0]);
+  const user: User = await prisma.user.create({
+    data: {
+      email,
+      username,
+      password,
+      firstName,
+      lastName,
+      birthDate,
+      role,
+      sex
+    }
+  });
   return user;
 };
