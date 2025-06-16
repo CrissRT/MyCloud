@@ -38,8 +38,8 @@ export const getSessionsByDeviceInfo = async (deviceInfo: string) => {
 };
 
 export const createSession = async (data: SessionCreate) => {
-  const sessions = await prisma.sessions.create({ data });
-  return sessions;
+  const session = await prisma.sessions.create({ data });
+  return session;
 };
 
 export const updateSession = async (session: Session) => {
