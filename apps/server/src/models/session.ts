@@ -15,7 +15,7 @@ export const sessionSchema = z.object({
 
 export type Session = z.infer<typeof sessionSchema>;
 
-export const sessionCreateSchema = sessionSchema.pick({ 
+export const sessionCreateSchema = sessionSchema.pick({
   userId: true,
   deviceInfo: true,
   ip: true,

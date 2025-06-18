@@ -10,7 +10,6 @@ export enum ErrorCodes {
   INSUFFICIENT_STORAGE = 'INSUFFICIENT_STORAGE'
 }
 
-
 const httpErrorSchema = z.object({
   code: z.nativeEnum(ErrorCodes),
   message: z.string()

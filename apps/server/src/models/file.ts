@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
 
-
 export const fileSchema = z.object({
   id: z.number().int().nonnegative(),
   userId: z.number().int().nonnegative(),
