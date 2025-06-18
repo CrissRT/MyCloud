@@ -1,10 +1,6 @@
 import { z } from 'zod';
 
-export enum FileUploadStatus {
-  PROCESSING = 'processing',
-  READY = 'ready',
-  ERROR = 'error'
-}
+import { $Enums } from '@prisma/client';
 
 export const fileSchema = z.object({
   id: z.number().int().nonnegative(),
@@ -15,7 +11,7 @@ export const fileSchema = z.object({
   filePath: z.string().min(1),
   mimeType: z.string().min(1),
   sizeBytes: z.number().int().nonnegative(),
-  uploadStatus: z.nativeEnum(FileUploadStatus),
+  uploadStatus: z.nativeEnum($Enums.uploadStatusEnum),
   createdAt: z.date(),
   updatedAt: z.date(),
   isFavorite: z.boolean(),

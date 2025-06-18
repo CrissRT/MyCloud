@@ -15,6 +15,16 @@ export const sessionSchema = z.object({
 
 export type Session = z.infer<typeof sessionSchema>;
 
-export const sessionCreateSchema = sessionSchema.omit({ id: true });
+export const sessionCreateSchema = sessionSchema.pick({
+  userId: true,
+  deviceInfo: true,
+  ip: true,
+  cookie: true,
+  lastActive: true,
+  loginAttempts: true,
+  banDurationMinutes: true,
+  banStart: true,
+  createdAt: true
+});
 
 export type SessionCreate = z.infer<typeof sessionCreateSchema>;
