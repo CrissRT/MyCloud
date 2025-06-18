@@ -1,5 +1,5 @@
 import dayjs, { ManipulateType } from 'dayjs';
-import duration, { DurationUnitType } from 'dayjs/plugin/duration';
+import duration, { Duration, DurationUnitType } from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import 'dayjs/locale/en';
@@ -10,11 +10,10 @@ dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 export const getDuration = (time: number, unit?: DurationUnitType, lng?: string) => {
-  if (unit) return dayjs.duration(time, unit).humanize();
-  return dayjs
-    .duration(time)
-    .locale(lng || 'en')
-    .humanize();
+  const getHumanizedAndLocalizedDuration = (duration: Duration) => duration.locale(lng || 'en').humanize();
+
+  if (unit) return getHumanizedAndLocalizedDuration(dayjs.duration(time, unit));
+  return getHumanizedAndLocalizedDuration(dayjs.duration(time));
 };
 
 export const isWithinLastMinutes = (
