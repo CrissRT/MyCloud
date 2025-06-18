@@ -4,7 +4,7 @@ import express from 'express';
 
 import { $Enums } from '@prisma/client';
 import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
-import { AuthResponse, errorCodes, registerSchema, Session, SessionCreate, userLoginSchema } from '@server/models';
+import { AuthResponse, ErrorCodes, registerSchema, Session, SessionCreate, userLoginSchema } from '@server/models';
 import {
   checkIfEnoughSpaceInMB,
   DEFAULT_STORAGE_SPACE_IN_MB,
@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
     // If validation fails, return a 400 error with the validation error message
     if (!resultParseBody.success) {
       res.status(400).json({
-        code: errorCodes.ZOD_ERROR,
+        code: ErrorCodes.ZOD_ERROR,
         message: resultParseBody.error.message
       });
       return;
@@ -47,7 +47,7 @@ router.post('/register', async (req, res) => {
     // If a user with the given email already exists, return a 400 error
     if (foundUser) {
       res.status(400).json({
-        code: errorCodes.USER_ALREADY_EXISTS,
+        code: ErrorCodes.USER_ALREADY_EXISTS,
         message: req.t('errors.userAlreadyExists')
       });
       return;
@@ -56,7 +56,7 @@ router.post('/register', async (req, res) => {
     const isEnoughSpaceToAllocate = await checkIfEnoughSpaceInMB(DEFAULT_STORAGE_SPACE_IN_MB);
     if (!isEnoughSpaceToAllocate) {
       res.status(507).json({
-        code: errorCodes.INSUFFICIENT_STORAGE,
+        code: ErrorCodes.INSUFFICIENT_STORAGE,
         message: req.t('errors.insufficientStorage')
       });
       return;
@@ -109,7 +109,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json(response);
   } catch (error) {
     console.error('Error during registration:', error);
-    res.status(500).json({ code: errorCodes.INTERNAL_SERVER_ERROR, message: req.t('errors.internalServerError') });
+    res.status(500).json({ code: ErrorCodes.INTERNAL_SERVER_ERROR, message: req.t('errors.internalServerError') });
   }
 });
 
@@ -118,7 +118,7 @@ router.post('/login', async (req, res) => {
     const parse = userLoginSchema.safeParse(req.body);
     if (!parse.success) {
       res.status(400).json({
-        code: errorCodes.ZOD_ERROR,
+        code: ErrorCodes.ZOD_ERROR,
         message: parse.error.message
       });
       return;
@@ -131,7 +131,7 @@ router.post('/login', async (req, res) => {
     const foundUser = await getUserByEmail(email);
     if (!foundUser) {
       res.status(401).json({
-        code: errorCodes.INVALID_CREDENTIALS,
+        code: ErrorCodes.INVALID_CREDENTIALS,
         message: req.t('errors.invalidCredentials')
       });
       return;
@@ -161,7 +161,7 @@ router.post('/login', async (req, res) => {
     } else if (isBanned(session)) {
       // Check ban
       res.status(403).json({
-        code: errorCodes.USER_LOCKED_OUT,
+        code: ErrorCodes.USER_LOCKED_OUT,
         message: req.t('errors.userLockedOut')
       });
       return;
@@ -182,7 +182,7 @@ router.post('/login', async (req, res) => {
       session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
 
       res.status(401).json({
-        code: errorCodes.INVALID_CREDENTIALS,
+        code: ErrorCodes.INVALID_CREDENTIALS,
         message: req.t('errors.invalidCredentials')
       });
       return;
@@ -227,7 +227,7 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({
-      code: errorCodes.INTERNAL_SERVER_ERROR,
+      code: ErrorCodes.INTERNAL_SERVER_ERROR,
       message: req.t('errors.internalServerError')
     });
   }

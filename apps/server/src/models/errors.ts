@@ -1,7 +1,18 @@
 import { z } from 'zod';
 
+export enum ErrorCodes {
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  USER_ALREADY_EXISTS = 'USER_ALREADY_EXISTS',
+  INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
+  INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
+  USER_LOCKED_OUT = 'USER_LOCKED_OUT',
+  ZOD_ERROR = 'ZOD_ERROR',
+  INSUFFICIENT_STORAGE = 'INSUFFICIENT_STORAGE'
+}
+
+
 const httpErrorSchema = z.object({
-  code: z.string(),
+  code: z.nativeEnum(ErrorCodes),
   message: z.string()
 });
 
@@ -50,13 +61,3 @@ export const errors = [
   { status: 510, schema: httpErrorSchema }, // Not Extended
   { status: 511, schema: httpErrorSchema } // Network Authentication Required
 ];
-
-export const errorCodes = {
-  VALIDATION_ERROR: 'VALIDATION_ERROR',
-  USER_ALREADY_EXISTS: 'USER_ALREADY_EXISTS',
-  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
-  INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
-  USER_LOCKED_OUT: 'USER_LOCKED_OUT',
-  ZOD_ERROR: 'ZOD_ERROR',
-  INSUFFICIENT_STORAGE: 'INSUFFICIENT_STORAGE'
-};
