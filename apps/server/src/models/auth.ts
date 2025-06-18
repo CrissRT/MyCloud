@@ -19,7 +19,8 @@ export const userLoginSchema = userSchema.pick({
 });
 export type Login = z.infer<typeof userLoginSchema>;
 
-export const authResponseSchema = userSchema.pick({
+export const authResponseSchema = userSchema
+  .pick({
     email: true,
     username: true,
     firstName: true,
@@ -29,6 +30,11 @@ export const authResponseSchema = userSchema.pick({
     birthDate: true,
     storageSpaceInMB: true,
     usedStorageInBytes: true
-});
+  })
+  .transform((user) => ({
+    ...user,
+    storageSpaceInMB: String(user.storageSpaceInMB),
+    usedStorageInBytes: String(user.usedStorageInBytes)
+  }));
 
 export type AuthResponse = z.infer<typeof authResponseSchema>;
