@@ -1,6 +1,6 @@
-# Personal Cloud Storage
+# My Cloud
 
-A project for my personal cloud storage.
+A project for personal/enterprise cloud storage.
 
 ## Project Summary
 
@@ -32,8 +32,8 @@ This project is a full-stack personal cloud storage solution. It allows users to
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/CrissRT/cloud-storage.git cloudStorage
-   cd cloudStorage
+   git clone https://github.com/CrissRT/MyCloud.git
+   cd MyCloud
    ```
 
 2. **Install dependencies:**
