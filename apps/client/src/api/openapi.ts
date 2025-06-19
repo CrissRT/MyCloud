@@ -1,5 +1,6 @@
-import { makeApi, Zodios, type ZodiosOptions } from '@zodios/core';
 import { z } from 'zod';
+
+import { makeApi, Zodios, type ZodiosOptions } from '@zodios/core';
 
 const register_Body = z.object({
   email: z.string().email(),
