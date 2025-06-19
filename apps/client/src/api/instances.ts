@@ -5,7 +5,7 @@ import { getAPIBaseUrl } from '@client/utils';
 
 const baseUrl = getAPIBaseUrl();
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json'
