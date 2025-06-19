@@ -15,7 +15,7 @@ export default async function createServerI18n(lng: string) {
     interpolation: {
       escapeValue: false
     },
-    react: { useSuspense: false }
+    react: { useSuspense: true }
   });
   return instance;
 }
