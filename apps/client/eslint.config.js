@@ -8,7 +8,7 @@ const compat = new FlatCompat({
   baseDirectory: __dirname
 });
 
-export default [
+const configArray = [
   ...compat.config({
     extends: ['next'],
     settings: {
@@ -18,3 +18,5 @@ export default [
     }
   })
 ];
+
+export default configArray;
