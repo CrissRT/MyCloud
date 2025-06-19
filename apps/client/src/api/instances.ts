@@ -1,13 +1,17 @@
 import axios from 'axios';
-import { createApiClient } from './openapi';
+
+import { createApiClient } from '@client/api';
+import { getAPIBaseUrl } from '@client/utils';
+
+const baseUrl = getAPIBaseUrl();
 
 const axiosInstance = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com',
+  baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-export const zodiosInstance = createApiClient('https://jsonplaceholder.typicode.com', {
+export const zodiosInstance = createApiClient(baseUrl, {
   axiosInstance
 });
