@@ -21,5 +21,8 @@ export default async function createServerI18n(lng: string) {
     },
     react: { useSuspense: true }
   });
+
+  instanceCache[lng] = instance;
+
   return instance;
 }
