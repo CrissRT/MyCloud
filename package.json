@@ -23,7 +23,8 @@
     "db:rm-volumes": "pnpm -F server db:rm-volumes",
     "prisma:init": "pnpm -F server prisma:init",
     "prisma:generate": "pnpm -F server prisma:generate",
-    "prisma:db-pull": "pnpm -F server prisma:db-pull"
+    "prisma:db-pull": "pnpm -F server prisma:db-pull",
+    "generate:api-client" : "pnpm -F client generate:api"
   },
   "keywords": [],
   "author": "",
