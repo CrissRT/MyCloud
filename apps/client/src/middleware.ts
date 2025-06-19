@@ -1,10 +1,9 @@
-import { NextRequest } from 'next/server';
-import { i18nRouter } from 'next-i18n-router';
+import createMiddleware from 'next-intl/middleware';
 
-import { i18nConfig } from '@client/i18n';
+import { routing } from './i18n/routing';
 
-export const middleware = (request: NextRequest) => i18nRouter(request, i18nConfig);
+export default createMiddleware(routing);
 
 export const config = {
-  matcher: ['/((?!_next|static|api|images|fonts|favicons|media).*)']
+  matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
 };
