@@ -23,7 +23,7 @@ const RootLayout = async ({
 
   return (
     <html lang={lng} suppressHydrationWarning>
-      <body>
+      <body className="antialiased">
         <NextIntlClientProvider>
           <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
             {children}
