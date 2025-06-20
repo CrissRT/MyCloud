@@ -9,6 +9,8 @@
         "register": "Sign Up",
         "dontHaveAccount": "Don't have an account?"
       }
-    }
+    },
+    "email": "Email",
+    "password": "Password"
   }
 }

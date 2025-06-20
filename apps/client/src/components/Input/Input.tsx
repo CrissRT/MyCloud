@@ -24,7 +24,7 @@ export const Input = ({ label, image, input }: Props) => {
 
   return (
     <div
-      className={classnames({
+      className={classnames('mb-[1.5rem]', {
         flex: !!label?.position,
         ['flex-col-reverse']: label?.position === 'bottom',
         ['flex-row-reverse']: label?.position === 'right',
@@ -53,7 +53,12 @@ export const Input = ({ label, image, input }: Props) => {
           }
         )}
       >
-        <input {...input} className="outline-none placeholder-(--text-secondary)" />
+        <input
+          {...input}
+          className={classnames('outline-none placeholder-(--text-secondary)', {
+            ['w-full']: !image?.src
+          })}
+        />
         {image?.src && (
           <Image alt={image.alt || 'An Image'} src={image.src} {...imageProps} loading={image.loading || 'lazy'} />
         )}

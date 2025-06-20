@@ -9,6 +9,8 @@
         "register": "Înregistrare",
         "dontHaveAccount": "Nu ai un cont?"
       }
-    }
+    },
+    "email": "Email",
+    "password": "Parola"
   }
 }
