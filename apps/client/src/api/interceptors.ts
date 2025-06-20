@@ -1,8 +1,13 @@
+import { cookies } from 'next/headers';
+
 import { axiosInstance } from '@client/api';
+import { routing } from '@client/i18n/routing';
 
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const language = localStorage.getItem('i18nextLng');
+  async (config) => {
+    const cookieStore = await cookies();
+
+    const language = cookieStore.get('NEXT_LOCALE')?.value || routing.defaultLocale;
     if (language) config.headers['Accept-Language'] = language;
 
     return config;
