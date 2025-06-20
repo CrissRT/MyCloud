@@ -16,7 +16,7 @@ const RootLayout = async ({
   const { lng } = await params;
 
   return (
-    <html lang={lng} suppressHydrationWarning className="h-full w-full">
+    <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px]">
       <body className="antialiased w-full h-full text-(--text-primary)">
         <NextIntlClientProvider>
           <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>

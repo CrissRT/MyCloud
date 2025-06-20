@@ -17,14 +17,18 @@ interface Props {
   label?: LabelProps;
   image?: CustomImageProps;
   input?: React.InputHTMLAttributes<HTMLInputElement>;
+  size?: '2xl' | 'xl' | 'lg';
 }
 
-export const Input = ({ label, image, input }: Props) => {
+export const Input = ({ label, image, input, size }: Props) => {
   const { position: imagePosition, ...imageProps } = image || {};
 
   return (
     <div
-      className={classnames('mb-[1.5rem]', {
+      className={classnames('mb-[1.5rem] max-w-full', {
+        ['w-2xl']: size === '2xl',
+        ['w-xl']: size === 'xl',
+        ['w-lg']: size === 'lg',
         flex: !!label?.position,
         ['flex-col-reverse']: label?.position === 'bottom',
         ['flex-row-reverse']: label?.position === 'right',
