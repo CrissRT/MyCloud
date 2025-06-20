@@ -41,7 +41,7 @@ export const Input = ({ label, icon, input, size, iconPosition = 'right' }: Inpu
         )}
       >
         <input {...input} className="outline-none placeholder-(--text-secondary) w-full" />
-        {isIconImage && icon?.src && <Image {...icon} alt={icon.alt} loading={icon.loading || 'lazy'} />}
+        {isIconImage && <Image {...icon} alt={icon.alt} loading={icon.loading || 'lazy'} />}
         {!isIconImage && icon && icon}
       </div>
     </div>
