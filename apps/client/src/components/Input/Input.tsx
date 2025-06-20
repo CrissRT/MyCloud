@@ -1,27 +1,10 @@
 import classnames from 'classnames';
-import type { ImageProps } from 'next/image';
 import Image from 'next/image';
 
-import React from 'react';
+import { InputProps } from '@client/types';
 
-type CustomImageProps = {
-  position?: 'left' | 'right';
-} & ImageProps;
-
-type LabelProps = {
-  text: React.ReactNode | string;
-  position?: 'left' | 'right' | 'bottom';
-} & React.LabelHTMLAttributes<HTMLLabelElement>;
-
-interface Props {
-  label?: LabelProps;
-  image?: CustomImageProps;
-  input?: React.InputHTMLAttributes<HTMLInputElement>;
-  size?: '2xl' | 'xl' | 'lg';
-}
-
-export const Input = ({ label, image, input, size }: Props) => {
-  const { position: imagePosition, ...imageProps } = image || {};
+export const Input = ({ label, icon, input, size, iconPosition = 'right' }: InputProps) => {
+  const isIconImage = icon && typeof icon === 'object' && 'src' in icon;
 
   return (
     <div
@@ -53,19 +36,13 @@ export const Input = ({ label, image, input, size }: Props) => {
         className={classnames(
           'py-[0.75rem] px-[1rem] rounded-xl border border-(--border-color) flex items-center gap-[0.5rem]',
           {
-            ['flex-row-reverse']: imagePosition === 'left'
+            ['flex-row-reverse']: iconPosition === 'left'
           }
         )}
       >
-        <input
-          {...input}
-          className={classnames('outline-none placeholder-(--text-secondary)', {
-            ['w-full']: !image?.src
-          })}
-        />
-        {image?.src && (
-          <Image alt={image.alt || 'An Image'} src={image.src} {...imageProps} loading={image.loading || 'lazy'} />
-        )}
+        <input {...input} className="outline-none placeholder-(--text-secondary) w-full" />
+        {isIconImage && icon?.src && <Image {...icon} alt={icon.alt} loading={icon.loading || 'lazy'} />}
+        {!isIconImage && icon && icon}
       </div>
     </div>
   );

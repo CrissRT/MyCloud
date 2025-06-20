@@ -3,6 +3,10 @@ import { ThemeProvider } from 'next-themes';
 
 import { PropsWithChildren } from 'react';
 import { PromiseLanguage } from '@client/utils';
+import { config } from '@fortawesome/fontawesome-svg-core';
+
+import '@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;
 
 import '@client/styles/globals.css';
 import '@client/styles/theme.css';
