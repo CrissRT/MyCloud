@@ -8,8 +8,8 @@ const Page = async () => {
 
   return (
     <>
-      <h1 className="text-4xl mb-[0.5rem] mt-[0.67rem] text-center">{t('login.welcome')}</h1>
-      <p className="mb-[2rem] mt-[1rem] text-(--text-secondary) text-center">{t('login.login')}</p>
+      <h1 className="text-4xl mb-2 mt-2.5 text-center">{t('login.welcome')}</h1>
+      <p className="mb-8 mt-4 text-(--text-secondary) text-center">{t('login.login')}</p>
       <Input label={{ text: t('email') }} input={{ id: 'email', name: 'email' }} size="2xl" />
       <Password label={{ text: t('password') }} />
     </>

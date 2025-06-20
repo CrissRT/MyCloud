@@ -3,5 +3,9 @@
 :root {
   --primary-color: #506df5;
   --primary-hover: #435cdd;
+  --error-color: #ef4444;
+  --error-hover: #dc2626;
+  --warning-color: #f59e0b;
+  --warning-hover: #d97706;
   --font-sans: 'Inter', sans-serif;
 }

@@ -1,0 +1,69 @@
+import classNames from 'classnames';
+
+import { PropsWithChildren } from 'react';
+
+type Props = {
+  variant?: 'filled' | 'outlined' | 'text';
+  color?: 'primary' | 'error' | 'secondary';
+  icon?: React.ReactNode;
+} & PropsWithChildren &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const Button = ({ children, icon, variant = 'filled', color = 'primary', ...rest }: Props) => {
+  const isIconOnly = !children && !!icon;
+
+  return (
+    <button
+      {...rest}
+      className={classNames(
+        'flex gap-1 items-center justify-center rounded',
+        {
+          ['p-2']: isIconOnly,
+          ['m-5']: isIconOnly
+        },
+        {
+          ['py-3']: !isIconOnly,
+          ['px-6']: !isIconOnly
+        },
+        {
+          ['bg-(--primary-color) text-white']: variant === 'filled' && color === 'primary',
+          ['hover:bg-(--primary-hover)']: variant === 'filled' && color === 'primary'
+        },
+        {
+          ['bg-(--card-bg) text-white']: variant === 'filled' && color === 'secondary',
+          ['hover:bg-(--card-bg)']: variant === 'filled' && color === 'secondary'
+        },
+        {
+          ['bg-(--error-color) text-white']: variant === 'filled' && color === 'error',
+          ['hover:bg-(--error-hover)']: variant === 'filled' && color === 'error'
+        },
+
+        {
+          ['border border-(--primary-color) text-(--primary-color)']: variant === 'outlined' && color === 'primary',
+          ['hover:bg-(--primary-hover)']: variant === 'outlined' && color === 'primary'
+        },
+        {
+          ['border border-(--card-bg) text-(--card-bg)']: variant === 'outlined' && color === 'secondary',
+          ['hover:bg-(--card-bg)']: variant === 'outlined' && color === 'secondary'
+        },
+        {
+          ['border border-(--error-color) text-(--error-color)']: variant === 'outlined' && color === 'error',
+          ['hover:bg-(--error-hover)']: variant === 'outlined' && color === 'error'
+        },
+
+        {
+          ['text-(--text-primary) hover:text-(--text-secondary)']: variant === 'text' && color === 'primary'
+        },
+        {
+          ['text-(--text-secondary) hover:text-(--text-primary)']: variant === 'text' && color === 'secondary'
+        },
+        {
+          ['text-(--error-color) hover:text-(--error-hover)']: variant === 'text' && color === 'error'
+        }
+      )}
+    >
+      {icon}
+      {children}
+    </button>
+  );
+};
