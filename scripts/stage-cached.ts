@@ -7,14 +7,14 @@ if (os.platform() === 'win32') {
       stdio: 'inherit'
     });
   } catch (error) {
-    console.error("Error executing PowerShell command:", error.message);
+    console.error('Error executing PowerShell command:', error.message);
     process.exit(1);
   }
 } else {
   try {
     execSync(`git diff --name-only --cached -z | xargs -0 git add --`, { stdio: 'inherit' });
   } catch (error) {
-    console.error("Error executing git command:", error.message);
+    console.error('Error executing git command:', error.message);
     process.exit(1);
   }
 }
