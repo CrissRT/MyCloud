@@ -1,7 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 
-import { Input } from '@client/components';
+import { Button, Input } from '@client/components';
 import { Password } from '@client/components';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Page = async () => {
   const t = await getTranslations('auth');
@@ -12,6 +14,7 @@ const Page = async () => {
       <p className="mb-8 mt-4 text-(--text-secondary) text-center">{t('login.login')}</p>
       <Input label={{ text: t('email') }} input={{ id: 'email', name: 'email' }} size="2xl" />
       <Password label={{ text: t('password') }} />
+      <Button variant="outlined" color="error" icon={<FontAwesomeIcon icon={faEye} />}></Button>
     </>
   );
 };

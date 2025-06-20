@@ -16,10 +16,10 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
     <button
       {...rest}
       className={classNames(
-        'flex gap-1 items-center justify-center rounded',
+        'flex gap-1 items-center justify-center rounded cursor-pointer',
         {
           ['p-2']: isIconOnly,
-          ['m-5']: isIconOnly
+          ['m-1']: isIconOnly
         },
         {
           ['py-3']: !isIconOnly,
@@ -39,16 +39,16 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
         },
 
         {
-          ['border border-(--primary-color) text-(--primary-color)']: variant === 'outlined' && color === 'primary',
+          ['border border-(--primary-color) text-(--text-primary)']: variant === 'outlined' && color === 'primary',
           ['hover:bg-(--primary-hover)']: variant === 'outlined' && color === 'primary'
         },
         {
-          ['border border-(--card-bg) text-(--card-bg)']: variant === 'outlined' && color === 'secondary',
-          ['hover:bg-(--card-bg)']: variant === 'outlined' && color === 'secondary'
+          ['border border-(--border-color) text-(--text-secondary)']: variant === 'outlined' && color === 'secondary',
+          ['hover:border-(--text-primary) hover:text-(--text-primary)']: variant === 'outlined' && color === 'secondary'
         },
         {
           ['border border-(--error-color) text-(--error-color)']: variant === 'outlined' && color === 'error',
-          ['hover:bg-(--error-hover)']: variant === 'outlined' && color === 'error'
+          ['hover:bg-(--error-hover) hover:text-(--text-primary)']: variant === 'outlined' && color === 'error'
         },
 
         {
