@@ -1,1 +1,14 @@
-{}
+{
+  "auth": {
+    "login": {
+      "welcome": "Welcome Back!",
+      "login": "Log in to continue to MyCloud",
+      "buttons": {
+        "login": "Log In",
+        "forgetPassword": "Forgot Password?",
+        "register": "Sign Up",
+        "dontHaveAccount": "Don't have an account?"
+      }
+    }
+  }
+}

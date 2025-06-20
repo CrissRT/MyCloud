@@ -1,1 +1,14 @@
-{}
+{
+  "auth": {
+    "login": {
+      "welcome": "Bine ai revenit!",
+      "login": "Autentifică-te pentru a continua pe MyCloud",
+      "buttons": {
+        "login": "Autentificare",
+        "forgetPassword": "Ai uitat parola?",
+        "register": "Înregistrare",
+        "dontHaveAccount": "Nu ai un cont?"
+      }
+    }
+  }
+}

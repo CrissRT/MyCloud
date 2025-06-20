@@ -1,1 +1,14 @@
-{}
+{
+  "auth": {
+    "login": {
+      "welcome": "С возвращением!",
+      "login": "Войдите, чтобы продолжить в MyCloud",
+      "buttons": {
+        "login": "Войти",
+        "forgetPassword": "Забыли пароль?",
+        "register": "Зарегистрироваться",
+        "dontHaveAccount": "Нет аккаунта?"
+      }
+    }
+  }
+}
