@@ -1,22 +1,12 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { ThemeProvider } from 'next-themes';
 
 import { PropsWithChildren } from 'react';
 import { PromiseLanguage } from '@client/utils';
 
-import './globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin']
-});
+import '@client/styles/globals.css';
+import '@client/styles/theme.css';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -32,8 +22,8 @@ const RootLayout = async ({
   const { lng } = await params;
 
   return (
-    <html lang={lng}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang={lng} suppressHydrationWarning>
+      <body className="antialiased">
         <NextIntlClientProvider>
           <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
             {children}

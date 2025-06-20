@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+:root {
+  --primary-color: #506df5;
+  --primary-hover: #435cdd;
+  --font-sans: 'Inter', sans-serif;
+}

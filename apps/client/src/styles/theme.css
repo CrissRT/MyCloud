@@ -1,0 +1,17 @@
+html[data-theme='light'] {
+  --bg-color: #f9fafb;
+  --sidebar-bg: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+}
+
+html[data-theme='dark'] {
+  --bg-color: #111827;
+  --sidebar-bg: #1f2937;
+  --card-bg: #1f2937;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --border-color: #374151;
+}
