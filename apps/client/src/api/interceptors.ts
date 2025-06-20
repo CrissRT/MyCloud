@@ -8,7 +8,7 @@ axiosInstance.interceptors.request.use(
     const cookieStore = await cookies();
 
     const language = cookieStore.get('NEXT_LOCALE')?.value || routing.defaultLocale;
-    if (language) config.headers['Accept-Language'] = language;
+    config.headers['Accept-Language'] = language;
 
     return config;
   },
