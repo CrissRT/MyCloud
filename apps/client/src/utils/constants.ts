@@ -4,3 +4,5 @@ export const getAPIBaseUrl = () => {
 
   return baseUrl;
 };
+
+export type PromiseLanguage = Promise<{ lng: string }>;
