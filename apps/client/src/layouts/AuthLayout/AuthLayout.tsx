@@ -15,7 +15,7 @@ interface Props extends PropsWithChildren {
   };
 }
 
-export const AuthLayout = async ({ children, additionalLink, title, description, redirect }: Props) => {
+export const AuthLayout = ({ children, additionalLink, title, description, redirect }: Props) => {
   return (
     <>
       <h1 className="text-4xl mb-2 mt-2.5 text-center">{title}</h1>

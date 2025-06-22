@@ -11,4 +11,5 @@ export interface InputProps {
   input?: React.InputHTMLAttributes<HTMLInputElement>;
   iconPosition?: 'left' | 'right';
   size?: '2xl' | 'xl' | 'lg';
+  error?: string | boolean;
 }

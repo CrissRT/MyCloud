@@ -1,11 +1,31 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
 
+import { useTranslations } from 'next-intl';
+import { z } from 'zod';
+
+import { useForm } from 'react-hook-form';
+import { schemas } from '@client/api';
 import { Button, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
 import { routes } from '@client/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-const Page = async () => {
-  const t = await getTranslations('auth');
+type LoginType = z.infer<typeof schemas.login_Body>;
+
+const Page = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<LoginType>({
+    resolver: zodResolver(schemas.login_Body)
+  });
+
+  const t = useTranslations('auth');
+
+  const onSubmit = (data: LoginType) => {
+    console.log('Login data:', data);
+  };
 
   return (
     <AuthLayout
@@ -21,17 +41,19 @@ const Page = async () => {
         linkLabel: t('login.buttons.register')
       }}
     >
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label={{ text: t('email') }}
-          input={{ id: 'email', name: 'email', placeholder: t('enterEmail') }}
+          input={{ id: 'email', placeholder: t('enterEmail'), ...register('email', { required: true }) }}
           size="2xl"
+          error={errors.email?.message}
         />
         <Password
           label={{ text: t('password') }}
-          input={{ id: 'password', name: 'password', placeholder: t('enterPassword') }}
+          input={{ id: 'password', placeholder: t('enterPassword'), ...register('password', { required: true }) }}
+          error={errors.password?.message}
         />
-        <Button variant="outlined" color="error" width="full">
+        <Button variant="outlined" color="error" width="full" type="submit">
           {t('login.buttons.login')}
         </Button>
       </form>

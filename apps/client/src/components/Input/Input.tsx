@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { InputProps } from '@client/types';
 
-export const Input = ({ label, icon, input, size, iconPosition = 'right' }: InputProps) => {
+export const Input = ({ label, icon, input, size, iconPosition = 'right', error }: InputProps) => {
   const isIconImage = icon && typeof icon === 'object' && 'src' in icon;
 
   return (
@@ -41,6 +41,8 @@ export const Input = ({ label, icon, input, size, iconPosition = 'right' }: Inpu
         {isIconImage && <Image {...icon} alt={icon.alt} loading={icon.loading || 'lazy'} />}
         {!isIconImage && icon && icon}
       </div>
+
+      {error && <p className="mt-1 text-(--error-color)">{typeof error === 'string' ? error : 'Error'}</p>}
     </div>
   );
 };
