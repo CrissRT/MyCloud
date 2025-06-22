@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren, React.AnchorHTMLAttributes<HTMLAnchor
 
 export const AppLink = ({ children, href, ...rest }: Props) => {
   return (
-    <Link href={href} {...rest} className="text-(--primary-color) no-underline hover:underline">
+    <Link href={href} {...rest} className="text-(--link-color) no-underline hover:underline">
       {children}
     </Link>
   );
