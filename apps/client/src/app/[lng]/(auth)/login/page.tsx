@@ -1,27 +1,41 @@
 import { getTranslations } from 'next-intl/server';
 
-import { AppLink } from '@client/components';
+import { Button, Input, Password } from '@client/components';
+import { AuthLayout } from '@client/layouts';
 import { routes } from '@client/utils';
-
-import { FormLogin } from './components';
 
 const Page = async () => {
   const t = await getTranslations('auth');
 
   return (
-    <>
-      <h1 className="text-4xl mb-2 mt-2.5 text-center">{t('login.welcome')}</h1>
-      <p className="mb-8 mt-4 text-(--text-secondary) text-center">{t('login.login')}</p>
-      <FormLogin />
-
-      <div className="flex justify-center mt-6 flex-col items-center gap-3 mb-2.5">
-        <AppLink href={routes.register}>{t('login.buttons.forgetPassword')}</AppLink>
-
-        <p>
-          {t('login.dontHaveAccount')} <AppLink href={routes.register}>{t('login.buttons.register')}</AppLink>
-        </p>
-      </div>
-    </>
+    <AuthLayout
+      title={t('login.welcome')}
+      description={t('login.login')}
+      additionalLink={{
+        href: routes.forgotPassword,
+        label: t('login.buttons.forgetPassword')
+      }}
+      redirect={{
+        description: t('login.dontHaveAccount'),
+        href: routes.register,
+        linkLabel: t('login.buttons.register')
+      }}
+    >
+      <form>
+        <Input
+          label={{ text: t('email') }}
+          input={{ id: 'email', name: 'email', placeholder: t('enterEmail') }}
+          size="2xl"
+        />
+        <Password
+          label={{ text: t('password') }}
+          input={{ id: 'password', name: 'password', placeholder: t('enterPassword') }}
+        />
+        <Button variant="outlined" color="error" width="full">
+          {t('login.buttons.login')}
+        </Button>
+      </form>
+    </AuthLayout>
   );
 };
 
