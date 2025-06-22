@@ -3,11 +3,11 @@
     "login": {
       "welcome": "Welcome Back!",
       "login": "Log in to continue to MyCloud",
+      "dontHaveAccount": "Don't have an account?",
       "buttons": {
         "login": "Log In",
         "forgetPassword": "Forgot Password?",
-        "register": "Sign Up",
-        "dontHaveAccount": "Don't have an account?"
+        "register": "Sign Up"
       }
     },
     "email": "Email",

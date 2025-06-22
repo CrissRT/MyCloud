@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 
-import { Button, Input } from '@client/components';
-import { Password } from '@client/components';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AppLink } from '@client/components';
+import { routes } from '@client/utils';
+
+import { FormLogin } from './components';
 
 const Page = async () => {
   const t = await getTranslations('auth');
@@ -12,11 +12,15 @@ const Page = async () => {
     <>
       <h1 className="text-4xl mb-2 mt-2.5 text-center">{t('login.welcome')}</h1>
       <p className="mb-8 mt-4 text-(--text-secondary) text-center">{t('login.login')}</p>
-      <Input label={{ text: t('email') }} input={{ id: 'email', name: 'email' }} size="2xl" />
-      <Password label={{ text: t('password') }} />
-      <Button variant="outlined" color="error" width="full" icon={<FontAwesomeIcon icon={faEye} />}>
-        abc
-      </Button>
+      <FormLogin />
+
+      <div className="flex justify-center mt-6 flex-col items-center gap-3">
+        <AppLink href={routes.register}>{t('login.buttons.forgetPassword')}</AppLink>
+
+        <p>
+          {t('login.dontHaveAccount')} <AppLink href={routes.register}>{t('login.buttons.register')}</AppLink>
+        </p>
+      </div>
     </>
   );
 };

@@ -3,11 +3,11 @@
     "login": {
       "welcome": "С возвращением!",
       "login": "Войдите, чтобы продолжить в MyCloud",
+      "dontHaveAccount": "Нет аккаунта?",
       "buttons": {
         "login": "Войти",
         "forgetPassword": "Забыли пароль?",
-        "register": "Зарегистрироваться",
-        "dontHaveAccount": "Нет аккаунта?"
+        "register": "Зарегистрироваться"
       }
     },
     "email": "Электронная почта",
