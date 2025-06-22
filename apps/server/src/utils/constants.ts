@@ -31,6 +31,17 @@ export const getPortOfServer = () => {
   return port;
 };
 
+export const getHostNameOfServer = () => {
+  const host = process.env.HOSTNAME;
+
+  if (!host) {
+    console.error('HOSTNAME value is not set in environment variables.');
+    process.exit(1);
+  }
+
+  return host;
+};
+
 export const prisma = new PrismaClient();
 
 export const LOCKOUT_TIERS_MINUTES = [5, 15, 60, 180, 720, 1440]; // up to 24 hours

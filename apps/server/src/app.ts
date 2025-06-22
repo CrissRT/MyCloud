@@ -5,7 +5,7 @@ import { authApi } from '@server/api';
 import { zodMiddleware } from '@server/api/middlewares';
 import { i18n } from '@server/i18n/i18n';
 import { authRouter } from '@server/routes';
-import { getPortOfServer, prisma } from '@server/utils';
+import { getHostNameOfServer, getPortOfServer, prisma } from '@server/utils';
 import { zodiosApp } from '@zodios/express';
 import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
 
@@ -34,8 +34,10 @@ app.use('/docs', serve);
 app.use('/docs', setup(undefined, { swaggerUrl: '/docs/swagger.json' }));
 
 const PORT = getPortOfServer();
+const HOSTNAME = getHostNameOfServer();
+
 app
-  .listen(PORT, () => {
+  .listen(PORT, HOSTNAME, () => {
     console.log(`Server running on port ${PORT}`);
   })
   .on('error', async (err) => {
