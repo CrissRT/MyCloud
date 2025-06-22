@@ -9,8 +9,15 @@ export const FormLogin = () => {
 
   return (
     <form>
-      <Input label={{ text: t('email') }} input={{ id: 'email', name: 'email' }} size="2xl" />
-      <Password label={{ text: t('password') }} input={{ id: 'password', name: 'password' }} />
+      <Input
+        label={{ text: t('email') }}
+        input={{ id: 'email', name: 'email', placeholder: t('enterEmail') }}
+        size="2xl"
+      />
+      <Password
+        label={{ text: t('password') }}
+        input={{ id: 'password', name: 'password', placeholder: t('enterPassword') }}
+      />
       <Button variant="outlined" color="error" width="full">
         {t('login.buttons.login')}
       </Button>

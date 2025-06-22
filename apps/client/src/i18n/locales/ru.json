@@ -11,6 +11,8 @@
       }
     },
     "email": "Электронная почта",
-    "password": "Пароль"
+    "enterEmail": "Введите ваш email",
+    "password": "Пароль",
+    "enterPassword": "Введите ваш пароль"
   }
 }

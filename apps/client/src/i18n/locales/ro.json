@@ -11,6 +11,8 @@
       }
     },
     "email": "Email",
-    "password": "Parola"
+    "enterEmail": "Introduceți emailul",
+    "password": "Parola",
+    "enterPassword": "Introduceți parola"
   }
 }

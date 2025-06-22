@@ -14,7 +14,7 @@ const Page = async () => {
       <p className="mb-8 mt-4 text-(--text-secondary) text-center">{t('login.login')}</p>
       <FormLogin />
 
-      <div className="flex justify-center mt-6 flex-col items-center gap-3">
+      <div className="flex justify-center mt-6 flex-col items-center gap-3 mb-2.5">
         <AppLink href={routes.register}>{t('login.buttons.forgetPassword')}</AppLink>
 
         <p>

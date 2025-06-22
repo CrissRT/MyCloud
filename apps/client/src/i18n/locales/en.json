@@ -11,6 +11,8 @@
       }
     },
     "email": "Email",
-    "password": "Password"
+    "enterEmail": "Enter your email",
+    "password": "Password",
+    "enterPassword": "Enter your password"
   }
 }
