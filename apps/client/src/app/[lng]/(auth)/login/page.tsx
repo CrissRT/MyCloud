@@ -14,7 +14,9 @@ const Page = async () => {
       <p className="mb-8 mt-4 text-(--text-secondary) text-center">{t('login.login')}</p>
       <Input label={{ text: t('email') }} input={{ id: 'email', name: 'email' }} size="2xl" />
       <Password label={{ text: t('password') }} />
-      <Button variant="outlined" color="error" icon={<FontAwesomeIcon icon={faEye} />}></Button>
+      <Button variant="outlined" color="error" width="full" icon={<FontAwesomeIcon icon={faEye} />}>
+        abc
+      </Button>
     </>
   );
 };

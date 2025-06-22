@@ -5,11 +5,12 @@ import { PropsWithChildren } from 'react';
 type Props = {
   variant?: 'filled' | 'outlined' | 'text';
   color?: 'primary' | 'error' | 'secondary';
+  width?: 'full';
   icon?: React.ReactNode;
 } & PropsWithChildren &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({ children, icon, variant = 'filled', color = 'primary', ...rest }: Props) => {
+export const Button = ({ children, icon, variant = 'filled', color = 'primary', width, ...rest }: Props) => {
   const isIconOnly = !children && !!icon;
 
   return (
@@ -50,7 +51,6 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
           ['border border-(--error-color) text-(--error-color)']: variant === 'outlined' && color === 'error',
           ['hover:bg-(--error-hover) hover:text-(--text-primary)']: variant === 'outlined' && color === 'error'
         },
-
         {
           ['text-(--text-primary) hover:text-(--text-secondary)']: variant === 'text' && color === 'primary'
         },
@@ -59,6 +59,9 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
         },
         {
           ['text-(--error-color) hover:text-(--error-hover)']: variant === 'text' && color === 'error'
+        },
+        {
+          ['w-full']: width === 'full'
         }
       )}
     >
