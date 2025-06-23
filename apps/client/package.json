@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev -H 192.168.195.44",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate:api": "openapi-rq -i http://localhost:3001/docs/swagger.json -c axios -o src/api/openapi"
+    "generate:api": "openapi-rq -i http://localhost:3001/docs/swagger.json -c axios -o src/api/openapi --request /src/api/customRequest.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",

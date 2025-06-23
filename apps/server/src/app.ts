@@ -1,3 +1,4 @@
+import cors from 'cors';
 import { handle } from 'i18next-http-middleware';
 import { serve, setup } from 'swagger-ui-express';
 
@@ -11,6 +12,7 @@ import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
 
 const app = zodiosApp();
 
+app.use(cors());
 app.use(handle(i18n));
 
 app.use(zodMiddleware);
@@ -38,7 +40,7 @@ const HOSTNAME = getHostNameOfServer();
 
 app
   .listen(PORT, HOSTNAME, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT} and hostname ${HOSTNAME}`);
   })
   .on('error', async (err) => {
     console.error('Error:', err);
