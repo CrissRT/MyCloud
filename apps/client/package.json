@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate:api": "openapi-zod-client http://localhost:3001/docs/swagger.json -o src/api/openapi.ts"
+    "generate:api": "openapi-rq -i http://localhost:3001/docs/swagger.json -c axios -o src/api/openapi"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -16,8 +16,6 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@hookform/resolvers": "^5.1.1",
     "@tanstack/react-query": "^5.80.10",
-    "@zodios/core": "^10.9.6",
-    "@zodios/react": "^10.4.5",
     "axios": "^1.9.0",
     "classnames": "^2.5.1",
     "next": "15.3.2",
@@ -30,6 +28,7 @@
     "zod": "^3.25.56"
   },
   "devDependencies": {
+    "@7nohe/openapi-react-query-codegen": "^1.6.2",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

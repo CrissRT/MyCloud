@@ -4,13 +4,18 @@ import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
-import { schemas } from '@client/api';
 import { Button, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
 import { routes } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { emailRegex } from '@shared/utils';
 
-type LoginType = z.infer<typeof schemas.login_Body>;
+const schema = z.object({
+  email: z.string().email('auth.login.validation.email'),
+  password: z.string().regex(emailRegex)
+});
+
+type LoginType = z.infer<typeof schema>;
 
 const Page = () => {
   const {
@@ -18,7 +23,7 @@ const Page = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<LoginType>({
-    resolver: zodResolver(schemas.login_Body)
+    resolver: zodResolver(schema)
   });
 
   const t = useTranslations('auth');
