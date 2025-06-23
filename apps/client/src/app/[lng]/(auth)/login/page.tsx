@@ -14,9 +14,7 @@ const Page = () => {
   const tZod = useTranslations();
 
   const schema = z.object({
-    email: z
-      .string()
-      .email({ message: tZod('errors.invalid_string.email', { validation: tZod('validations.email') }) }),
+    email: z.string().email(),
     password: z.string().regex(passwordRegex, { message: tZod('errors.invalid_password_address') })
   });
 
