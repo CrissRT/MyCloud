@@ -1,16 +1,18 @@
 import classNames from 'classnames';
 
 import { PropsWithChildren } from 'react';
+import { Spinner } from '@client/components';
 
 type Props = {
   variant?: 'filled' | 'outlined' | 'text';
   color?: 'primary' | 'error' | 'secondary';
   width?: 'full';
   icon?: React.ReactNode;
+  loading?: boolean;
 } & PropsWithChildren &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({ children, icon, variant = 'filled', color = 'primary', width, ...rest }: Props) => {
+export const Button = ({ children, icon, variant = 'filled', color = 'primary', width, loading, ...rest }: Props) => {
   const isIconOnly = !children && !!icon;
 
   return (
@@ -64,9 +66,16 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
           ['w-full']: width === 'full'
         }
       )}
+      disabled={loading}
     >
-      {icon}
-      {children}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          {icon}
+          {children}
+        </>
+      )}
     </button>
   );
 };

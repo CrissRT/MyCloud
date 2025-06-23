@@ -8,6 +8,8 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 
+import { QueryClientContext } from '@client/contexts';
+
 import '@client/styles/globals.css';
 import '@client/styles/theme.css';
 
@@ -23,9 +25,11 @@ const RootLayout = async ({
     <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px]">
       <body className="antialiased w-full h-full text-(--text-primary)">
         <NextIntlClientProvider>
-          <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider>
+          <QueryClientContext>
+            <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
+              {children}
+            </ThemeProvider>
+          </QueryClientContext>
         </NextIntlClientProvider>
       </body>
     </html>

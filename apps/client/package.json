@@ -26,6 +26,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.58.1",
+    "react-query": "^3.39.3",
     "zod": "^3.25.56"
   },
   "devDependencies": {
@@ -34,6 +35,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-query": "^1.2.9",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "openapi-zod-client": "^1.18.3",
