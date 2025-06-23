@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
 import { axiosInstance } from '@client/api';
-import { routing } from '@client/i18n/routing';
+import { routing } from '@client/i18n';
 
 axiosInstance.interceptors.request.use(
   async (config) => {

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-import { createApiClient } from '@client/api';
 import { getAPIBaseUrl } from '@client/utils';
+
+import { createApiClient } from './openapi';
 
 const baseUrl = getAPIBaseUrl();
 

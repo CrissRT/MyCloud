@@ -3,13 +3,13 @@ import Backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
 
 import { $Enums } from '@prisma/client';
+import enTranslationZod from '@shared/locales/en.zod.json';
+import roTranslationZod from '@shared/locales/ro.zod.json';
+import ruTranslationZod from '@shared/locales/ru.zod.json';
 
 import enTranslation from './locales/en.json';
-import enTranslationZod from './locales/en.zod.json';
 import roTranslation from './locales/ro.json';
-import roTranslationZod from './locales/ro.zod.json';
 import ruTranslation from './locales/ru.json';
-import ruTranslationZod from './locales/ru.zod.json';
 
 await i18next
   .use(Backend)

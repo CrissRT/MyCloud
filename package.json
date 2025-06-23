@@ -25,7 +25,7 @@
     "prisma:generate": "pnpm -F server prisma:generate",
     "prisma:db-pull": "pnpm -F server prisma:db-pull",
     "generate:api-client": "pnpm -F client generate:api",
-    "stage-cached": "tsx scripts/stage-cached.ts"
+    "stage-cached": "tsx scripts/stageCached.ts"
   },
   "keywords": [],
   "author": "",
