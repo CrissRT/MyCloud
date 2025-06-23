@@ -1,5 +1,6 @@
 {
   "errors": {
+    "invalid_password_address": "Must contain =>8 characters, Lowercase letters, Uppercase letters, Numbers, Special characters",
     "invalid_type": "Expected {{expected}}, received {{received}}",
     "invalid_type_received_undefined": "Required",
     "invalid_type_received_null": "Required",

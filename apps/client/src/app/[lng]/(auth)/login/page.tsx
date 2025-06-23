@@ -8,16 +8,20 @@ import { Button, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
 import { routes } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { emailRegex } from '@shared/utils';
-
-const schema = z.object({
-  email: z.string().email('auth.login.validation.email'),
-  password: z.string().regex(emailRegex)
-});
-
-type LoginType = z.infer<typeof schema>;
+import { passwordRegex } from '@shared/utils';
 
 const Page = () => {
+  const tZod = useTranslations();
+
+  const schema = z.object({
+    email: z
+      .string()
+      .email({ message: tZod('errors.invalid_string.email', { validation: tZod('validations.email') }) }),
+    password: z.string().regex(passwordRegex, { message: tZod('errors.invalid_password_address') })
+  });
+
+  type LoginType = z.infer<typeof schema>;
+
   const {
     register,
     handleSubmit,
