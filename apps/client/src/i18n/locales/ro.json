@@ -6,6 +6,8 @@
       "dontHaveAccount": "Nu ai un cont?",
       "buttons": {
         "login": "Autentificare",
+        "hidePassword": "Ascunde parola",
+        "showPassword": "Arată parola",
         "forgetPassword": "Ai uitat parola?",
         "register": "Înregistrare"
       }

@@ -6,6 +6,8 @@
       "dontHaveAccount": "Нет аккаунта?",
       "buttons": {
         "login": "Войти",
+        "hidePassword": "Скрыть пароль",
+        "showPassword": "Показать пароль",
         "forgetPassword": "Забыли пароль?",
         "register": "Зарегистрироваться"
       }
