@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
+import { useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
 import { Button, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
 import { routes } from '@client/utils';
@@ -28,10 +29,21 @@ const Page = () => {
     resolver: zodResolver(schema)
   });
 
+  const { mutateAsync } = useLoginServicePostAuthLogin({
+    onSuccess: (data) => {
+      console.log('Login successful:', data);
+      // Handle successful login, e.g., redirect or show a success message
+    },
+    onError: (error) => {
+      console.error('Login failed:', error);
+      // Handle login error, e.g., show an error message
+    }
+  });
+
   const t = useTranslations('auth');
 
-  const onSubmit = (data: LoginType) => {
-    console.log('Login data:', data);
+  const onSubmit = async (data: LoginType) => {
+    await mutateAsync({ requestBody: { email: data.email, password: data.password } });
   };
 
   return (
