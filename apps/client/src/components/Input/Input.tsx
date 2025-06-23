@@ -15,7 +15,7 @@ export const Input = ({ label, icon, input, size, iconPosition = 'right', error 
         flex: !!label?.position,
         ['flex-col-reverse']: label?.position === 'bottom',
         ['flex-row-reverse']: label?.position === 'right',
-        ['align-items']: label?.position === 'left' || label?.position === 'right'
+        ['items-center']: label?.position === 'left' || label?.position === 'right'
       })}
     >
       {label && (
