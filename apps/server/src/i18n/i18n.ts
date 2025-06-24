@@ -1,11 +1,11 @@
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
+import enTranslationZod from 'zod-i18n-map/locales/en/zod.json';
+import roTranslationZod from 'zod-i18n-map/locales/ro/zod.json';
+import ruTranslationZod from 'zod-i18n-map/locales/ru/zod.json';
 
 import { $Enums } from '@prisma/client';
-import enTranslationZod from '@shared/locales/en.zod.json';
-import roTranslationZod from '@shared/locales/ro.zod.json';
-import ruTranslationZod from '@shared/locales/ru.zod.json';
 
 import enTranslation from './locales/en.json';
 import roTranslation from './locales/ro.json';

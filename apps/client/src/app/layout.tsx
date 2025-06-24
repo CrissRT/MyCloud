@@ -8,7 +8,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 
-import { QueryClientContext } from '@client/contexts';
+import { APIProvider, QueryClientContext } from '@client/contexts';
 
 import '@client/styles/globals.css';
 import '@client/styles/theme.css';
@@ -26,9 +26,11 @@ const RootLayout = async ({
       <body className="antialiased w-full h-full text-(--text-primary)">
         <NextIntlClientProvider>
           <QueryClientContext>
-            <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
-              {children}
-            </ThemeProvider>
+            <APIProvider>
+              <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
+                {children}
+              </ThemeProvider>
+            </APIProvider>
           </QueryClientContext>
         </NextIntlClientProvider>
       </body>
