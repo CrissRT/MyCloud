@@ -12,10 +12,25 @@
         "register": "Зарегистрироваться"
       }
     },
+    "register": {
+      "createAccount": "Создать аккаунт",
+      "joinUs": "Присоединяйтесь к MyCloud и храните свои файлы в безопасности.",
+      "alreadyHaveAccount": "Уже есть аккаунт?"
+    },
     "email": "Электронная почта",
     "enterEmail": "Введите ваш email",
     "password": "Пароль",
-    "enterPassword": "Введите ваш пароль"
+    "enterPassword": "Введите ваш пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "enterConfirmPassword": "Введите пароль еще раз",
+    "firstName": "Имя",
+    "enterFirstName": "Введите ваше имя",
+    "lastName": "Фамилия",
+    "enterLastName": "Введите вашу фамилию",
+    "sex": "Пол",
+    "enterSex": "Введите ваш пол",
+    "birthDate": "Дата рождения",
+    "enterBirthDate": "Введите дату рождения"
   },
   "errors": {
     "somethingWentWrong": "Что-то пошло не так, пожалуйста, попробуйте позже."

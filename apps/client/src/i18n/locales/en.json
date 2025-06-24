@@ -12,10 +12,25 @@
         "register": "Sign Up"
       }
     },
+    "register": {
+      "createAccount": "Create an Account",
+      "joinUs": "Join MyCloud and store your files securely.",
+      "alreadyHaveAccount": "Already have an account?"
+    },
     "email": "Email",
     "enterEmail": "Enter your email",
     "password": "Password",
-    "enterPassword": "Enter your password"
+    "enterPassword": "Enter your password",
+    "confirmPassword": "Confirm Password",
+    "enterConfirmPassword": "Re-enter your password",
+    "firstName": "First Name",
+    "enterFirstName": "Enter your first name",
+    "lastName": "Last Name",
+    "enterLastName": "Enter your last name",
+    "sex": "Sex",
+    "enterSex": "Enter your sex",
+    "birthDate": "Birth Date",
+    "enterBirthDate": "Enter your birth date"
   },
 
   "errors": {
