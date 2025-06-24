@@ -1,6 +1,6 @@
 {
   "errors": {
-    "invalid_email_address": "Trebuie să conțină =>8 caractere, litere mici, litere mari, cifre, caractere speciale",
+    "invalid_password_address": "Trebuie să conțină >=8 caractere, litere mici, litere mari, cifre, caractere speciale",
     "invalid_type": "Tipul de date așteptat era {{expected}}, s-a primit {{received}}",
     "invalid_type_received_undefined": "Obligatoriu",
     "invalid_type_received_null": "Obligatoriu",

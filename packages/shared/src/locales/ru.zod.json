@@ -1,6 +1,6 @@
 {
   "errors": {
-    "invalid_password_address": "Должен содержать =>8 символов, строчные буквы, прописные буквы, цифры, специальные символы",
+    "invalid_password_address": "Должен содержать >=8 символов, строчные буквы, прописные буквы, цифры, специальные символы",
     "invalid_type": "Ожидался тип - {{expected}}, получено - {{received}}",
     "invalid_type_received_undefined": "Обязательное поле",
     "invalid_type_received_null": "Обязательное поле",
