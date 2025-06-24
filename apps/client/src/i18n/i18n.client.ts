@@ -1,5 +1,8 @@
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import enZod from 'zod-i18n-map/locales/en/zod.json';
+import roZod from 'zod-i18n-map/locales/ro/zod.json';
+import ruZod from 'zod-i18n-map/locales/ru/zod.json';
 
 import en from './locales/en.json';
 import ro from './locales/ro.json';
@@ -12,13 +15,16 @@ if (!i18next.isInitialized) {
     supportedLngs: i18nConfig.locales,
     resources: {
       en: {
-        translation: en
+        translation: en,
+        zod: enZod
       },
       ro: {
-        translation: ro
+        translation: ro,
+        zod: roZod
       },
       ru: {
-        translation: ru
+        translation: ru,
+        zod: ruZod
       }
     },
     interpolation: {

@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, useEffect } from 'react';
 import { OpenAPI } from '@client/api/openapi/requests';
-import { i18nConfig } from '@client/i18n';
+import { i18nConfig } from '@client/i18n/settings';
 import { getAPIBaseUrl } from '@client/utils';
 
 const getCookie = (name: string) => {

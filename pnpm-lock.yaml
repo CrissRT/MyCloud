@@ -118,6 +118,9 @@ importers:
       zod:
         specifier: ^3.25.56
         version: 3.25.56
+      zod-i18n-map:
+        specifier: ^2.27.0
+        version: 2.27.0(i18next@24.2.3(typescript@5.8.3))(zod@3.25.56)
     devDependencies:
       '@7nohe/openapi-react-query-codegen':
         specifier: ^1.6.2
@@ -8063,6 +8066,11 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.2.1: {}
+
+  zod-i18n-map@2.27.0(i18next@24.2.3(typescript@5.8.3))(zod@3.25.56):
+    dependencies:
+      i18next: 24.2.3(typescript@5.8.3)
+      zod: 3.25.56
 
   zod-i18n-map@2.27.0(i18next@25.2.1(typescript@5.8.3))(zod@3.25.56):
     dependencies:

@@ -1,3 +1,3 @@
 export * from './Api';
-export * from './I18next';
+export * from './I18Next';
 export * from './QueryClient';

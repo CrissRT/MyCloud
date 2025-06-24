@@ -1,6 +1,8 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { z } from 'zod';
+import { makeZodI18nMap } from 'zod-i18n-map';
 
 import { PropsWithChildren, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
@@ -10,6 +12,7 @@ export const AppI18nextProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
 
   useEffect(() => {
+    z.setErrorMap(makeZodI18nMap({ ns: 'zod', t: i18next.t }));
     i18next.changeLanguage(pathname.split('/')[1]);
   }, [pathname]);
 
