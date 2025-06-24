@@ -16,5 +16,8 @@
     "enterEmail": "Введите ваш email",
     "password": "Пароль",
     "enterPassword": "Введите ваш пароль"
+  },
+  "errors": {
+    "somethingWentWrong": "Что-то пошло не так, пожалуйста, попробуйте позже."
   }
 }

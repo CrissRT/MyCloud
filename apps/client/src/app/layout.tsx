@@ -1,6 +1,7 @@
 import { ThemeProvider } from 'next-themes';
 
 import { PropsWithChildren } from 'react';
+import { NotificationContainer } from '@client/components';
 import { PromiseLanguage } from '@client/utils';
 import { config } from '@fortawesome/fontawesome-svg-core';
 
@@ -28,6 +29,7 @@ const RootLayout = async ({
             <APIProvider>
               <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
                 {children}
+                <NotificationContainer />
               </ThemeProvider>
             </APIProvider>
           </QueryClientContext>
