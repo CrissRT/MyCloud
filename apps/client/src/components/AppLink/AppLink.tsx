@@ -1,5 +1,6 @@
+import Link from 'next/link';
+
 import { PropsWithChildren } from 'react';
-import { Link } from '@client/i18n';
 
 interface Props extends PropsWithChildren, React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;

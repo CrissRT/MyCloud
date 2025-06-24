@@ -7,7 +7,6 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
     "prettier": "prettier --write .",
     "dev": "concurrently -r \"pnpm -F server dev\" \"pnpm -F client dev\"",
     "build": "concurrently -r \"pnpm -F server build\" \"pnpm -F client build\"",
