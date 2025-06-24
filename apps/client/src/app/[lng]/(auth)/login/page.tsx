@@ -60,18 +60,22 @@ const Page = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          label={{ text: t('email') }}
-          input={{ id: 'email', placeholder: t('enterEmail'), ...register('email', { required: true }) }}
+          label={{ text: t('auth.email') }}
+          input={{ id: 'email', placeholder: t('auth.enterEmail'), ...register('email', { required: true }) }}
           size="2xl"
           error={errors.email?.message}
         />
         <Password
-          label={{ text: t('password') }}
-          input={{ id: 'password', placeholder: t('enterPassword'), ...register('password', { required: true }) }}
+          label={{ text: t('auth.password') }}
+          input={{
+            id: 'password',
+            placeholder: t('auth.enterPassword'),
+            ...register('password', { required: true })
+          }}
           error={errors.password?.message}
         />
         <Button variant="outlined" color="error" width="full" type="submit">
-          {t('login.buttons.login')}
+          {t('auth.login.buttons.login')}
         </Button>
       </form>
     </AuthLayout>
