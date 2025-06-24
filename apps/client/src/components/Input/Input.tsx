@@ -33,9 +33,12 @@ export const Input = ({ label, icon, input, size, iconPosition = 'right', error 
         </div>
       )}
       <div
-        className={classnames('py-3 px-4 rounded-xl border border-(--border-color) flex items-center gap-2', {
-          ['flex-row-reverse']: iconPosition === 'left'
-        })}
+        className={classnames(
+          'py-3 px-4 rounded-xl border border-(--border-color) flex items-center gap-2 focus-within:border-(--border-hover)',
+          {
+            ['flex-row-reverse']: iconPosition === 'left'
+          }
+        )}
       >
         <input {...input} className="outline-none placeholder-(--text-secondary) w-full" />
         {isIconImage && <Image {...icon} alt={icon.alt} loading={icon.loading || 'lazy'} />}

@@ -1,5 +1,6 @@
 export * from './AppLink/AppLink';
 export * from './Button/Button';
+export * from './DatePicker/DatePicker';
 export * from './Input/Input';
 export * from './NotificationContainer/NotificationContainer';
 export * from './Password/Password';

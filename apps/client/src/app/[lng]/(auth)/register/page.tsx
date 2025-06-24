@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { Input, Password } from '@client/components';
+import { DatePicker, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
 import { routes } from '@client/utils';
 
@@ -25,6 +25,7 @@ const Page = () => {
           <Input label={{ text: t('auth.firstName') }} input={{ placeholder: t('auth.enterFirstName') }} size="lg" />
           <Input label={{ text: t('auth.lastName') }} input={{ placeholder: t('auth.enterLastName') }} size="lg" />
         </div>
+        <DatePicker label={t('auth.dateOfBirth')} />
       </form>
     </AuthLayout>
   );

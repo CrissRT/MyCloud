@@ -5,6 +5,7 @@ html[data-theme='light'] {
   --text-primary: #111827;
   --text-secondary: #6b7280;
   --border-color: #e5e7eb;
+  --border-hover: #d1d5db;
 }
 
 html[data-theme='dark'] {
@@ -14,4 +15,5 @@ html[data-theme='dark'] {
   --text-primary: #f9fafb;
   --text-secondary: #9ca3af;
   --border-color: #374151;
+  --border-hover: #4b5563;
 }

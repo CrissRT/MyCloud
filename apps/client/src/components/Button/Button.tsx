@@ -19,7 +19,7 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
     <button
       {...rest}
       className={classNames(
-        'flex gap-1 items-center justify-center rounded cursor-pointer',
+        'flex gap-1 items-center justify-center rounded cursor-pointer scale-100 hover:scale-102 transition-scale duration-200 ease-in-out',
         {
           ['p-2']: isIconOnly,
           ['m-1']: isIconOnly
