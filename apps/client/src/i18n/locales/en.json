@@ -16,5 +16,9 @@
     "enterEmail": "Enter your email",
     "password": "Password",
     "enterPassword": "Enter your password"
+  },
+
+  "errors": {
+    "somethingWentWrong": "Something went wrong, please try again later."
   }
 }

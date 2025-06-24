@@ -16,5 +16,8 @@
     "enterEmail": "Introduceți emailul",
     "password": "Parola",
     "enterPassword": "Introduceți parola"
+  },
+  "errors": {
+    "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."
   }
 }

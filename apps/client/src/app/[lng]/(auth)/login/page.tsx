@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
 import { Button, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes } from '@client/utils';
+import { routes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
@@ -36,6 +36,7 @@ const Page = () => {
       // Handle successful login, e.g., redirect or show a success message
     },
     onError: (error) => {
+      showApiErrors(error);
       console.error('Login failed:', error);
       // Handle login error, e.g., show an error message
     }
