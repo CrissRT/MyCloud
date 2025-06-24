@@ -14,8 +14,10 @@ interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCha
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
-const getFirstDayOfWeek = (year: number, month: number) => new Date(year, month, 1).getDay();
+const getDaysInMonth = (year: number, month: number) =>
+  dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`).daysInMonth();
+const getFirstDayOfWeek = (year: number, month: number) =>
+  dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`).day();
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const getMonthName = (year: number, month: number, lng: string = 'en') => {
   return dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`)
@@ -30,9 +32,10 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
   const [openAbove, setOpenAbove] = useState(false);
   const [measured, setMeasured] = useState(false);
   const [selected, setSelected] = useState(value ? String(value) : undefined);
-  const today = new Date();
-  const [month, setMonth] = useState(today.getMonth());
-  const [year, setYear] = useState(today.getFullYear());
+  const today = dayjs();
+  const [monthYear, setMonthYear] = useState(() => ({ month: today.month(), year: today.year() }));
+  const month = monthYear.month;
+  const year = monthYear.year;
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -100,31 +103,28 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
   const onClear = () => onCalendarChange('');
 
   const onToday = () => {
-    const m = String(today.getMonth() + 1).padStart(2, '0');
-    const d = String(today.getDate()).padStart(2, '0');
-    const dateStr = `${today.getFullYear()}-${m}-${d}`;
-    setMonth(today.getMonth());
-    setYear(today.getFullYear());
+    setMonthYear({ month: today.month(), year: today.year() });
+    const m = String(today.month() + 1).padStart(2, '0');
+    const d = String(today.date()).padStart(2, '0');
+    const dateStr = `${today.year()}-${m}-${d}`;
     onCalendarChange(dateStr);
   };
 
   const onPrevMonth = () => {
-    setMonth((prevMonth) => {
-      if (prevMonth === 0) {
-        setYear((y) => y - 1);
-        return 11;
+    setMonthYear(({ month, year }) => {
+      if (month === 0) {
+        return { month: 11, year: year - 1 };
       }
-      return prevMonth - 1;
+      return { month: month - 1, year };
     });
   };
 
   const onNextMonth = () => {
-    setMonth((prevMonth) => {
-      if (prevMonth === 11) {
-        setYear((y) => y + 1);
-        return 0;
+    setMonthYear(({ month, year }) => {
+      if (month === 11) {
+        return { month: 0, year: year + 1 };
       }
-      return prevMonth + 1;
+      return { month: month + 1, year };
     });
   };
 
@@ -142,7 +142,11 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
         style={hidden ? { visibility: 'hidden', pointerEvents: 'none', left: '-9999px' } : {}}
       >
         <div className="flex items-center justify-between mb-2">
-          <button type="button" className="px-2 py-1 cursor-pointer" onClick={() => setYear((y) => y - 1)}>
+          <button
+            type="button"
+            className="px-2 py-1 cursor-pointer"
+            onClick={() => setMonthYear(({ month, year }) => ({ month, year: year - 1 }))}
+          >
             &lt;&lt;
           </button>
           <button type="button" className="px-2 py-1 cursor-pointer" onClick={onPrevMonth}>
@@ -154,7 +158,11 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
           <button type="button" className="px-2 py-1 cursor-pointer" onClick={onNextMonth}>
             &gt;
           </button>
-          <button type="button" className="px-2 py-1 cursor-pointer" onClick={() => setYear((y) => y + 1)}>
+          <button
+            type="button"
+            className="px-2 py-1 cursor-pointer"
+            onClick={() => setMonthYear(({ month, year }) => ({ month, year: year + 1 }))}
+          >
             &gt;&gt;
           </button>
         </div>
@@ -168,7 +176,7 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
             <button
               key={i}
               type="button"
-              className={`w-8 h-8 rounded-lg text-sm cursor-pointer ${day && selected === `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` ? 'bg-(--primary) text-white' : 'hover:bg-(--border-hover)'} ${day === today.getDate() && month === today.getMonth() && year === today.getFullYear() ? 'border border-(--primary)' : ''}`}
+              className={`w-8 h-8 rounded-lg text-sm cursor-pointer ${day && selected === `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` ? 'bg-(--primary) text-white' : 'hover:bg-(--border-hover)'} ${day === today.date() && month === today.month() && year === today.year() ? 'border border-(--primary)' : ''}`}
               disabled={!day}
               onClick={() => day && onDayClick(day)}
             >
