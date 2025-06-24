@@ -35,11 +35,7 @@ const Page = () => {
       console.log('Login successful:', data);
       // Handle successful login, e.g., redirect or show a success message
     },
-    onError: (error) => {
-      showApiErrors(error);
-      console.error('Login failed:', error);
-      // Handle login error, e.g., show an error message
-    }
+    onError: showApiErrors
   });
 
   const onSubmit = async (data: LoginType) => {
