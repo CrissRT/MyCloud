@@ -115,6 +115,9 @@ importers:
       react-query:
         specifier: ^3.39.3
         version: 3.39.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-toastify:
+        specifier: ^11.0.5
+        version: 11.0.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       zod:
         specifier: ^3.25.56
         version: 3.25.56
@@ -1897,6 +1900,11 @@ packages:
     resolution:
       { integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ== }
     engines: { node: '>=12' }
+
+  clsx@2.1.1:
+    resolution:
+      { integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA== }
+    engines: { node: '>=6' }
 
   code-block-writer@13.0.3:
     resolution:
@@ -3754,6 +3762,13 @@ packages:
         optional: true
       react-native:
         optional: true
+
+  react-toastify@11.0.5:
+    resolution:
+      { integrity: sha512-EpqHBGvnSTtHYhCPLxML05NLY2ZX0JURbAdNYa6BUkk+amz4wbKBQvoKQAB0ardvSarUBuY4Q4s1sluAzZwkmA== }
+    peerDependencies:
+      react: ^18 || ^19
+      react-dom: ^18 || ^19
 
   react@19.1.0:
     resolution:
@@ -5787,6 +5802,8 @@ snapshots:
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
 
+  clsx@2.1.1: {}
+
   code-block-writer@13.0.3: {}
 
   color-convert@2.0.1:
@@ -7400,6 +7417,12 @@ snapshots:
       match-sorter: 6.3.4
       react: 19.1.0
     optionalDependencies:
+      react-dom: 19.1.0(react@19.1.0)
+
+  react-toastify@11.0.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      clsx: 2.1.1
+      react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
   react@19.1.0: {}

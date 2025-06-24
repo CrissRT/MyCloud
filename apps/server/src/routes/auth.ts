@@ -4,7 +4,7 @@ import express from 'express';
 
 import { $Enums } from '@prisma/client';
 import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
-import { AuthResponse, ErrorCodes, registerSchema, Session, SessionCreate, userLoginSchema } from '@server/models';
+import { AuthResponse, registerSchema, Session, SessionCreate, userLoginSchema } from '@server/models';
 import {
   checkIfEnoughSpaceInMB,
   DEFAULT_STORAGE_SPACE_IN_MB,
@@ -18,6 +18,7 @@ import {
   setCookieHeader,
   shouldResetBanDueToInactivity
 } from '@server/utils';
+import { ErrorCodes } from '@shared/types';
 
 const SALT_ROUNDS = getSaltRounds();
 
@@ -35,7 +36,7 @@ router.post('/register', async (req, res) => {
     if (!resultParseBody.success) {
       res.status(400).json({
         code: ErrorCodes.ZOD_ERROR,
-        message: resultParseBody.error.message
+        message: resultParseBody.error.formErrors
       });
       return;
     }
@@ -119,7 +120,7 @@ router.post('/login', async (req, res) => {
     if (!parse.success) {
       res.status(400).json({
         code: ErrorCodes.ZOD_ERROR,
-        message: parse.error.message
+        message: parse.error.formErrors
       });
       return;
     }
