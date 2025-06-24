@@ -1,6 +1,9 @@
 'use client';
 
+import dayjs from 'dayjs';
+
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,14 +17,23 @@ interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCha
 const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
 const getFirstDayOfWeek = (year: number, month: number) => new Date(year, month, 1).getDay();
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+const getMonthName = (year: number, month: number, lng: string = 'en') => {
+  return dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`)
+    .locale(lng)
+    .format('MMMM');
+};
 
 export const DatePicker = ({ label, error, value, onDateChange, onChange, ...rest }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [openAbove, setOpenAbove] = useState(false);
+  const [measured, setMeasured] = useState(false);
   const [selected, setSelected] = useState(value ? String(value) : undefined);
   const today = new Date();
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     setSelected(value ? String(value) : undefined);
@@ -37,7 +49,32 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
     return () => document.removeEventListener('mousedown', onClick);
   }, [showCalendar]);
 
-  const onInputClick = () => setShowCalendar((v) => !v);
+  useEffect(() => {
+    if (!showCalendar) return;
+    setMeasured(false);
+    // Wait for calendar to render, then measure
+    setTimeout(() => {
+      const input = inputRef.current;
+      const calendar = calendarRef.current;
+      if (input && calendar) {
+        const inputRect = input.getBoundingClientRect();
+        const calendarRect = calendar.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - inputRect.bottom;
+        const spaceAbove = inputRect.top;
+        if (spaceBelow < calendarRect.height && spaceAbove > calendarRect.height) {
+          setOpenAbove(true);
+        } else {
+          setOpenAbove(false);
+        }
+        setMeasured(true);
+      }
+    }, 0);
+  }, [showCalendar, month, year]);
+
+  const onInputClick = () => {
+    setShowCalendar((v) => !v);
+    setMeasured(false);
+  };
 
   const onCalendarChange = (dateStr: string) => {
     setSelected(dateStr || undefined);
@@ -91,7 +128,7 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
     });
   };
 
-  const renderCalendar = () => {
+  const renderCalendar = (hidden = false) => {
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfWeek(year, month);
     const days: (number | null)[] = Array(firstDay)
@@ -99,7 +136,11 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
       .concat(Array.from({ length: daysInMonth }, (_, i) => i + 1));
     while (days.length % 7 !== 0) days.push(null);
     return (
-      <div className="absolute z-50 mt-2 left-0 w-80 bg-(--bg-primary) border border-(--border-color) rounded-xl shadow-lg p-4 animate-fade-in">
+      <div
+        ref={calendarRef}
+        className={`absolute z-50 left-0 w-80 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg p-4 animate-fade-in ${openAbove ? 'bottom-full mb-2' : 'top-full mt-2'}`}
+        style={hidden ? { visibility: 'hidden', pointerEvents: 'none', left: '-9999px' } : {}}
+      >
         <div className="flex items-center justify-between mb-2">
           <button type="button" className="px-2 py-1 cursor-pointer" onClick={() => setYear((y) => y - 1)}>
             &lt;&lt;
@@ -108,7 +149,7 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
             &lt;
           </button>
           <span className="font-semibold">
-            {today.toLocaleString('default', { month: 'long' })} {year}
+            {getMonthName(year, month, i18n.language)} {year}
           </span>
           <button type="button" className="px-2 py-1 cursor-pointer" onClick={onNextMonth}>
             &gt;
@@ -137,10 +178,10 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
         </div>
         <div className="flex justify-between mt-2">
           <button type="button" className="text-(--primary) underline cursor-pointer" onClick={onClear}>
-            Clear
+            {t('common.clear')}
           </button>
           <button type="button" className="text-(--primary) underline cursor-pointer" onClick={onToday}>
-            Today
+            {t('common.today')}
           </button>
         </div>
       </div>
@@ -171,7 +212,8 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
         >
           <FontAwesomeIcon icon={faCalendarDays} />
         </span>
-        {showCalendar && renderCalendar()}
+        {showCalendar && !measured && renderCalendar(true)}
+        {showCalendar && measured && renderCalendar(false)}
       </div>
       {error && <p className="mt-1 text-(--error-color)">{error}</p>}
     </div>

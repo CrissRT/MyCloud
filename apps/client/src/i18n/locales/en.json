@@ -32,7 +32,10 @@
     "birthDate": "Birth Date",
     "enterBirthDate": "Enter your birth date"
   },
-
+  "common": {
+    "clear": "Clear",
+    "today": "Today"
+  },
   "errors": {
     "somethingWentWrong": "Something went wrong, please try again later."
   }

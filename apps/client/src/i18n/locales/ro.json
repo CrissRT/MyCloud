@@ -32,6 +32,10 @@
     "birthDate": "Data nașterii",
     "enterBirthDate": "Introduceți data nașterii"
   },
+  "common": {
+    "clear": "Șterge",
+    "today": "Astăzi"
+  },
   "errors": {
     "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."
   }
