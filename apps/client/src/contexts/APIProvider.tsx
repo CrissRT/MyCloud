@@ -19,9 +19,12 @@ export const APIProvider = ({ children }: PropsWithChildren) => {
 
     OpenAPI.interceptors.request.use(async (config) => {
       const language = getCookie('NEXT_LOCALE') || routing.defaultLocale;
+
       if (!config.headers) config.headers = {};
 
       config.headers['Accept-Language'] = language;
+
+      config.headers['Content-Type'] = 'application/json';
 
       return config;
     });
