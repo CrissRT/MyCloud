@@ -1,9 +1,9 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
 import { Button, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
@@ -12,11 +12,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
 const Page = () => {
-  const tZod = useTranslations();
+  const { t } = useTranslation();
 
   const schema = z.object({
     email: z.string().email(),
-    password: z.string().regex(passwordRegex, { message: tZod('errors.invalid_password_address') })
+    password: z.string().regex(passwordRegex, { message: t('errors.invalid_password_address') })
   });
 
   type LoginType = z.infer<typeof schema>;
@@ -40,24 +40,22 @@ const Page = () => {
     }
   });
 
-  const t = useTranslations('auth');
-
   const onSubmit = async (data: LoginType) => {
     await mutateAsync({ requestBody: { email: data.email, password: data.password } });
   };
 
   return (
     <AuthLayout
-      title={t('login.welcome')}
-      description={t('login.login')}
+      title={t('auth.login.welcome')}
+      description={t('auth.login.login')}
       additionalLink={{
         href: routes.forgotPassword,
-        label: t('login.buttons.forgetPassword')
+        label: t('auth.login.buttons.forgetPassword')
       }}
       redirect={{
-        description: t('login.dontHaveAccount'),
+        description: t('auth.login.dontHaveAccount'),
         href: routes.register,
-        linkLabel: t('login.buttons.register')
+        linkLabel: t('auth.login.buttons.register')
       }}
     >
       <form onSubmit={handleSubmit(onSubmit)}>

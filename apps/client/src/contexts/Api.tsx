@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, useEffect } from 'react';
 import { OpenAPI } from '@client/api/openapi/requests';
-import { routing } from '@client/i18n';
+import { i18nConfig } from '@client/i18n';
 import { getAPIBaseUrl } from '@client/utils';
 
 const getCookie = (name: string) => {
@@ -18,7 +18,7 @@ export const APIProvider = ({ children }: PropsWithChildren) => {
     OpenAPI.BASE = getAPIBaseUrl();
 
     OpenAPI.interceptors.request.use(async (config) => {
-      const language = getCookie('NEXT_LOCALE') || routing.defaultLocale;
+      const language = getCookie('NEXT_LOCALE') || i18nConfig.defaultLocale;
 
       if (!config.headers) config.headers = {};
 

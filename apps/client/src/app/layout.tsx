@@ -1,4 +1,3 @@
-import { NextIntlClientProvider } from 'next-intl';
 import { ThemeProvider } from 'next-themes';
 
 import { PropsWithChildren } from 'react';
@@ -8,7 +7,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 
-import { APIProvider, QueryClientContext } from '@client/contexts';
+import { APIProvider, AppI18nextProvider, QueryClientContext } from '@client/contexts';
 
 import '@client/styles/globals.css';
 import '@client/styles/theme.css';
@@ -24,7 +23,7 @@ const RootLayout = async ({
   return (
     <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px]">
       <body className="antialiased w-full h-full text-(--text-primary)">
-        <NextIntlClientProvider>
+        <AppI18nextProvider>
           <QueryClientContext>
             <APIProvider>
               <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
@@ -32,7 +31,7 @@ const RootLayout = async ({
               </ThemeProvider>
             </APIProvider>
           </QueryClientContext>
-        </NextIntlClientProvider>
+        </AppI18nextProvider>
       </body>
     </html>
   );

@@ -1,8 +1,7 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@client/components';
 import { InputProps } from '@client/types';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 type Props = Omit<InputProps, 'icon'> & Omit<InputProps['input'], 'type'>;
 
 export const Password = (props: Props) => {
-  const t = useTranslations('auth.login.buttons');
+  const { t } = useTranslation('auth.login.buttons');
   const [visible, setVisible] = useState(false);
 
   const onToggleVisibility = () => setVisible((prev) => !prev);
