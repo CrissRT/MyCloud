@@ -30,7 +30,7 @@ const Page = () => {
     resolver: zodResolver(schema)
   });
 
-  const { mutateAsync } = useLoginServicePostAuthLogin({
+  const { mutateAsync, isPending } = useLoginServicePostAuthLogin({
     onSuccess: (data) => {
       console.log('Login successful:', data);
       // Handle successful login, e.g., redirect or show a success message
@@ -75,7 +75,7 @@ const Page = () => {
           }}
           error={errors.password?.message}
         />
-        <Button variant="outlined" color="error" width="full" type="submit">
+        <Button variant="outlined" color="error" width="full" type="submit" loading={isPending}>
           {t('auth.login.buttons.login')}
         </Button>
       </form>
