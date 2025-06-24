@@ -1,0 +1,3 @@
+{
+  "invalid_password_address": "Must contain >=8 characters, Lowercase letters, Uppercase letters, Numbers, Special characters"
+}

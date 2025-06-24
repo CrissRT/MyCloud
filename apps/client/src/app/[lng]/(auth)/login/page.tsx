@@ -12,11 +12,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
 const Page = () => {
+  const { t: customZod } = useTranslation('customZod');
   const { t } = useTranslation();
 
   const schema = z.object({
     email: z.string().email(),
-    password: z.string().regex(passwordRegex, { message: t('errors.invalid_password_address') })
+    password: z.string().regex(passwordRegex, { message: customZod('invalid_password_address') })
   });
 
   type LoginType = z.infer<typeof schema>;

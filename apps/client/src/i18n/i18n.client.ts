@@ -5,8 +5,11 @@ import roZod from 'zod-i18n-map/locales/ro/zod.json';
 import ruZod from 'zod-i18n-map/locales/ru/zod.json';
 
 import en from './locales/en.json';
+import customEnZod from './locales/en.zod.json';
 import ro from './locales/ro.json';
+import customRoZod from './locales/ro.zod.json';
 import ru from './locales/ru.json';
+import customRuZod from './locales/ru.zod.json';
 import { i18nConfig } from './settings';
 
 if (!i18next.isInitialized) {
@@ -16,15 +19,18 @@ if (!i18next.isInitialized) {
     resources: {
       en: {
         translation: en,
-        zod: enZod
+        zod: enZod,
+        customZod: customEnZod
       },
       ro: {
         translation: ro,
-        zod: roZod
+        zod: roZod,
+        customZod: customRoZod
       },
       ru: {
         translation: ru,
-        zod: ruZod
+        zod: ruZod,
+        customZod: customRuZod
       }
     },
     interpolation: {
