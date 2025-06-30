@@ -72,7 +72,7 @@ const Page = () => {
           }}
           error={errors.password?.message}
         />
-        <Button variant="outlined" color="error" width="full" type="submit" loading={isPending}>
+        <Button width="full" type="submit" loading={isPending}>
           {t('auth.login.buttons.login')}
         </Button>
       </form>

@@ -4,10 +4,8 @@ import classNames from 'classnames';
 
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PromiseLanguage } from '@client/utils';
 
 type Props = {
-  params: PromiseLanguage;
   variant?: 'filled' | 'outlined' | 'text';
   color?: 'primary' | 'error' | 'secondary';
   width?: 'full';
@@ -79,12 +77,7 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
     >
       {loading ? (
         <>
-          <svg
-            className="mr-3 h-5 w-5 animate-spin text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
+          <svg className="mr-3 h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path
               className="opacity-75"
