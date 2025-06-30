@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faArrowLeft, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getWeekdaysShort } from '@shared/utils';
 
@@ -174,23 +174,23 @@ export const DatePicker = ({ label, error, input }: Props) => {
             className="px-2 py-1 cursor-pointer"
             onClick={() => setMonthYear(({ month, year }) => ({ month, year: year - 1 }))}
           >
-            &lt;&lt;
+            <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
           <button type="button" className="px-2 py-1 cursor-pointer" onClick={onPrevMonth}>
-            &lt;
+            <FontAwesomeIcon icon={faArrowLeft} />
           </button>
           <span className="font-semibold">
             {getMonthName(year, month, i18n.language)} {year}
           </span>
           <button type="button" className="px-2 py-1 cursor-pointer" onClick={onNextMonth}>
-            &gt;
+            <FontAwesomeIcon icon={faArrowLeft} className="rotate-180" />
           </button>
           <button
             type="button"
             className="px-2 py-1 cursor-pointer"
             onClick={() => setMonthYear(({ month, year }) => ({ month, year: year + 1 }))}
           >
-            &gt;&gt;
+            <FontAwesomeIcon icon={faAnglesLeft} className="rotate-180" />
           </button>
         </div>
         <div className="grid grid-cols-7 gap-1 mb-2">
