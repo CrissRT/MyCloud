@@ -42,7 +42,8 @@
     "search": "Search",
     "noResults": "No results found",
     "noOptions": "No options available",
-    "selectOptions": "Select options"
+    "selectOptions": "Select options",
+    "loading": "Loading"
   },
   "errors": {
     "somethingWentWrong": "Something went wrong, please try again later."

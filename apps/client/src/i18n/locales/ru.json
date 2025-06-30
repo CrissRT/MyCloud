@@ -42,7 +42,8 @@
     "search": "Поиск",
     "noResults": "Результаты не найдены",
     "noOptions": "Нет доступных опций",
-    "selectOptions": "Выберите опции"
+    "selectOptions": "Выберите опции",
+    "loading": "Загрузка"
   },
   "errors": {
     "somethingWentWrong": "Что-то пошло не так, пожалуйста, попробуйте позже."

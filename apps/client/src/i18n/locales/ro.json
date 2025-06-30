@@ -42,7 +42,8 @@
     "search": "Căutare",
     "noResults": "Nu s-au găsit rezultate",
     "noOptions": "Nu sunt opțiuni disponibile",
-    "selectOptions": "Selectați opțiuni"
+    "selectOptions": "Selectați opțiuni",
+    "loading": "Se încarcă"
   },
   "errors": {
     "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."

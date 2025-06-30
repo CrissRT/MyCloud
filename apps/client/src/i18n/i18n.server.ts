@@ -22,7 +22,8 @@ export default async function createServerI18n(lng: string) {
   const validLanguage = i18nConfig.locales.includes(lng) ? lng : i18nConfig.defaultLocale;
 
   // Check cache first
-  if (serverInstances.has(validLanguage)) return serverInstances.get(validLanguage);
+  const cachedInstance = serverInstances.get(validLanguage);
+  if (cachedInstance) return cachedInstance;
 
   const instance = i18next.createInstance();
 
