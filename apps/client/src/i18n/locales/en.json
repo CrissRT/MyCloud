@@ -40,7 +40,8 @@
     "other": "Other",
     "selectOption": "Select an option",
     "search": "Search",
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "noOptions": "No options available"
   },
   "errors": {
     "somethingWentWrong": "Something went wrong, please try again later."
