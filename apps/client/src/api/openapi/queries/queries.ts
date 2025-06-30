@@ -1,7 +1,6 @@
 // generated with @7nohe/openapi-react-query-codegen@1.6.2
 
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import { LoginService, RegisterService } from '../requests/services.gen';
 import * as Common from './common';
 export const useRegisterServicePostAuthRegister = <

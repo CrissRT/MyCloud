@@ -12,10 +12,38 @@
         "register": "Înregistrare"
       }
     },
+    "register": {
+      "createAccount": "Creează un cont",
+      "joinUs": "Alătură-te la MyCloud și stochează-ți fișierele în siguranță.",
+      "alreadyHaveAccount": "Ai deja un cont?"
+    },
     "email": "Email",
     "enterEmail": "Introduceți emailul",
     "password": "Parola",
-    "enterPassword": "Introduceți parola"
+    "enterPassword": "Introduceți parola",
+    "confirmPassword": "Confirmă parola",
+    "enterConfirmPassword": "Reintroduceți parola",
+    "firstName": "Prenume",
+    "enterFirstName": "Introduceți prenumele",
+    "lastName": "Nume",
+    "enterLastName": "Introduceți numele de familie",
+    "enterSex": "Introduceți sexul",
+    "birthDate": "Data nașterii",
+    "enterBirthDate": "Introduceți data nașterii"
+  },
+  "common": {
+    "clear": "Șterge",
+    "today": "Astăzi",
+    "sex": "Sex",
+    "male": "Masculin",
+    "female": "Feminin",
+    "other": "Altul",
+    "selectOption": "Selectați o opțiune",
+    "search": "Căutare",
+    "noResults": "Nu s-au găsit rezultate",
+    "noOptions": "Nu sunt opțiuni disponibile",
+    "selectOptions": "Selectați opțiuni",
+    "loading": "Se încarcă"
   },
   "errors": {
     "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."

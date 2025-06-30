@@ -6,3 +6,9 @@ export const getAPIBaseUrl = () => {
 };
 
 export type PromiseLanguage = Promise<{ lng: string }>;
+
+export enum Sex {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other'
+}

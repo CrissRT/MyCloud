@@ -12,10 +12,38 @@
         "register": "Зарегистрироваться"
       }
     },
+    "register": {
+      "createAccount": "Создать аккаунт",
+      "joinUs": "Присоединяйтесь к MyCloud и храните свои файлы в безопасности.",
+      "alreadyHaveAccount": "Уже есть аккаунт?"
+    },
     "email": "Электронная почта",
     "enterEmail": "Введите ваш email",
     "password": "Пароль",
-    "enterPassword": "Введите ваш пароль"
+    "enterPassword": "Введите ваш пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "enterConfirmPassword": "Введите пароль еще раз",
+    "firstName": "Имя",
+    "enterFirstName": "Введите ваше имя",
+    "lastName": "Фамилия",
+    "enterLastName": "Введите вашу фамилию",
+    "enterSex": "Введите ваш пол",
+    "birthDate": "Дата рождения",
+    "enterBirthDate": "Введите дату рождения"
+  },
+  "common": {
+    "clear": "Очистить",
+    "today": "Сегодня",
+    "sex": "Пол",
+    "male": "Мужской",
+    "female": "Женский",
+    "other": "Другой",
+    "selectOption": "Выберите опцию",
+    "search": "Поиск",
+    "noResults": "Результаты не найдены",
+    "noOptions": "Нет доступных опций",
+    "selectOptions": "Выберите опции",
+    "loading": "Загрузка"
   },
   "errors": {
     "somethingWentWrong": "Что-то пошло не так, пожалуйста, попробуйте позже."

@@ -4,10 +4,10 @@ import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
 import type {
-  PostAuthLoginData,
-  PostAuthLoginResponse,
   PostAuthRegisterData,
-  PostAuthRegisterResponse
+  PostAuthRegisterResponse,
+  PostAuthLoginData,
+  PostAuthLoginResponse
 } from './types.gen';
 
 export class RegisterService {

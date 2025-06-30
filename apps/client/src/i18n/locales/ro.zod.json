@@ -1,3 +1,4 @@
 {
-  "invalid_password_address": "Trebuie să conțină >=8 caractere, litere mici, litere mari, cifre, caractere speciale"
+  "invalid_password_address": "Trebuie să conțină >=8 caractere, litere mici, litere mari, cifre, caractere speciale",
+  "password_not_matched": "Parolele nu se potrivesc"
 }
