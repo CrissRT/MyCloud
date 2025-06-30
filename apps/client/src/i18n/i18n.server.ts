@@ -1,6 +1,6 @@
 'use server';
 
-import i18next, { i18n } from 'i18next';
+import i18next, { type i18n } from 'i18next';
 import Backend from 'i18next-fs-backend';
 import enZod from 'zod-i18n-map/locales/en/zod.json';
 import roZod from 'zod-i18n-map/locales/ro/zod.json';
