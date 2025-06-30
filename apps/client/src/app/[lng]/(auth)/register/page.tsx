@@ -4,9 +4,10 @@ import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useRegisterServicePostAuthRegister } from '@client/api/openapi/queries';
 import { Button, DatePicker, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes } from '@client/utils';
+import { routes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
@@ -41,9 +42,15 @@ const Page = () => {
     resolver: zodResolver(registerSchema)
   });
 
-  const onSubmit = async (data: RegisterType) => {
-    console.log('Registration data:', data);
-  };
+  const { mutateAsync } = useRegisterServicePostAuthRegister({
+    onSuccess: (data) => {
+      console.log('Registration successful:', data);
+      // Handle successful registration, e.g., redirect or show a success message
+    },
+    onError: showApiErrors
+  });
+
+  const onSubmit = async (requestBody: RegisterType) => await mutateAsync({ requestBody });
 
   return (
     <AuthLayout
