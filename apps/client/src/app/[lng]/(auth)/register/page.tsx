@@ -83,28 +83,24 @@ const Page = () => {
             ...register('confirmPassword', { required: true })
           }}
         />
-        <div className="flex gap-4 max-md:gap-0 max-md:flex-col">
-          <Input
-            label={{ text: t('auth.firstName') }}
-            input={{
-              placeholder: t('auth.enterFirstName'),
-              id: 'firstName',
-              ...register('firstName', { required: true })
-            }}
-            error={errors.firstName?.message}
-            size="lg"
-          />
-          <Input
-            label={{ text: t('auth.lastName') }}
-            input={{
-              placeholder: t('auth.enterLastName'),
-              id: 'lastName',
-              ...register('lastName', { required: true })
-            }}
-            size="lg"
-            error={errors.lastName?.message}
-          />
-        </div>
+        <Input
+          label={{ text: t('auth.firstName') }}
+          input={{
+            placeholder: t('auth.enterFirstName'),
+            id: 'firstName',
+            ...register('firstName', { required: true })
+          }}
+          error={errors.firstName?.message}
+        />
+        <Input
+          label={{ text: t('auth.lastName') }}
+          input={{
+            placeholder: t('auth.enterLastName'),
+            id: 'lastName',
+            ...register('lastName', { required: true })
+          }}
+          error={errors.lastName?.message}
+        />
         <DatePicker
           label={{ text: t('auth.birthDate') }}
           error={errors.birthDate?.message}
