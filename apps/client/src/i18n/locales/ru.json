@@ -41,7 +41,8 @@
     "selectOption": "Выберите опцию",
     "search": "Поиск",
     "noResults": "Результаты не найдены",
-    "noOptions": "Нет доступных опций"
+    "noOptions": "Нет доступных опций",
+    "selectOptions": "Выберите опции"
   },
   "errors": {
     "somethingWentWrong": "Что-то пошло не так, пожалуйста, попробуйте позже."

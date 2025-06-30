@@ -41,7 +41,8 @@
     "selectOption": "Select an option",
     "search": "Search",
     "noResults": "No results found",
-    "noOptions": "No options available"
+    "noOptions": "No options available",
+    "selectOptions": "Select options"
   },
   "errors": {
     "somethingWentWrong": "Something went wrong, please try again later."

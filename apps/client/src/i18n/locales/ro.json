@@ -41,7 +41,8 @@
     "selectOption": "Selectați o opțiune",
     "search": "Căutare",
     "noResults": "Nu s-au găsit rezultate",
-    "noOptions": "Nu sunt opțiuni disponibile"
+    "noOptions": "Nu sunt opțiuni disponibile",
+    "selectOptions": "Selectați opțiuni"
   },
   "errors": {
     "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."
