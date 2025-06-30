@@ -3,7 +3,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,6 +31,7 @@ const getMonthName = (year: number, month: number, lng: string = 'en') =>
     .format('MMMM');
 
 export const DatePicker = ({ label, error, input }: Props) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -71,10 +72,34 @@ export const DatePicker = ({ label, error, input }: Props) => {
     }, 0);
   }, [showCalendar, month, year, inputRef]);
 
-  const onInputClick = () => {
+  const onInputClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setShowCalendar((v) => !v);
     setMeasured(false);
   };
+
+  const onClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (!showCalendar) return;
+
+      // Check if the event target is a Node (for type safety)
+      if (!(event.target instanceof Node)) return;
+
+      // Check if the click was outside the container
+      if (containerRef.current && !containerRef.current.contains(event.target)) setShowCalendar(false);
+    },
+    [showCalendar]
+  );
+
+  useEffect(() => {
+    if (!showCalendar) return;
+
+    const handleClickOutside = (event: MouseEvent) => onClickOutside(event);
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showCalendar, onClickOutside]);
 
   const onCalendarChange = (dateStr: string) => {
     setSelected(dateStr || undefined);
@@ -141,6 +166,7 @@ export const DatePicker = ({ label, error, input }: Props) => {
             'left-[-9999px]': hidden
           }
         )}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-2">
           <button
@@ -208,7 +234,7 @@ export const DatePicker = ({ label, error, input }: Props) => {
   };
 
   return (
-    <div className="mb-6 max-w-full relative">
+    <div className="mb-6 max-w-full relative" ref={containerRef}>
       {label && (
         <label htmlFor={label.id || label.name} {...label} className="block mb-2 text-(--text-primary)">
           {label.text}

@@ -43,6 +43,28 @@ interface BaseProps {
 
 type Props = BaseProps & (SingleSelectProps | MultiSelectProps);
 
+// Helper function to create synthetic events for form integration
+const createSyntheticEvent = (inputElement: HTMLInputElement, newValue: string) => {
+  inputElement.value = newValue;
+  return {
+    target: inputElement,
+    currentTarget: inputElement,
+    type: 'change',
+    bubbles: true,
+    cancelable: true,
+    defaultPrevented: false,
+    eventPhase: 2,
+    isTrusted: true,
+    nativeEvent: new Event('change'),
+    preventDefault: () => {},
+    isDefaultPrevented: () => false,
+    stopPropagation: () => {},
+    isPropagationStopped: () => false,
+    persist: () => {},
+    timeStamp: Date.now()
+  };
+};
+
 export const Dropdown = ({
   label,
   error,
@@ -82,9 +104,7 @@ export const Dropdown = ({
         } catch {
           setInternalValue([]);
         }
-      } else {
-        setInternalValue(String(input.value));
-      }
+      } else setInternalValue(String(input.value));
     }
   }, [isControlled, multiple, input?.value]);
 
@@ -102,9 +122,8 @@ export const Dropdown = ({
   // Get selected options for display
   const selectedOptions = multiple
     ? options.filter((option) => {
-        if (Array.isArray(currentValue)) {
-          return currentValue.includes(option.value);
-        }
+        if (Array.isArray(currentValue)) return currentValue.includes(option.value);
+
         return false;
       })
     : options.find((option) => option.value === currentValue);
@@ -119,7 +138,7 @@ export const Dropdown = ({
       : placeholder || t('common.selectOption');
 
   // Handle option selection
-  const handleOptionSelect = (option: DropdownOption) => {
+  const onOptionSelect = (option: DropdownOption) => {
     if (option.disabled) return;
 
     if (multiple) {
@@ -130,88 +149,66 @@ export const Dropdown = ({
       if (isSelected) {
         newValues = currentValues.filter((v) => v !== option.value);
       } else {
-        // Check maxSelections without type assertion
-        if (
-          'maxSelections' in selectProps &&
-          selectProps.maxSelections &&
-          currentValues.length >= selectProps.maxSelections
-        ) {
-          return; // Don't add more if max reached
+        // Check maxSelections for multi-select
+        if (multiple && 'maxSelections' in selectProps && selectProps.maxSelections) {
+          if (currentValues.length >= selectProps.maxSelections) return; // Don't add more if max reached
         }
         newValues = [...currentValues, option.value];
       }
 
       // Update internal state
-      if (!isControlled) {
-        setInternalValue(newValues);
-      }
+      if (!isControlled) setInternalValue(newValues);
 
       // Call onChange if provided (controlled mode)
-      if (onChange && 'multiple' in selectProps && selectProps.multiple) {
-        onChange(newValues);
-      }
+      if (onChange && multiple && 'multiple' in selectProps && selectProps.multiple) onChange(newValues);
 
       // For react-hook-form integration
       if (input?.onChange && inputRef.current) {
-        input.onChange({
-          target: { value: JSON.stringify(newValues), name: input.name || '' },
-          currentTarget: inputRef.current
-        } as React.ChangeEvent<HTMLInputElement>);
+        const syntheticEvent = createSyntheticEvent(inputRef.current, JSON.stringify(newValues));
+        input.onChange(syntheticEvent);
       }
     } else {
       // Update internal state
-      if (!isControlled) {
-        setInternalValue(option.value);
-      }
+      if (!isControlled) setInternalValue(option.value);
 
       // Call onChange if provided (controlled mode)
-      if (onChange && !('multiple' in selectProps)) {
-        onChange(option.value);
-      }
+      if (onChange && !multiple && !('multiple' in selectProps)) onChange(option.value);
+
       setIsOpen(false);
 
       // For react-hook-form integration
       if (input?.onChange && inputRef.current) {
-        input.onChange({
-          target: { value: String(option.value), name: input.name || '' },
-          currentTarget: inputRef.current
-        } as React.ChangeEvent<HTMLInputElement>);
+        const syntheticEvent = createSyntheticEvent(inputRef.current, String(option.value));
+        input.onChange(syntheticEvent);
       }
     }
   };
 
   // Handle clear selection
-  const handleClear = (e: React.MouseEvent) => {
+  const onClear = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     const emptyValue = multiple ? [] : undefined;
 
     // Update internal state
-    if (!isControlled) {
-      setInternalValue(emptyValue);
-    }
+    if (!isControlled) setInternalValue(emptyValue);
 
     // Call onChange if provided (controlled mode)
     if (onChange) {
-      if (multiple && 'multiple' in selectProps && selectProps.multiple) {
-        onChange([]);
-      } else if (!multiple && !('multiple' in selectProps)) {
-        onChange(undefined);
-      }
+      if (multiple && 'multiple' in selectProps && selectProps.multiple) onChange([]);
+      else if (!multiple && !('multiple' in selectProps)) onChange(undefined);
     }
 
     // For react-hook-form integration
     if (input?.onChange && inputRef.current) {
       const newValue = multiple ? '[]' : '';
-      input.onChange({
-        target: { value: newValue, name: input.name || '' },
-        currentTarget: inputRef.current
-      } as React.ChangeEvent<HTMLInputElement>);
+      const syntheticEvent = createSyntheticEvent(inputRef.current, newValue);
+      input.onChange(syntheticEvent);
     }
   };
 
   // Handle remove single option in multi-select
-  const handleRemoveOption = (optionValue: string | number, e: React.MouseEvent) => {
+  const onRemoveOption = (optionValue: string | number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (!multiple) return;
 
@@ -219,21 +216,15 @@ export const Dropdown = ({
     const newValues = currentValues.filter((v) => v !== optionValue);
 
     // Update internal state
-    if (!isControlled) {
-      setInternalValue(newValues);
-    }
+    if (!isControlled) setInternalValue(newValues);
 
     // Call onChange if provided (controlled mode)
-    if (onChange && 'multiple' in selectProps && selectProps.multiple) {
-      onChange(newValues);
-    }
+    if (onChange && 'multiple' in selectProps && selectProps.multiple) onChange(newValues);
 
     // For react-hook-form integration
     if (input?.onChange && inputRef.current) {
-      input.onChange({
-        target: { value: JSON.stringify(newValues), name: input.name || '' },
-        currentTarget: inputRef.current
-      } as React.ChangeEvent<HTMLInputElement>);
+      const syntheticEvent = createSyntheticEvent(inputRef.current, JSON.stringify(newValues));
+      input.onChange(syntheticEvent);
     }
   };
 
@@ -244,7 +235,7 @@ export const Dropdown = ({
       return;
     }
 
-    const handleClickOutside = (e: MouseEvent) => {
+    const onClickOutside = (e: MouseEvent) => {
       if (!(e.target instanceof Node)) return;
       if (!containerRef.current?.contains(e.target)) {
         setIsOpen(false);
@@ -252,8 +243,8 @@ export const Dropdown = ({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
   }, [isOpen]);
 
   // Dropdown positioning
@@ -261,7 +252,7 @@ export const Dropdown = ({
     if (!isOpen) return;
 
     // Only remeasure when dropdown is first opened, not when filtering
-    if (!measured) {
+    if (!measured)
       setTimeout(() => {
         const container = containerRef.current;
         const dropdown = dropdownRef.current;
@@ -271,15 +262,12 @@ export const Dropdown = ({
           const spaceBelow = window.innerHeight - containerRect.bottom;
           const spaceAbove = containerRect.top;
 
-          if (spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height) {
-            setOpenAbove(true);
-          } else {
-            setOpenAbove(false);
-          }
+          if (spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height) setOpenAbove(true);
+          else setOpenAbove(false);
+
           setMeasured(true);
         }
       }, 0);
-    }
   }, [isOpen, measured]);
 
   const sizeClasses = {
@@ -291,7 +279,7 @@ export const Dropdown = ({
   return (
     <div className="mb-6 max-w-full relative" ref={containerRef}>
       {label && (
-        <label htmlFor={input?.id || input?.name} {...label} className="block mb-2 text-(--text-primary)" {...label}>
+        <label htmlFor={input?.id || input?.name} {...label} className="block mb-2 text-(--text-primary)">
           {label.text}
         </label>
       )}
@@ -328,7 +316,7 @@ export const Dropdown = ({
                     {option.label}
                     <button
                       type="button"
-                      onClick={(e) => handleRemoveOption(option.value, e)}
+                      onClick={(e) => onRemoveOption(option.value, e)}
                       className="hover:bg-(--primary-dark) rounded p-0.5"
                     >
                       <FontAwesomeIcon icon={faTimes} className="w-3 h-3" />
@@ -352,11 +340,7 @@ export const Dropdown = ({
             {clearable &&
               ((multiple && Array.isArray(currentValue) && currentValue.length > 0) ||
                 (!multiple && currentValue !== undefined)) && (
-                <button
-                  type="button"
-                  onClick={handleClear}
-                  className="text-(--text-secondary) hover:text-(--text-primary) p-1"
-                >
+                <button type="button" onClick={onClear} className="text-(--text-secondary) hover:text-(--text-primary)">
                   <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
                 </button>
               )}
@@ -431,7 +415,7 @@ export const Dropdown = ({
                           'bg-(--border-hover)': isSelected
                         }
                       )}
-                      onClick={() => handleOptionSelect(option)}
+                      onClick={() => onOptionSelect(option)}
                     >
                       <span className="flex-1 text-(--text-primary)">{option.label}</span>
                       {isSelected && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-(--primary)" />}

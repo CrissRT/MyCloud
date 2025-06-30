@@ -43,7 +43,7 @@ const Page = () => {
     resolver: zodResolver(registerSchema)
   });
 
-  const { mutateAsync } = useRegisterServicePostAuthRegister({
+  const { mutateAsync, isPending } = useRegisterServicePostAuthRegister({
     onSuccess: (data) => {
       console.log('Registration successful:', data);
       // Handle successful registration, e.g., redirect or show a success message
@@ -120,7 +120,9 @@ const Page = () => {
           error={errors.sex?.message}
           input={{ ...register('sex', { required: true }) }}
         />
-        <Button width="full">{t('auth.register.createAccount')}</Button>
+        <Button width="full" loading={isPending}>
+          {t('auth.register.createAccount')}
+        </Button>
       </form>
     </AuthLayout>
   );

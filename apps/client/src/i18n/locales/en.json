@@ -38,7 +38,9 @@
     "male": "Male",
     "female": "Female",
     "other": "Other",
-    "selectOption": "Select an option"
+    "selectOption": "Select an option",
+    "search": "Search",
+    "noResults": "No results found"
   },
   "errors": {
     "somethingWentWrong": "Something went wrong, please try again later."

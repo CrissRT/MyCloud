@@ -64,6 +64,9 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
         },
         {
           ['w-full']: width === 'full'
+        },
+        {
+          'cursor-wait': loading
         }
       )}
       disabled={loading}
