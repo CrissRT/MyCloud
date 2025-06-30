@@ -39,7 +39,7 @@ export const initI18nClient = (language: string) => {
       },
       react: { useSuspense: false }
     });
-  } else i18next.changeLanguage(language);
+  }
 
   return i18next;
 };
