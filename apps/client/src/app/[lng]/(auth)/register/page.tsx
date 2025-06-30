@@ -68,6 +68,7 @@ const Page = () => {
           label={{ text: t('auth.email') }}
           error={errors.email?.message}
           input={{ placeholder: t('auth.enterEmail'), id: 'email', ...register('email', { required: true }) }}
+          size="2xl"
         />
         <Password
           label={{ text: t('auth.password') }}
@@ -82,6 +83,7 @@ const Page = () => {
             id: 'confirmPassword',
             ...register('confirmPassword', { required: true })
           }}
+          size="2xl"
         />
         <Input
           label={{ text: t('auth.firstName') }}
@@ -91,6 +93,7 @@ const Page = () => {
             ...register('firstName', { required: true })
           }}
           error={errors.firstName?.message}
+          size="2xl"
         />
         <Input
           label={{ text: t('auth.lastName') }}
@@ -100,6 +103,7 @@ const Page = () => {
             ...register('lastName', { required: true })
           }}
           error={errors.lastName?.message}
+          size="2xl"
         />
         <DatePicker
           label={{ text: t('auth.birthDate') }}
