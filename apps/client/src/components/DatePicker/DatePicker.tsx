@@ -1,11 +1,13 @@
 'use client';
 
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getWeekdaysShort } from '@shared/utils';
 
 interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   label?: string;
@@ -16,14 +18,16 @@ interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCha
 
 const getDaysInMonth = (year: number, month: number) =>
   dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`).daysInMonth();
-const getFirstDayOfWeek = (year: number, month: number) =>
-  dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`).day();
-const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-const getMonthName = (year: number, month: number, lng: string = 'en') => {
-  return dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`)
+
+const getFirstDayOfWeek = (year: number, month: number) => {
+  const firstDay = dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`).day();
+  return firstDay === 0 ? 6 : firstDay - 1; // Convert Sunday (0) to 6, and shift others to start from Monday
+};
+
+const getMonthName = (year: number, month: number, lng: string = 'en') =>
+  dayjs(`${year}-${String(month + 1).padStart(2, '0')}-01`)
     .locale(lng)
     .format('MMMM');
-};
 
 export const DatePicker = ({ label, error, value, onDateChange, onChange, ...rest }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -112,18 +116,16 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
 
   const onPrevMonth = () => {
     setMonthYear(({ month, year }) => {
-      if (month === 0) {
-        return { month: 11, year: year - 1 };
-      }
+      if (month === 0) return { month: 11, year: year - 1 };
+
       return { month: month - 1, year };
     });
   };
 
   const onNextMonth = () => {
     setMonthYear(({ month, year }) => {
-      if (month === 11) {
-        return { month: 0, year: year + 1 };
-      }
+      if (month === 11) return { month: 0, year: year + 1 };
+
       return { month: month + 1, year };
     });
   };
@@ -138,7 +140,13 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
     return (
       <div
         ref={calendarRef}
-        className={`absolute z-50 left-0 w-80 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg p-4 animate-fade-in ${openAbove ? 'bottom-full mb-2' : 'top-full mt-2'}`}
+        className={classNames(
+          'absolute z-50 left-0 w-80 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg p-4 animate-fade-in',
+          {
+            'bottom-full mb-2': openAbove,
+            'top-full mt-2': !openAbove
+          }
+        )}
         style={hidden ? { visibility: 'hidden', pointerEvents: 'none', left: '-9999px' } : {}}
       >
         <div className="flex items-center justify-between mb-2">
@@ -167,22 +175,32 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
           </button>
         </div>
         <div className="grid grid-cols-7 gap-1 mb-2">
-          {WEEKDAYS.map((wd) => (
+          {getWeekdaysShort(i18n.language).map((wd) => (
             <div key={wd} className="text-center text-xs font-medium text-(--text-secondary)">
               {wd}
             </div>
           ))}
-          {days.map((day, i) => (
-            <button
-              key={i}
-              type="button"
-              className={`w-8 h-8 rounded-lg text-sm cursor-pointer ${day && selected === `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` ? 'bg-(--primary) text-white' : 'hover:bg-(--border-hover)'} ${day === today.date() && month === today.month() && year === today.year() ? 'border border-(--primary)' : ''}`}
-              disabled={!day}
-              onClick={() => day && onDayClick(day)}
-            >
-              {day || ''}
-            </button>
-          ))}
+          {days.map((day, i) => {
+            const isSelected =
+              day && selected === `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const isToday = day === today.date() && month === today.month() && year === today.year();
+
+            return (
+              <button
+                key={i}
+                type="button"
+                className={classNames('w-8 h-8 rounded-lg text-sm cursor-pointer', {
+                  'bg-(--primary) text-white': isSelected,
+                  'hover:bg-(--border-hover)': !isSelected,
+                  'border border-(--primary)': isToday
+                })}
+                disabled={!day}
+                onClick={() => day && onDayClick(day)}
+              >
+                {day || ''}
+              </button>
+            );
+          })}
         </div>
         <div className="flex justify-between mt-2">
           <button type="button" className="text-(--primary) underline cursor-pointer" onClick={onClear}>
@@ -197,7 +215,7 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
   };
 
   return (
-    <div className="mb-[1.5rem] max-w-full relative">
+    <div className="mb-6 max-w-full relative">
       {label && (
         <label htmlFor={rest.id || rest.name} className="block mb-2 text-(--text-primary)">
           {label}
@@ -210,7 +228,7 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
           value={selected || ''}
           onClick={onInputClick}
           readOnly
-          className="appearance-none w-full py-3 px-4 rounded-xl border border-(--border-color) focus:border-(--border-hover) bg-transparent text-(--text-primary) placeholder-(--text-secondary) cursor-pointer"
+          className="appearance-none w-full py-3 px-4 rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) placeholder-(--text-secondary) cursor-pointer outline-none focus:outline-none"
           placeholder="YYYY-MM-DD"
           {...rest}
         />
