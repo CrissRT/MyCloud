@@ -79,13 +79,7 @@ router.post('/register', async (req, res) => {
     };
 
     const createdUser = await createUser({
-      email: resultParseBody.data.email,
-      username: userName,
-      firstName: resultParseBody.data.firstName,
-      lastName: resultParseBody.data.lastName,
-      role: $Enums.roleEnum.user,
-      sex: resultParseBody.data.sex,
-      birthDate: resultParseBody.data.birthDate,
+      ...response,
       password: hashedPassword,
       storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
       usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
