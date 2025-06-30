@@ -22,8 +22,8 @@ const RootLayout = async ({
   const { lng } = await params;
 
   return (
-    <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px]">
-      <body className="antialiased w-full h-full text-(--text-primary)">
+    <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px] min-h-full">
+      <body className="antialiased w-full h-full text-(--text-primary) min-h-full">
         <AppI18nextProvider>
           <QueryClientContext>
             <APIProvider>
