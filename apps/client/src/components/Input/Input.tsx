@@ -27,7 +27,7 @@ export const Input = ({ label, icon, input, size, iconPosition = 'right', error 
             ['mr-[0.5rem]']: label?.position === 'left'
           })}
         >
-          <label htmlFor={input?.id || input?.name} className={classnames('text-(--text-primary) h-fit')}>
+          <label htmlFor={input?.id || input?.name} {...label} className={classnames('text-(--text-primary) h-fit')}>
             {label?.text}
           </label>
         </div>

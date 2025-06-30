@@ -8,7 +8,7 @@ export const userSchema = z.object({
   id: z.number().int().nonnegative(),
   email: z.string().email(),
   username: z.string().min(3).max(30),
-  password: z.string().min(8).regex(passwordRegex),
+  password: z.string().regex(passwordRegex),
   firstName: z.string().min(3).max(255),
   lastName: z.string().min(3).max(255),
   role: z.nativeEnum($Enums.roleEnum),

@@ -9,11 +9,12 @@ import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getWeekdaysShort } from '@shared/utils';
 
-interface Props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-  label?: string;
+interface Props {
+  label?: { text: string } & React.InputHTMLAttributes<HTMLLabelElement>;
   error?: string;
-  onDateChange?: (date: string) => void;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  input?: React.InputHTMLAttributes<HTMLInputElement> & {
+    ref?: (instance: HTMLInputElement | null) => void;
+  };
 }
 
 const getDaysInMonth = (year: number, month: number) =>
@@ -29,54 +30,46 @@ const getMonthName = (year: number, month: number, lng: string = 'en') =>
     .locale(lng)
     .format('MMMM');
 
-export const DatePicker = ({ label, error, value, onDateChange, onChange, ...rest }: Props) => {
+export const DatePicker = ({ label, error, input }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [openAbove, setOpenAbove] = useState(false);
   const [measured, setMeasured] = useState(false);
-  const [selected, setSelected] = useState(value ? String(value) : undefined);
+  const [selected, setSelected] = useState(input?.value ? input.value : undefined);
   const today = dayjs();
   const [monthYear, setMonthYear] = useState(() => ({ month: today.month(), year: today.year() }));
   const month = monthYear.month;
   const year = monthYear.year;
   const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    setSelected(value ? String(value) : undefined);
-  }, [value]);
+  const combinedRefCallback = (element: HTMLInputElement | null) => {
+    if (input?.ref) input.ref(element);
+    inputRef.current = element;
+  };
 
   useEffect(() => {
-    if (!showCalendar) return;
-    const onClick = (e: MouseEvent) => {
-      if (!(e.target instanceof Node)) return;
-      if (!inputRef.current?.parentElement?.contains(e.target)) setShowCalendar(false);
-    };
-    document.addEventListener('mousedown', onClick);
-    return () => document.removeEventListener('mousedown', onClick);
-  }, [showCalendar]);
+    setSelected(input?.value ? String(input.value) : undefined);
+  }, [input?.value]);
 
   useEffect(() => {
     if (!showCalendar) return;
     setMeasured(false);
     // Wait for calendar to render, then measure
     setTimeout(() => {
-      const input = inputRef.current;
       const calendar = calendarRef.current;
-      if (input && calendar) {
-        const inputRect = input.getBoundingClientRect();
+      if (inputRef.current && calendar) {
+        const inputRect = inputRef.current.getBoundingClientRect();
         const calendarRect = calendar.getBoundingClientRect();
         const spaceBelow = window.innerHeight - inputRect.bottom;
         const spaceAbove = inputRect.top;
-        if (spaceBelow < calendarRect.height && spaceAbove > calendarRect.height) {
-          setOpenAbove(true);
-        } else {
-          setOpenAbove(false);
-        }
+        if (spaceBelow < calendarRect.height && spaceAbove > calendarRect.height) setOpenAbove(true);
+        else setOpenAbove(false);
+
         setMeasured(true);
       }
     }, 0);
-  }, [showCalendar, month, year]);
+  }, [showCalendar, month, year, inputRef]);
 
   const onInputClick = () => {
     setShowCalendar((v) => !v);
@@ -86,14 +79,12 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
   const onCalendarChange = (dateStr: string) => {
     setSelected(dateStr || undefined);
     setShowCalendar(false);
-    onDateChange?.(dateStr);
-    // Optionally, call the native onChange if provided, with a synthetic event
-    if (onChange && inputRef.current) {
-      const nativeInput = inputRef.current;
+    // Trigger react-hook-form's onChange if provided
+    if (input?.onChange && inputRef.current) {
       const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set;
-      valueSetter?.call(nativeInput, dateStr);
+      valueSetter?.call(inputRef.current, dateStr);
       const event = new Event('input', { bubbles: true });
-      nativeInput.dispatchEvent(event);
+      inputRef.current.dispatchEvent(event);
     }
   };
 
@@ -144,10 +135,12 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
           'absolute z-50 left-0 w-80 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg p-4 animate-fade-in',
           {
             'bottom-full mb-2': openAbove,
-            'top-full mt-2': !openAbove
+            'top-full mt-2': !openAbove,
+            invisible: hidden,
+            ['pointer-events-none']: hidden,
+            'left-[-9999px]': hidden
           }
         )}
-        style={hidden ? { visibility: 'hidden', pointerEvents: 'none', left: '-9999px' } : {}}
       >
         <div className="flex items-center justify-between mb-2">
           <button
@@ -217,25 +210,22 @@ export const DatePicker = ({ label, error, value, onDateChange, onChange, ...res
   return (
     <div className="mb-6 max-w-full relative">
       {label && (
-        <label htmlFor={rest.id || rest.name} className="block mb-2 text-(--text-primary)">
-          {label}
+        <label htmlFor={label.id || label.name} {...label} className="block mb-2 text-(--text-primary)">
+          {label.text}
         </label>
       )}
       <div className="relative w-full">
         <input
-          ref={inputRef}
+          {...input}
+          ref={combinedRefCallback}
           type="text"
           value={selected || ''}
           onClick={onInputClick}
           readOnly
           className="appearance-none w-full py-3 px-4 rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) placeholder-(--text-secondary) cursor-pointer outline-none focus:outline-none"
           placeholder="YYYY-MM-DD"
-          {...rest}
         />
-        <span
-          className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-(--text-secondary)"
-          style={{ fontSize: '1.25rem' }}
-        >
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-(--text-secondary) text-xl">
           <FontAwesomeIcon icon={faCalendarDays} />
         </span>
         {showCalendar && !measured && renderCalendar(true)}
