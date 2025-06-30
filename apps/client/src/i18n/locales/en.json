@@ -27,14 +27,18 @@
     "enterFirstName": "Enter your first name",
     "lastName": "Last Name",
     "enterLastName": "Enter your last name",
-    "sex": "Sex",
     "enterSex": "Enter your sex",
     "birthDate": "Birth Date",
     "enterBirthDate": "Enter your birth date"
   },
   "common": {
     "clear": "Clear",
-    "today": "Today"
+    "today": "Today",
+    "sex": "Sex",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "selectOption": "Select an option"
   },
   "errors": {
     "somethingWentWrong": "Something went wrong, please try again later."

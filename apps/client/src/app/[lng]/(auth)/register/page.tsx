@@ -5,9 +5,9 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRegisterServicePostAuthRegister } from '@client/api/openapi/queries';
-import { Button, DatePicker, Input, Password } from '@client/components';
+import { Button, DatePicker, Dropdown, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes, showApiErrors } from '@client/utils';
+import { routes, Sex, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
@@ -25,7 +25,8 @@ const Page = () => {
       confirmPassword: z.string(),
       firstName: z.string().min(3).max(255),
       lastName: z.string().min(3).max(255),
-      birthDate: z.string().regex(dateRegex, { message: zodT('errors.invalid_date') })
+      birthDate: z.string().regex(dateRegex, { message: zodT('errors.invalid_date') }),
+      sex: z.nativeEnum(Sex)
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: customZod('password_not_matched'),
@@ -108,6 +109,16 @@ const Page = () => {
           label={{ text: t('auth.birthDate') }}
           error={errors.birthDate?.message}
           input={{ ...register('birthDate', { required: true }) }}
+        />
+        <Dropdown
+          label={{ text: t('common.sex') }}
+          options={[
+            { value: Sex.MALE, label: t('common.male') },
+            { value: Sex.FEMALE, label: t('common.female') },
+            { value: Sex.OTHER, label: t('common.other') }
+          ]}
+          error={errors.sex?.message}
+          input={{ ...register('sex', { required: true }) }}
         />
         <Button width="full">{t('auth.register.createAccount')}</Button>
       </form>

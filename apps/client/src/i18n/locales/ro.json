@@ -27,14 +27,18 @@
     "enterFirstName": "Introduceți prenumele",
     "lastName": "Nume",
     "enterLastName": "Introduceți numele de familie",
-    "sex": "Sex",
     "enterSex": "Introduceți sexul",
     "birthDate": "Data nașterii",
     "enterBirthDate": "Introduceți data nașterii"
   },
   "common": {
     "clear": "Șterge",
-    "today": "Astăzi"
+    "today": "Astăzi",
+    "sex": "Sex",
+    "male": "Masculin",
+    "female": "Feminin",
+    "other": "Altul",
+    "selectOption": "Selectați o opțiune"
   },
   "errors": {
     "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."
