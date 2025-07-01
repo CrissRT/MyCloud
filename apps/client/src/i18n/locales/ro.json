@@ -17,6 +17,12 @@
       "joinUs": "Alătură-te la MyCloud și stochează-ți fișierele în siguranță.",
       "alreadyHaveAccount": "Ai deja un cont?"
     },
+    "forgotPassword": {
+      "forgotPassword": "Ai uitat parola?",
+      "enterEmail": "Introduceți emailul pentru a reseta parola",
+      "sendResetLink": "Trimite link de resetare",
+      "rememberPassword": "Ți-ai amintit parola?"
+    },
     "email": "Email",
     "enterEmail": "Introduceți emailul",
     "password": "Parola",
