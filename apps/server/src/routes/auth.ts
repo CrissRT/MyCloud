@@ -70,7 +70,7 @@ router.post('/register', async (req, res) => {
     // If a user with the given email already exists, return a 400 error
     if (foundUser) {
       res.status(400).json({
-        code: ErrorCodes.USER_ALREADY_EXISTS,
+        code: ErrorCodes.RECORD_ALREADY_EXISTS,
         message: req.t('errors.userAlreadyExists')
       });
       return;
@@ -153,7 +153,7 @@ router.post('/login', async (req, res) => {
     const foundUser = await getUserByEmail(email);
     if (!foundUser) {
       res.status(401).json({
-        code: ErrorCodes.INVALID_CREDENTIALS,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.invalidCredentials')
       });
       return;
@@ -204,7 +204,7 @@ router.post('/login', async (req, res) => {
       session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
       res.status(401).json({
-        code: ErrorCodes.INVALID_CREDENTIALS,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.invalidCredentials')
       });
       return;
@@ -283,7 +283,7 @@ router.post('/forgot-password', async (req, res) => {
 
     if (!user) {
       res.status(404).json({
-        code: ErrorCodes.USER_NOT_FOUND,
+        code: ErrorCodes.RECORD_NOT_FOUND,
         message: req.t('errors.userNotFound')
       });
       return;
@@ -309,7 +309,7 @@ router.post('/forgot-password', async (req, res) => {
       res.status(200).json(response);
     } catch {
       res.status(500).json({
-        code: ErrorCodes.FORGOT_PASSWORD_FAILED,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetPasswordFailed')
       });
     }
@@ -340,7 +340,7 @@ router.post('/reset-password', async (req, res) => {
     // Verify the token expiration and validity
     if (!isValidJwt(token)) {
       res.status(400).json({
-        code: ErrorCodes.INVALID_TOKEN,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetTokenInvalid')
       });
       return;
@@ -353,7 +353,7 @@ router.post('/reset-password', async (req, res) => {
 
     if (!parsedToken.success) {
       res.status(400).json({
-        code: ErrorCodes.INVALID_TOKEN,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetTokenInvalid')
       });
       return;
@@ -366,7 +366,7 @@ router.post('/reset-password', async (req, res) => {
 
     if (!user) {
       res.status(404).json({
-        code: ErrorCodes.USER_NOT_FOUND,
+        code: ErrorCodes.RECORD_NOT_FOUND,
         message: req.t('errors.userNotFound')
       });
       return;
@@ -376,7 +376,7 @@ router.post('/reset-password', async (req, res) => {
     const foundToken = await getResetTokenByUserId(user.id);
     if (!foundToken || foundToken.token !== token) {
       res.status(404).json({
-        code: ErrorCodes.INVALID_TOKEN,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetTokenInvalid')
       });
       return;
@@ -389,7 +389,7 @@ router.post('/reset-password', async (req, res) => {
 
     if (isSamePassword) {
       res.status(400).json({
-        code: ErrorCodes.SAME_PASSWORD,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.samePassword')
       });
       return;
