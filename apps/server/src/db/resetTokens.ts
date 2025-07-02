@@ -20,10 +20,9 @@ export const getResetTokenByUserId = async (userId: number) => {
 };
 
 export const deleteResetTokenByUserId = async (userId: number) => {
-  const deletedToken = await prisma.resetTokens.deleteMany({
+  await prisma.resetTokens.deleteMany({
     where: {
       userId
     }
   });
-  return deletedToken;
 };
