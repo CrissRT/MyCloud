@@ -60,6 +60,17 @@
     "loading": "Se încarcă"
   },
   "errors": {
+    "notFound": {
+      "pageNotFound": "Pagina nu a fost găsită",
+      "pageNotFoundDescription": "Ne pare rău, nu am putut găsi pagina pe care o căutați. Este posibil ca pagina să fi fost mutată, ștearsă sau adresa URL să fie incorectă.",
+      "whatCanDo": "Ce puteți face?",
+      "checkTypos": "Verificați dacă adresa URL conține greșeli de scriere sau erori",
+      "goBackPrevPage": "Întoarceți-vă la pagina anterioară",
+      "visitHomeePage": "Vizitați pagina noastră principală pentru a o lua de la capăt",
+      "useSearch": "Folosiți funcția de căutare pentru a găsi ceea ce aveți nevoie",
+      "goHomePage": "Mergeți la pagina principală",
+      "goBack": "Înapoi"
+    },
     "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."
   }
 }
