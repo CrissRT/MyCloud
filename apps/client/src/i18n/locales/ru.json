@@ -42,7 +42,8 @@
     "enterSex": "Введите ваш пол",
     "birthDate": "Дата рождения",
     "enterBirthDate": "Введите дату рождения",
-    "or": "или"
+    "or": "или",
+    "continueWithGoogle": "Продолжить с Google"
   },
   "common": {
     "clear": "Очистить",

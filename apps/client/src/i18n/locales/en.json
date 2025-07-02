@@ -42,7 +42,8 @@
     "enterSex": "Enter your sex",
     "birthDate": "Birth Date",
     "enterBirthDate": "Enter your birth date",
-    "or": "or"
+    "or": "or",
+    "continueWithGoogle": "Continue with Google"
   },
   "common": {
     "clear": "Clear",

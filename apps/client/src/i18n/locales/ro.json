@@ -42,7 +42,8 @@
     "enterSex": "Introduceți sexul",
     "birthDate": "Data nașterii",
     "enterBirthDate": "Introduceți data nașterii",
-    "or": "sau"
+    "or": "sau",
+    "continueWithGoogle": "Continuă cu Google"
   },
   "common": {
     "clear": "Șterge",
