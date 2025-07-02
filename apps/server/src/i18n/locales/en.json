@@ -10,7 +10,8 @@
     "userNotFound": "User was not found",
     "resetPasswordFailed": "Failed to send forgot password email",
     "resetTokenInvalid": "Reset token is invalid",
-    "resetTokenExpired": "Reset token has expired"
+    "resetTokenExpired": "Reset token has expired",
+    "samePassword": "New password must be different from the old password"
   },
 
   "success": {

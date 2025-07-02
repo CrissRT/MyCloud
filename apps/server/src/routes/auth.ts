@@ -362,6 +362,16 @@ router.post('/reset-password', async (req, res) => {
     // Hash the new password
     const hashedPassword = await hash(resultParse.data.password, SALT_ROUNDS);
 
+    const isSamePassword = await compare(resultParse.data.password, user.password);
+
+    if (isSamePassword) {
+      res.status(400).json({
+        code: ErrorCodes.SAME_PASSWORD,
+        message: req.t('errors.samePassword')
+      });
+      return;
+    }
+
     // Update the user's password
     await updateUserById(user.id, { ...user, password: hashedPassword });
 
