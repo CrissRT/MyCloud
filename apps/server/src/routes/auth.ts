@@ -349,8 +349,7 @@ router.get('/reset-password', async (req, res) => {
       return;
     }
 
-    res.status(200).json({});
-    // TODO: add a correct response here
+    res.status(204);
   } catch (error) {
     console.error('Error during reset password:', error);
     res.status(500).json({
