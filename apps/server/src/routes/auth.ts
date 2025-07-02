@@ -351,7 +351,7 @@ router.post('/reset-password', async (req, res) => {
 
     // Check if the reset token exists for the user
     const foundToken = await getResetTokenByUserId(user.id);
-    if (!foundToken) {
+    if (!foundToken || foundToken.token !== token) {
       res.status(404).json({
         code: ErrorCodes.INVALID_TOKEN,
         message: req.t('errors.resetTokenInvalid')
