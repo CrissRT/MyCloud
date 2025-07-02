@@ -19,20 +19,6 @@ export const getResetTokenByUserId = async (userId: number) => {
   return resetToken;
 };
 
-export const getResetTokenByUserMail = async (email: string) => {
-  const resetToken = await prisma.resetTokens.findFirst({
-    where: {
-      users: {
-        email
-      }
-    },
-    include: {
-      users: true
-    }
-  });
-  return resetToken;
-};
-
 export const deleteResetTokenByUserId = async (userId: number) => {
   await prisma.resetTokens.deleteMany({
     where: {
