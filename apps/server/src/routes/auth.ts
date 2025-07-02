@@ -4,7 +4,14 @@ import express from 'express';
 import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
-import { createSession, createUser, getUserByEmail, updateSessionById, updateUserById } from '@server/db';
+import {
+  createSession,
+  createUser,
+  getStorageInfoByUserId,
+  getUserByEmail,
+  updateSessionById,
+  updateUserById
+} from '@server/db';
 import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
   AuthResponse,
@@ -63,7 +70,7 @@ router.post('/register', async (req, res) => {
     // If a user with the given email already exists, return a 400 error
     if (foundUser) {
       res.status(400).json({
-        code: ErrorCodes.USER_ALREADY_EXISTS,
+        code: ErrorCodes.RECORD_ALREADY_EXISTS,
         message: req.t('errors.userAlreadyExists')
       });
       return;
@@ -93,11 +100,16 @@ router.post('/register', async (req, res) => {
       usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
     };
 
+    // Use transaction to ensure atomicity of user and storage creation
     const createdUser = await createUser({
-      ...response,
+      email: response.email,
+      username: response.username,
+      firstName: response.firstName,
+      lastName: response.lastName,
       password: hashedPassword,
-      storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
-      usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
+      role: response.role,
+      sex: response.sex,
+      birthDate: response.birthDate
     });
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
@@ -141,7 +153,7 @@ router.post('/login', async (req, res) => {
     const foundUser = await getUserByEmail(email);
     if (!foundUser) {
       res.status(401).json({
-        code: ErrorCodes.INVALID_CREDENTIALS,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.invalidCredentials')
       });
       return;
@@ -192,7 +204,7 @@ router.post('/login', async (req, res) => {
       session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
       res.status(401).json({
-        code: ErrorCodes.INVALID_CREDENTIALS,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.invalidCredentials')
       });
       return;
@@ -203,6 +215,17 @@ router.post('/login', async (req, res) => {
     session.banStart = null;
     session.banDurationMinutes = null;
 
+    // Get storage information for the user
+    const foundStorage = await getStorageInfoByUserId(foundUser.id);
+
+    if (!foundStorage) {
+      res.status(404).json({
+        code: ErrorCodes.RECORD_NOT_FOUND,
+        message: req.t('errors.userNotInitializedCorrectly')
+      });
+      return;
+    }
+
     const userCookie = getSerializedUserSessionCookie({
       email: foundUser.email,
       username: foundUser.username,
@@ -211,8 +234,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMb),
-      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
+      storageSpaceInMB: String(foundStorage.storageSpaceInMB),
+      usedStorageInBytes: String(foundStorage.usedStorageInBytes)
     });
 
     session.cookie = userCookie;
@@ -228,8 +251,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMb),
-      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
+      storageSpaceInMB: String(foundStorage.storageSpaceInMB),
+      usedStorageInBytes: String(foundStorage.usedStorageInBytes)
     };
 
     setCookieHeader(res, userCookie);
@@ -260,7 +283,7 @@ router.post('/forgot-password', async (req, res) => {
 
     if (!user) {
       res.status(404).json({
-        code: ErrorCodes.USER_NOT_FOUND,
+        code: ErrorCodes.RECORD_NOT_FOUND,
         message: req.t('errors.userNotFound')
       });
       return;
@@ -286,7 +309,7 @@ router.post('/forgot-password', async (req, res) => {
       res.status(200).json(response);
     } catch {
       res.status(500).json({
-        code: ErrorCodes.FORGOT_PASSWORD_FAILED,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetPasswordFailed')
       });
     }
@@ -317,7 +340,7 @@ router.post('/reset-password', async (req, res) => {
     // Verify the token expiration and validity
     if (!isValidJwt(token)) {
       res.status(400).json({
-        code: ErrorCodes.INVALID_TOKEN,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetTokenInvalid')
       });
       return;
@@ -330,7 +353,7 @@ router.post('/reset-password', async (req, res) => {
 
     if (!parsedToken.success) {
       res.status(400).json({
-        code: ErrorCodes.INVALID_TOKEN,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetTokenInvalid')
       });
       return;
@@ -343,7 +366,7 @@ router.post('/reset-password', async (req, res) => {
 
     if (!user) {
       res.status(404).json({
-        code: ErrorCodes.USER_NOT_FOUND,
+        code: ErrorCodes.RECORD_NOT_FOUND,
         message: req.t('errors.userNotFound')
       });
       return;
@@ -353,7 +376,7 @@ router.post('/reset-password', async (req, res) => {
     const foundToken = await getResetTokenByUserId(user.id);
     if (!foundToken || foundToken.token !== token) {
       res.status(404).json({
-        code: ErrorCodes.INVALID_TOKEN,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.resetTokenInvalid')
       });
       return;
@@ -366,7 +389,7 @@ router.post('/reset-password', async (req, res) => {
 
     if (isSamePassword) {
       res.status(400).json({
-        code: ErrorCodes.SAME_PASSWORD,
+        code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.samePassword')
       });
       return;

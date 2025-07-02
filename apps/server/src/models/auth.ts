@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { storageSchema } from './storage';
 import { userSchema } from './user';
 
 export const registerSchema = userSchema.pick({
@@ -27,10 +28,14 @@ export const authResponseSchema = userSchema
     lastName: true,
     role: true,
     sex: true,
-    birthDate: true,
-    storageSpaceInMB: true,
-    usedStorageInBytes: true
+    birthDate: true
   })
+  .merge(
+    storageSchema.pick({
+      storageSpaceInMB: true,
+      usedStorageInBytes: true
+    })
+  )
   .transform((user) => ({
     ...user,
     storageSpaceInMB: String(user.storageSpaceInMB),

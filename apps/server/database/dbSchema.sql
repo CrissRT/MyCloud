@@ -20,9 +20,14 @@ CREATE TABLE "users" (
     "birthDate" DATE NOT NULL,
     "role" "roleEnum" NOT NULL DEFAULT 'user',
     "sex" "sexEnum" NOT NULL DEFAULT 'other',
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
-    "storageSpaceInMb" BIGINT NOT NULL DEFAULT 15360,
-    "usedStorageSpaceInBytes" BIGINT NOT NULL DEFAULT 0
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL
+);
+
+CREATE TABLE "storage" (
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER UNIQUE REFERENCES "users"("id") ON DELETE CASCADE NOT NULL,
+    "storageSpaceInMB" BIGINT NOT NULL DEFAULT 15360,
+    "usedStorageInBytes" BIGINT NOT NULL DEFAULT 0
 );
 
 -- Sessions

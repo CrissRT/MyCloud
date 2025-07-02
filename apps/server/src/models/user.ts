@@ -14,15 +14,7 @@ export const userSchema = z.object({
   role: z.nativeEnum($Enums.roleEnum),
   sex: z.nativeEnum($Enums.sexEnum),
   birthDate: z.preprocess((val) => dayjs(String(val)).toDate(), z.date()),
-  createdAt: z.date(),
-  storageSpaceInMB: z
-    .string()
-    .regex(/^\d+$/)
-    .transform((val) => BigInt(String(val))),
-  usedStorageInBytes: z
-    .string()
-    .regex(/^\d+$/)
-    .transform((val) => BigInt(String(val)))
+  createdAt: z.date()
 });
 
 export type User = z.infer<typeof userSchema>;
