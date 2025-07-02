@@ -6,6 +6,14 @@
     "failedToCreateUser": "Failed to create user",
     "userLockedOut": "User is locked out due to too many failed login attempts",
     "invalidCredentials": "Invalid credentials",
-    "insufficientStorage": "Insufficient storage available"
+    "insufficientStorage": "Insufficient storage available",
+    "userNotFound": "User was not found",
+    "forgotPasswordFailed": "Failed to send forgot password email",
+    "resetTokenInvalid": "Reset token is invalid",
+    "resetTokenExpired": "Reset token has expired"
+  },
+
+  "success": {
+    "resetPasswordEmailSent": "Reset password email sent successfully"
   }
 }

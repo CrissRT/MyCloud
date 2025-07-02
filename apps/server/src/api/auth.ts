@@ -1,4 +1,11 @@
-import { authResponseSchema, errors, registerSchema, userLoginSchema } from '@server/models';
+import {
+  authResponseSchema,
+  errors,
+  forgotPasswordResponseSchema,
+  forgotPasswordSchema,
+  registerSchema,
+  userLoginSchema
+} from '@server/models';
 import { makeApi } from '@zodios/core';
 
 export const authApi = makeApi([
@@ -31,6 +38,22 @@ export const authApi = makeApi([
         type: 'Body',
         schema: userLoginSchema,
         description: 'User login details'
+      }
+    ]
+  },
+  {
+    method: 'post',
+    path: '/auth/forgot-password',
+    alias: 'forgotPassword',
+    response: forgotPasswordResponseSchema,
+    description: 'Send forgot password email',
+    errors: errors,
+    parameters: [
+      {
+        name: 'body',
+        type: 'Body',
+        schema: forgotPasswordSchema,
+        description: 'User email for password reset'
       }
     ]
   }

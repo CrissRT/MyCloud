@@ -4,7 +4,16 @@ import express from 'express';
 
 import { $Enums } from '@prisma/client';
 import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
-import { AuthResponse, registerSchema, Session, SessionCreate, userLoginSchema } from '@server/models';
+import { createResetToken } from '@server/db/resetTokens';
+import {
+  AuthResponse,
+  ForgotPasswordResponse,
+  forgotPasswordSchema,
+  registerSchema,
+  Session,
+  SessionCreate,
+  userLoginSchema
+} from '@server/models';
 import {
   checkIfEnoughSpaceInMB,
   DEFAULT_STORAGE_SPACE_IN_MB,
@@ -16,7 +25,8 @@ import {
   isBanned,
   MAX_LOGIN_ATTEMPTS,
   setCookieHeader,
-  shouldResetBanDueToInactivity
+  shouldResetBanDueToInactivity,
+  signJwt
 } from '@server/utils';
 import { ErrorCodes } from '@shared/types';
 
@@ -221,6 +231,53 @@ router.post('/login', async (req, res) => {
     res.status(200).json(response);
   } catch (error) {
     console.error('Login error:', error);
+    res.status(500).json({
+      code: ErrorCodes.INTERNAL_SERVER_ERROR,
+      message: req.t('errors.internalServerError')
+    });
+  }
+});
+
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const result = forgotPasswordSchema.safeParse(req.body);
+    if (!result.success) {
+      res.status(400).json({
+        code: ErrorCodes.ZOD_ERROR,
+        message: result.error.formErrors
+      });
+      return;
+    }
+
+    const { email } = result.data;
+
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      res.status(404).json({
+        code: ErrorCodes.USER_NOT_FOUND,
+        message: req.t('errors.userNotFound')
+      });
+      return;
+    }
+
+    const resetToken = signJwt({
+      data: { email: user.email }
+    });
+
+    // Create a reset token in the database
+    await createResetToken(resetToken, user.id);
+
+    // Here you would typically send the reset token to the user's email
+    // For demonstration purposes, we'll just return it in the response
+
+    const response: ForgotPasswordResponse = {
+      message: req.t('success.resetPasswordEmailSent')
+    };
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error during forgot password:', error);
     res.status(500).json({
       code: ErrorCodes.INTERNAL_SERVER_ERROR,
       message: req.t('errors.internalServerError')

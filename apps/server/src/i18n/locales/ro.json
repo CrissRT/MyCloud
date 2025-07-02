@@ -6,6 +6,14 @@
     "failedToCreateUser": "Crearea utilizatorului a eșuat",
     "userLockedOut": "Utilizatorul este blocat din cauza prea multor încercări eșuate de autentificare",
     "invalidCredentials": "Datele de autentificare sunt invalide",
-    "insufficientStorage": "Spațiu de stocare insuficient disponibil"
+    "insufficientStorage": "Spațiu de stocare insuficient disponibil",
+    "userNotFound": "Utilizatorul nu a fost găsit",
+    "forgotPasswordFailed": "Nu s-a putut trimite emailul pentru resetarea parolei",
+    "resetTokenInvalid": "Tokenul de resetare a parolei este invalid",
+    "resetTokenExpired": "Tokenul de resetare a parolei a expirat"
+  },
+
+  "success": {
+    "resetPasswordEmailSent": "Emailul pentru resetarea parolei a fost trimis cu succes"
   }
 }

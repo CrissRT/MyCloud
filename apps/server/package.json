@@ -33,6 +33,7 @@
     "i18next": "^25.2.1",
     "i18next-fs-backend": "^2.6.0",
     "i18next-http-middleware": "^3.7.4",
+    "jsonwebtoken": "^9.0.2",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.0",
     "zod": "^3.25.56",
@@ -41,6 +42,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "22.15.24",
     "@types/pg": "^8.15.4",
     "@types/swagger-ui-express": "^4.1.8",
