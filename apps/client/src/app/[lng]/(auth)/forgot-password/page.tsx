@@ -4,9 +4,10 @@ import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useForgotPasswordServicePostAuthForgotPassword } from '@client/api/openapi/queries';
 import { Button, Input } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes } from '@client/utils';
+import { routes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const schema = z.object({
@@ -26,8 +27,15 @@ const Page = () => {
     resolver: zodResolver(schema)
   });
 
-  const onSubmit = async (data: ForgotPasswordType) => {
-    console.log('Forgot password data:', data);
+  const { mutateAsync, isPending } = useForgotPasswordServicePostAuthForgotPassword({
+    onSuccess: (data) => {
+      console.log('Forgot password email sent successfully:', data);
+    },
+    onError: showApiErrors
+  });
+
+  const onSubmit = async (requestBody: ForgotPasswordType) => {
+    await mutateAsync({ requestBody });
   };
 
   return (
@@ -47,7 +55,7 @@ const Page = () => {
           error={errors?.email?.message}
           size="2xl"
         />
-        <Button width="full" type="submit">
+        <Button width="full" type="submit" loading={isPending}>
           {t('auth.forgotPassword.sendResetLink')}
         </Button>
       </form>
