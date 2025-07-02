@@ -271,7 +271,7 @@ router.post('/forgot-password', async (req, res) => {
 
     try {
       // Send the reset password email
-      await sendResetPasswordEmail(user.firstName, user.email, resetToken);
+      await sendResetPasswordEmail(`${user.firstName} ${user.lastName}`, user.email, resetToken);
 
       const response: ForgotPasswordResponse = {
         message: req.t('success.resetPasswordEmailSent')
