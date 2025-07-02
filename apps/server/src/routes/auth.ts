@@ -4,7 +4,7 @@ import express from 'express';
 
 import { $Enums } from '@prisma/client';
 import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
-import { createResetToken } from '@server/db/resetTokens';
+import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
   AuthResponse,
   ForgotPasswordResponse,
@@ -261,6 +261,10 @@ router.post('/forgot-password', async (req, res) => {
       });
       return;
     }
+
+    const foundResetToken = await getResetTokenByUserId(user.id);
+
+    if (foundResetToken) await deleteResetTokenByUserId(user.id);
 
     const resetToken = signJwt({
       data: { email: user.email }
