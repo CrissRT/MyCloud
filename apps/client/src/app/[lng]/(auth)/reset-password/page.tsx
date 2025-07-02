@@ -1,18 +1,21 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useResetPasswordServicePostAuthResetPassword } from '@client/api/openapi/queries';
 import { Button, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes } from '@client/utils';
+import { routes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
 const Page = () => {
   const { t } = useTranslation();
   const { t: customZodT } = useTranslation('customZod');
+  const searchParams = useSearchParams();
 
   const schema = z
     .object({
@@ -34,9 +37,15 @@ const Page = () => {
     resolver: zodResolver(schema)
   });
 
-  const onSubmit = async (requestBody: SchemaType) => {
-    console.log('Resetting password with:', requestBody);
-  };
+  const { mutateAsync } = useResetPasswordServicePostAuthResetPassword({
+    onSuccess: () => {
+      console.log('Password reset successfully');
+    },
+    onError: showApiErrors
+  });
+
+  const onSubmit = async (requestBody: SchemaType) =>
+    await mutateAsync({ requestBody: { password: requestBody.password, token: String(searchParams.get('token')) } });
 
   return (
     <AuthLayout
