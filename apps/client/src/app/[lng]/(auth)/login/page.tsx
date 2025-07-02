@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useGoogleServicePostAuthGoogle, useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
 import { Button, GoogleOAuthButton, Input, Password } from '@client/components';
+import { useAuth } from '@client/hooks';
 import { AuthLayout } from '@client/layouts';
 import { routes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,6 +15,7 @@ import { passwordRegex } from '@shared/utils';
 const Page = () => {
   const { t: customZod } = useTranslation('customZod');
   const { t } = useTranslation();
+  const { login } = useAuth();
 
   const schema = z.object({
     email: z.string().email(),
@@ -32,8 +34,7 @@ const Page = () => {
 
   const { mutateAsync, isPending } = useLoginServicePostAuthLogin({
     onSuccess: (data) => {
-      console.log('Login successful:', data);
-      // Handle successful login, e.g., redirect or show a success message
+      login(data);
     },
     onError: showApiErrors
   });
@@ -43,8 +44,7 @@ const Page = () => {
 
   const { mutateAsync: googleLogin } = useGoogleServicePostAuthGoogle({
     onSuccess: (data) => {
-      console.log('Google login successful:', data);
-      // Handle successful Google login, e.g., redirect or show a success message
+      login(data);
     },
     onError: showApiErrors
   });

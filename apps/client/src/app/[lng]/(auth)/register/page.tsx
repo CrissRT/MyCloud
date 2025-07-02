@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useGoogleServicePostAuthGoogle, useRegisterServicePostAuthRegister } from '@client/api/openapi/queries';
 import { Button, DatePicker, Dropdown, GoogleOAuthButton, Input, Password } from '@client/components';
+import { useAuth } from '@client/hooks';
 import { AuthLayout } from '@client/layouts';
 import { routes, Sex, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,6 +18,7 @@ const Page = () => {
   const { t: customZod } = useTranslation('customZod');
   const { t } = useTranslation();
   const { t: zodT } = useTranslation('zod');
+  const { login } = useAuth();
 
   const registerSchema = z
     .object({
@@ -45,8 +47,7 @@ const Page = () => {
 
   const { mutateAsync, isPending } = useRegisterServicePostAuthRegister({
     onSuccess: (data) => {
-      console.log('Registration successful:', data);
-      // Handle successful registration, e.g., redirect or show a success message
+      login(data);
     },
     onError: showApiErrors
   });
@@ -55,8 +56,7 @@ const Page = () => {
 
   const { mutateAsync: googleSignIn } = useGoogleServicePostAuthGoogle({
     onSuccess: (data) => {
-      console.log('Google registration successful:', data);
-      // Handle successful registration, e.g., redirect or show a success message
+      login(data);
     },
     onError: showApiErrors
   });
