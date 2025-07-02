@@ -12,7 +12,9 @@
     "resetTokenInvalid": "Tokenul de resetare a parolei este invalid",
     "resetTokenExpired": "Tokenul de resetare a parolei a expirat",
     "samePassword": "Noua parolă trebuie să fie diferită de vechea parolă",
-    "userNotInitializedCorrectly": "Utilizatorul nu a fost inițializat corect"
+    "userNotInitializedCorrectly": "Utilizatorul nu a fost inițializat corect",
+    "invalidGoogleToken": "Tokenul OAuth Google este invalid",
+    "missingGoogleUserInfo": "Informațiile necesare ale utilizatorului Google lipsesc"
   },
 
   "success": {
