@@ -7,13 +7,3 @@ export const getStorageInfoByUserId = async (userId: number) => {
 
   return storageInfo;
 };
-
-export const createStorageInfo = async (userId: number) => {
-  const storageInfo = await prisma.storage.create({
-    data: {
-      userId
-    }
-  });
-
-  return storageInfo;
-};

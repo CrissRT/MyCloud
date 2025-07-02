@@ -6,7 +6,6 @@ import { z } from 'zod';
 import { $Enums } from '@prisma/client';
 import {
   createSession,
-  createStorageInfo,
   createUser,
   getStorageInfoByUserId,
   getUserByEmail,
@@ -101,12 +100,17 @@ router.post('/register', async (req, res) => {
       usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
     };
 
+    // Use transaction to ensure atomicity of user and storage creation
     const createdUser = await createUser({
-      ...response,
-      password: hashedPassword
+      email: response.email,
+      username: response.username,
+      firstName: response.firstName,
+      lastName: response.lastName,
+      password: hashedPassword,
+      role: response.role,
+      sex: response.sex,
+      birthDate: response.birthDate
     });
-
-    await createStorageInfo(createdUser.id);
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
 

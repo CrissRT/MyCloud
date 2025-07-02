@@ -25,19 +25,33 @@ export const createUser = async ({
   role,
   sex
 }: Omit<User, 'id' | 'createdAt'>) => {
-  const user = await prisma.users.create({
-    data: {
-      email,
-      username,
-      password,
-      firstName,
-      lastName,
-      birthDate,
-      role,
-      sex
-    }
+  // Use transaction to ensure atomicity of user and storage creation
+  const result = await prisma.$transaction(async (tx) => {
+    // Create user
+    const user = await tx.users.create({
+      data: {
+        email,
+        username,
+        password,
+        firstName,
+        lastName,
+        birthDate,
+        role,
+        sex
+      }
+    });
+
+    // Create storage for the user
+    await tx.storage.create({
+      data: {
+        userId: user.id
+      }
+    });
+
+    return user;
   });
-  return user;
+
+  return result;
 };
 
 export const updateUserById = async (id: number, data: Partial<User>) => {
