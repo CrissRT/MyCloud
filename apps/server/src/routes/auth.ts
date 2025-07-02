@@ -4,14 +4,14 @@ import express from 'express';
 import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
-import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
-import { createResetToken, deleteResetTokenByUserId } from '@server/db/resetTokens';
+import { createSession, createUser, getUserByEmail, updateSession, updateUserById } from '@server/db';
+import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
   AuthResponse,
   ForgotPasswordResponse,
   forgotPasswordSchema,
   registerSchema,
-  resetPasswordGetSchema,
+  resetPasswordSchema,
   Session,
   SessionCreate,
   userLoginSchema
@@ -299,10 +299,10 @@ router.post('/forgot-password', async (req, res) => {
   }
 });
 
-router.get('/reset-password', async (req, res) => {
+router.post('/reset-password', async (req, res) => {
   try {
     const emailTokenSchema = z.object({ data: z.object({ email: z.string().email() }) });
-    const resultParse = resetPasswordGetSchema.safeParse(req.query);
+    const resultParse = resetPasswordSchema.safeParse(req.body);
 
     if (!resultParse.success) {
       res.status(400).json({
@@ -348,6 +348,25 @@ router.get('/reset-password', async (req, res) => {
       });
       return;
     }
+
+    // Check if the reset token exists for the user
+    const foundToken = await getResetTokenByUserId(user.id);
+    if (!foundToken) {
+      res.status(404).json({
+        code: ErrorCodes.INVALID_TOKEN,
+        message: req.t('errors.resetTokenInvalid')
+      });
+      return;
+    }
+
+    // Hash the new password
+    const hashedPassword = await hash(resultParse.data.password, SALT_ROUNDS);
+
+    // Update the user's password
+    await updateUserById(user.id, { ...user, password: hashedPassword });
+
+    // Delete the reset token from the database
+    await deleteResetTokenByUserId(user.id);
 
     res.status(204);
   } catch (error) {
