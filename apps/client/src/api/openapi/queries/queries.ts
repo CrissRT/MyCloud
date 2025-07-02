@@ -1,7 +1,7 @@
 // generated with @7nohe/openapi-react-query-codegen@1.6.2
 
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
-import { ForgotPasswordService, LoginService, RegisterService } from '../requests/services.gen';
+import { ForgotPasswordService, LoginService, RegisterService, ResetPasswordService } from '../requests/services.gen';
 import * as Common from './common';
 export const useRegisterServicePostAuthRegister = <
   TData = Common.RegisterServicePostAuthRegisterMutationResult,
@@ -100,5 +100,34 @@ export const useForgotPasswordServicePostAuthForgotPassword = <
   >({
     mutationFn: ({ requestBody }) =>
       ForgotPasswordService.postAuthForgotPassword({ requestBody }) as unknown as Promise<TData>,
+    ...options
+  });
+export const useResetPasswordServicePostAuthResetPassword = <
+  TData = Common.ResetPasswordServicePostAuthResetPasswordMutationResult,
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: Omit<
+    UseMutationOptions<
+      TData,
+      TError,
+      {
+        requestBody?: { token: string; password: string };
+      },
+      TContext
+    >,
+    'mutationFn'
+  >
+) =>
+  useMutation<
+    TData,
+    TError,
+    {
+      requestBody?: { token: string; password: string };
+    },
+    TContext
+  >({
+    mutationFn: ({ requestBody }) =>
+      ResetPasswordService.postAuthResetPassword({ requestBody }) as unknown as Promise<TData>,
     ...options
   });

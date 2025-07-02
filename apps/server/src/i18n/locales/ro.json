@@ -10,7 +10,8 @@
     "userNotFound": "Utilizatorul nu a fost găsit",
     "resetPasswordFailed": "Nu s-a putut trimite emailul pentru resetarea parolei",
     "resetTokenInvalid": "Tokenul de resetare a parolei este invalid",
-    "resetTokenExpired": "Tokenul de resetare a parolei a expirat"
+    "resetTokenExpired": "Tokenul de resetare a parolei a expirat",
+    "samePassword": "Noua parolă trebuie să fie diferită de vechea parolă"
   },
 
   "success": {

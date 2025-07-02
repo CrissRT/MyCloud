@@ -9,7 +9,9 @@ import type {
   PostAuthLoginData,
   PostAuthLoginResponse,
   PostAuthForgotPasswordData,
-  PostAuthForgotPasswordResponse
+  PostAuthForgotPasswordResponse,
+  PostAuthResetPasswordData,
+  PostAuthResetPasswordResponse
 } from './types.gen';
 
 export class RegisterService {
@@ -149,6 +151,69 @@ export class ForgotPasswordService {
     return __request(OpenAPI, {
       method: 'POST',
       url: '/auth/forgot-password',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
+}
+
+export class ResetPasswordService {
+  /**
+   * Reset user password
+   * Reset user password
+   * @param data The data for the request.
+   * @param data.requestBody User new password details
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static postAuthResetPassword(
+    data: PostAuthResetPasswordData = {}
+  ): CancelablePromise<PostAuthResetPasswordResponse> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/auth/reset-password',
       body: data.requestBody,
       mediaType: 'application/json',
       errors: {

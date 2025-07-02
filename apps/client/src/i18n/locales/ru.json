@@ -23,6 +23,12 @@
       "sendResetLink": "Отправить ссылку для сброса",
       "rememberPassword": "Вспомнили пароль?"
     },
+    "resetPassword": {
+      "resetPassword": "Сбросить пароль",
+      "enterNewPassword": "Введите новый пароль",
+      "resetDescription": "Создайте новый пароль для вашего аккаунта.",
+      "passwordResetSuccess": "Ваш пароль успешно сброшен. Теперь вы можете войти с новым паролем."
+    },
     "email": "Электронная почта",
     "enterEmail": "Введите ваш email",
     "password": "Пароль",

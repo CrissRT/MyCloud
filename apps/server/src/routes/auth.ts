@@ -1,21 +1,24 @@
 import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
+import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
-import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
-import { createResetToken, deleteResetTokenByUserId } from '@server/db/resetTokens';
+import { createSession, createUser, getUserByEmail, updateSessionById, updateUserById } from '@server/db';
+import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
   AuthResponse,
   ForgotPasswordResponse,
   forgotPasswordSchema,
   registerSchema,
+  resetPasswordSchema,
   Session,
   SessionCreate,
   userLoginSchema
 } from '@server/models';
 import {
   checkIfEnoughSpaceInMB,
+  decodeJwt,
   DEFAULT_STORAGE_SPACE_IN_MB,
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
@@ -23,6 +26,7 @@ import {
   getSaltRounds,
   getSerializedUserSessionCookie,
   isBanned,
+  isValidJwt,
   MAX_LOGIN_ATTEMPTS,
   sendResetPasswordEmail,
   setCookieHeader,
@@ -185,7 +189,7 @@ router.post('/login', async (req, res) => {
         session.banDurationMinutes = banDuration;
       }
 
-      session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
+      session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
       res.status(401).json({
         code: ErrorCodes.INVALID_CREDENTIALS,
@@ -214,7 +218,7 @@ router.post('/login', async (req, res) => {
     session.cookie = userCookie;
     session.lastActive = dayjs().toDate();
 
-    session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
+    session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
     const response: AuthResponse = {
       email: foundUser.email,
@@ -288,6 +292,95 @@ router.post('/forgot-password', async (req, res) => {
     }
   } catch (error) {
     console.error('Error during forgot password:', error);
+    res.status(500).json({
+      code: ErrorCodes.INTERNAL_SERVER_ERROR,
+      message: req.t('errors.internalServerError')
+    });
+  }
+});
+
+router.post('/reset-password', async (req, res) => {
+  try {
+    const emailTokenSchema = z.object({ data: z.object({ email: z.string().email() }) });
+    const resultParse = resetPasswordSchema.safeParse(req.body);
+
+    if (!resultParse.success) {
+      res.status(400).json({
+        code: ErrorCodes.ZOD_ERROR,
+        message: resultParse.error.formErrors
+      });
+      return;
+    }
+
+    const { token } = resultParse.data;
+
+    // Verify the token expiration and validity
+    if (!isValidJwt(token)) {
+      res.status(400).json({
+        code: ErrorCodes.INVALID_TOKEN,
+        message: req.t('errors.resetTokenInvalid')
+      });
+      return;
+    }
+
+    // Validate the reset token
+    const decodedToken = decodeJwt(token);
+
+    const parsedToken = emailTokenSchema.safeParse(decodedToken);
+
+    if (!parsedToken.success) {
+      res.status(400).json({
+        code: ErrorCodes.INVALID_TOKEN,
+        message: req.t('errors.resetTokenInvalid')
+      });
+      return;
+    }
+
+    const email = parsedToken.data.data.email;
+
+    // Check if the user exists
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      res.status(404).json({
+        code: ErrorCodes.USER_NOT_FOUND,
+        message: req.t('errors.userNotFound')
+      });
+      return;
+    }
+
+    // Check if the reset token exists for the user
+    const foundToken = await getResetTokenByUserId(user.id);
+    if (!foundToken || foundToken.token !== token) {
+      res.status(404).json({
+        code: ErrorCodes.INVALID_TOKEN,
+        message: req.t('errors.resetTokenInvalid')
+      });
+      return;
+    }
+
+    // Hash the new password
+    const hashedPassword = await hash(resultParse.data.password, SALT_ROUNDS);
+
+    const isSamePassword = await compare(resultParse.data.password, user.password);
+
+    if (isSamePassword) {
+      res.status(400).json({
+        code: ErrorCodes.SAME_PASSWORD,
+        message: req.t('errors.samePassword')
+      });
+      return;
+    }
+
+    // Update the user's password
+    await updateUserById(user.id, { password: hashedPassword });
+
+    // Delete the reset token from the database
+    await deleteResetTokenByUserId(user.id);
+
+    res.status(204).end();
+  } catch (error) {
+    console.error('Error during reset password:', error);
     res.status(500).json({
       code: ErrorCodes.INTERNAL_SERVER_ERROR,
       message: req.t('errors.internalServerError')
