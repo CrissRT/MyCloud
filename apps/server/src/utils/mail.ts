@@ -46,6 +46,7 @@ export const sendResetPasswordEmail = async (fullName: string, toEmail: string, 
     .replace(/{{WEBSITE_URL}}/g, frontendUrl)
     .replace(/{{PRIVACY_URL}}/g, 'https://mycloud.com/privacy')
     .replace(/{{TERMS_URL}}/g, 'https://mycloud.com/terms');
+  // TODO: remove hardcoded URLs and use environment variables or constants
 
   await _sendEmail(toEmail, subject, emailHtml);
 };
