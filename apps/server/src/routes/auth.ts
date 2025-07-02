@@ -378,7 +378,7 @@ router.post('/reset-password', async (req, res) => {
     // Delete the reset token from the database
     await deleteResetTokenByUserId(user.id);
 
-    res.status(204);
+    res.status(204).end();
   } catch (error) {
     console.error('Error during reset password:', error);
     res.status(500).json({
