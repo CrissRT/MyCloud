@@ -61,6 +61,18 @@ export type PostAuthForgotPasswordResponse = {
   message: string;
 };
 
+export type PostAuthResetPasswordData = {
+  /**
+   * User new password details
+   */
+  requestBody?: {
+    token: string;
+    password: string;
+  };
+};
+
+export type PostAuthResetPasswordResponse = unknown;
+
 export type $OpenApiTs = {
   '/auth/register': {
     post: {
@@ -93,7 +105,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -116,7 +129,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -139,7 +153,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -162,7 +177,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -185,7 +201,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -208,7 +225,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -231,7 +249,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -254,7 +273,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -277,7 +297,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -300,7 +321,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -323,7 +345,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -346,7 +369,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -369,7 +393,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -392,7 +417,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -415,7 +441,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -438,7 +465,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -461,7 +489,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -484,7 +513,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -507,7 +537,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -530,7 +561,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -553,7 +585,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -576,7 +609,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -599,7 +633,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -622,7 +657,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -645,7 +681,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -668,7 +705,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -691,7 +729,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -714,7 +753,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -737,7 +777,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -760,7 +801,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -783,7 +825,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -806,7 +849,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -829,7 +873,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -852,7 +897,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -875,7 +921,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -898,7 +945,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -921,7 +969,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -944,7 +993,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -967,7 +1017,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -990,7 +1041,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1034,7 +1086,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1057,7 +1110,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1080,7 +1134,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1103,7 +1158,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1126,7 +1182,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1149,7 +1206,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1172,7 +1230,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1195,7 +1254,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1218,7 +1278,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1241,7 +1302,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1264,7 +1326,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1287,7 +1350,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1310,7 +1374,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1333,7 +1398,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1356,7 +1422,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1379,7 +1446,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1402,7 +1470,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1425,7 +1494,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1448,7 +1518,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1471,7 +1542,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1494,7 +1566,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1517,7 +1590,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1540,7 +1614,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1563,7 +1638,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1586,7 +1662,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1609,7 +1686,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1632,7 +1710,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1655,7 +1734,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1678,7 +1758,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1701,7 +1782,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1724,7 +1806,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1747,7 +1830,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1770,7 +1854,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1793,7 +1878,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1816,7 +1902,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1839,7 +1926,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1862,7 +1950,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1885,7 +1974,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1908,7 +1998,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1931,7 +2022,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1967,7 +2059,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -1990,7 +2083,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2013,7 +2107,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2036,7 +2131,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2059,7 +2155,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2082,7 +2179,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2105,7 +2203,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2128,7 +2227,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2151,7 +2251,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2174,7 +2275,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2197,7 +2299,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2220,7 +2323,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2243,7 +2347,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2266,7 +2371,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2289,7 +2395,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2312,7 +2419,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2335,7 +2443,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2358,7 +2467,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2381,7 +2491,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2404,7 +2515,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2427,7 +2539,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2450,7 +2563,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2473,7 +2587,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2496,7 +2611,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2519,7 +2635,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2542,7 +2659,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2565,7 +2683,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2588,7 +2707,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2611,7 +2731,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2634,7 +2755,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2657,7 +2779,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2680,7 +2803,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2703,7 +2827,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2726,7 +2851,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2749,7 +2875,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2772,7 +2899,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2795,7 +2923,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2818,7 +2947,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2841,7 +2971,8 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
@@ -2864,7 +2995,979 @@ export type $OpenApiTs = {
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
             | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED';
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+      };
+    };
+  };
+  '/auth/reset-password': {
+    post: {
+      req: PostAuthResetPasswordData;
+      res: {
+        /**
+         * Success
+         */
+        200: unknown;
+        /**
+         * Error
+         */
+        400: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        401: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        402: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        403: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        404: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        405: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        406: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        407: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        408: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        409: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        410: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        411: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        412: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        413: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        414: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        415: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        416: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        417: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        418: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        421: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        422: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        423: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        424: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        425: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        426: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        428: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        429: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        431: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        451: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        500: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        501: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        502: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        503: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        504: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        505: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        506: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        507: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        508: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        510: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        511: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'USER_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'INVALID_CREDENTIALS'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'USER_NOT_FOUND'
+            | 'FORGOT_PASSWORD_FAILED'
+            | 'INVALID_TOKEN';
           message:
             | string
             | {
