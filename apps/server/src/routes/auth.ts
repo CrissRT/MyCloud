@@ -1,6 +1,7 @@
 import { compare, hash } from 'bcryptjs';
 import dayjs from 'dayjs';
 import express from 'express';
+import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
 import { createSession, createUser, getUserByEmail, updateSession } from '@server/db';
@@ -10,12 +11,14 @@ import {
   ForgotPasswordResponse,
   forgotPasswordSchema,
   registerSchema,
+  resetPasswordGetSchema,
   Session,
   SessionCreate,
   userLoginSchema
 } from '@server/models';
 import {
   checkIfEnoughSpaceInMB,
+  decodeJwt,
   DEFAULT_STORAGE_SPACE_IN_MB,
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
@@ -23,6 +26,7 @@ import {
   getSaltRounds,
   getSerializedUserSessionCookie,
   isBanned,
+  isValidJwt,
   MAX_LOGIN_ATTEMPTS,
   sendResetPasswordEmail,
   setCookieHeader,
@@ -288,6 +292,67 @@ router.post('/forgot-password', async (req, res) => {
     }
   } catch (error) {
     console.error('Error during forgot password:', error);
+    res.status(500).json({
+      code: ErrorCodes.INTERNAL_SERVER_ERROR,
+      message: req.t('errors.internalServerError')
+    });
+  }
+});
+
+router.get('/reset-password', async (req, res) => {
+  try {
+    const emailTokenSchema = z.object({ data: z.object({ email: z.string().email() }) });
+    const resultParse = resetPasswordGetSchema.safeParse(req.query);
+
+    if (!resultParse.success) {
+      res.status(400).json({
+        code: ErrorCodes.ZOD_ERROR,
+        message: resultParse.error.formErrors
+      });
+      return;
+    }
+
+    const { token } = resultParse.data;
+
+    // Verify the token expiration and validity
+    if (!isValidJwt(token)) {
+      res.status(400).json({
+        code: ErrorCodes.INVALID_TOKEN,
+        message: req.t('errors.resetTokenInvalid')
+      });
+      return;
+    }
+
+    // Validate the reset token
+    const decodedToken = decodeJwt(token);
+
+    const parsedToken = emailTokenSchema.safeParse(decodedToken);
+
+    if (!parsedToken.success) {
+      res.status(400).json({
+        code: ErrorCodes.INVALID_TOKEN,
+        message: req.t('errors.resetTokenInvalid')
+      });
+      return;
+    }
+
+    const email = parsedToken.data.data.email;
+
+    // Check if the user exists
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      res.status(404).json({
+        code: ErrorCodes.USER_NOT_FOUND,
+        message: req.t('errors.userNotFound')
+      });
+      return;
+    }
+
+    res.status(200).json({});
+    // TODO: add a correct response here
+  } catch (error) {
+    console.error('Error during reset password:', error);
     res.status(500).json({
       code: ErrorCodes.INTERNAL_SERVER_ERROR,
       message: req.t('errors.internalServerError')

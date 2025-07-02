@@ -14,3 +14,12 @@ export const isValidJwt = (token: string) => {
     return false;
   }
 };
+
+export const decodeJwt = (token: string) => {
+  try {
+    const decoded = jwt.decode(token);
+    return decoded;
+  } catch {
+    return null;
+  }
+};

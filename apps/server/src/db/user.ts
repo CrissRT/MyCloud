@@ -39,3 +39,11 @@ export const createUser = async ({
   });
   return user;
 };
+
+export const updateUserById = async (id: number, data: Partial<User>) => {
+  const user = await prisma.users.update({
+    where: { id },
+    data
+  });
+  return user;
+};

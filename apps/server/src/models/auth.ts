@@ -50,3 +50,15 @@ export const forgotPasswordResponseSchema = z.object({
 });
 
 export type ForgotPasswordResponse = z.infer<typeof forgotPasswordResponseSchema>;
+
+export const resetPasswordGetSchema = z.object({
+  token: z.string().min(1)
+});
+
+export type ResetPasswordGet = z.infer<typeof resetPasswordGetSchema>;
+
+export const resetPasswordPostSchema = userSchema.pick({
+  password: true
+});
+
+export type ResetPasswordPost = z.infer<typeof resetPasswordPostSchema>;
