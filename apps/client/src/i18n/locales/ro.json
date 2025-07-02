@@ -23,6 +23,12 @@
       "sendResetLink": "Trimite link de resetare",
       "rememberPassword": "Ți-ai amintit parola?"
     },
+    "resetPassword": {
+      "resetPassword": "Resetează parola",
+      "enterNewPassword": "Introduceți noua parolă",
+      "resetDescription": "Creează o nouă parolă pentru contul tău.",
+      "passwordResetSuccess": "Parola ta a fost resetată cu succes. Te poți autentifica acum cu noua parolă."
+    },
     "email": "Email",
     "enterEmail": "Introduceți emailul",
     "password": "Parola",
