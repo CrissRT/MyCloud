@@ -5,6 +5,7 @@ import {
   errors,
   forgotPasswordResponseSchema,
   forgotPasswordSchema,
+  googleOAuthSchema,
   registerSchema,
   resetPasswordSchema,
   userLoginSchema
@@ -77,6 +78,23 @@ export const authApi = makeApi([
         type: 'Body',
         schema: resetPasswordSchema,
         description: 'User new password details'
+      }
+    ]
+  },
+  {
+    method: 'post',
+    path: '/auth/google',
+    alias: 'googleOAuth',
+    response: authResponseSchema,
+    status: 200,
+    description: 'Login or register a user with Google OAuth',
+    errors: errors,
+    parameters: [
+      {
+        name: 'body',
+        type: 'Body',
+        schema: googleOAuthSchema,
+        description: 'Google OAuth credential'
       }
     ]
   }
