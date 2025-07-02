@@ -17,6 +17,7 @@ export const authApi = makeApi([
     path: '/auth/register',
     alias: 'register',
     response: authResponseSchema,
+    status: 201,
     description: 'Register a new user',
     errors: errors,
     parameters: [
@@ -33,6 +34,7 @@ export const authApi = makeApi([
     path: '/auth/login',
     alias: 'login',
     response: authResponseSchema,
+    status: 200,
     description: 'Login a user',
     errors: errors,
     parameters: [
@@ -49,6 +51,7 @@ export const authApi = makeApi([
     path: '/auth/forgot-password',
     alias: 'forgotPassword',
     response: forgotPasswordResponseSchema,
+    status: 200,
     description: 'Send forgot password email',
     errors: errors,
     parameters: [
@@ -65,6 +68,7 @@ export const authApi = makeApi([
     path: '/auth/reset-password',
     alias: 'resetPassword',
     response: z.void(),
+    status: 204,
     description: 'Reset user password',
     errors: errors,
     parameters: [
