@@ -11,7 +11,8 @@
     "resetPasswordFailed": "Nu s-a putut trimite emailul pentru resetarea parolei",
     "resetTokenInvalid": "Tokenul de resetare a parolei este invalid",
     "resetTokenExpired": "Tokenul de resetare a parolei a expirat",
-    "samePassword": "Noua parolă trebuie să fie diferită de vechea parolă"
+    "samePassword": "Noua parolă trebuie să fie diferită de vechea parolă",
+    "userNotInitializedCorrectly": "Utilizatorul nu a fost inițializat corect"
   },
 
   "success": {

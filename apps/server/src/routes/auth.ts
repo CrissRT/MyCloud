@@ -219,9 +219,9 @@ router.post('/login', async (req, res) => {
     const foundStorage = await getStorageInfoByUserId(foundUser.id);
 
     if (!foundStorage) {
-      res.status(500).json({
-        code: ErrorCodes.INTERNAL_SERVER_ERROR,
-        message: req.t('errors.internalServerError')
+      res.status(404).json({
+        code: ErrorCodes.RECORD_NOT_FOUND,
+        message: req.t('errors.userNotInitializedCorrectly')
       });
       return;
     }

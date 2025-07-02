@@ -11,7 +11,8 @@
     "resetPasswordFailed": "Failed to send forgot password email",
     "resetTokenInvalid": "Reset token is invalid",
     "resetTokenExpired": "Reset token has expired",
-    "samePassword": "New password must be different from the old password"
+    "samePassword": "New password must be different from the old password",
+    "userNotInitializedCorrectly": "User was not initialized correctly"
   },
 
   "success": {
