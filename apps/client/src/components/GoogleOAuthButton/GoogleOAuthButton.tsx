@@ -1,28 +1,23 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
+import { showApiErrors } from '@client/utils';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { Button } from '../Button/Button';
 
 type Props = {
   onSuccess: (credential: string) => void;
-  onError?: (error: unknown) => void;
 };
 
-export const GoogleOAuthButton = ({ onSuccess, onError }: Props) => {
+export const GoogleOAuthButton = ({ onSuccess }: Props) => {
   const { t } = useTranslation();
 
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      if (tokenResponse.access_token) {
-        onSuccess(tokenResponse.access_token);
-      }
+      if (tokenResponse.access_token) onSuccess(tokenResponse.access_token);
     },
-    onError: (errorResponse) => {
-      console.error('Google OAuth error:', errorResponse);
-      onError?.(errorResponse);
-    }
+    onError: showApiErrors
   });
 
   return (

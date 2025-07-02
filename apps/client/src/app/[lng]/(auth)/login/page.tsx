@@ -4,8 +4,8 @@ import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
-import { Button, Input, Password } from '@client/components';
+import { useGoogleServicePostAuthGoogle, useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
+import { Button, GoogleOAuthButton, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
 import { routes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -38,9 +38,18 @@ const Page = () => {
     onError: showApiErrors
   });
 
-  const onSubmit = async (data: LoginType) => {
+  const onSubmit = async (data: LoginType) =>
     await mutateAsync({ requestBody: { email: data.email, password: data.password } });
-  };
+
+  const { mutateAsync: googleLogin } = useGoogleServicePostAuthGoogle({
+    onSuccess: (data) => {
+      console.log('Google login successful:', data);
+      // Handle successful Google login, e.g., redirect or show a success message
+    },
+    onError: showApiErrors
+  });
+
+  const onGoogleLogin = async (credential: string) => await googleLogin({ requestBody: { credential } });
 
   return (
     <AuthLayout
@@ -56,6 +65,13 @@ const Page = () => {
         linkLabel: t('auth.login.buttons.register')
       }}
     >
+      <GoogleOAuthButton onSuccess={onGoogleLogin} />
+      <div className="flex items-center my-4">
+        <hr className="flex-grow border-gray-300" />
+        <span className="px-3 text-gray-500 text-sm">{t('auth.or')}</span>
+        <hr className="flex-grow border-gray-300" />
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label={{ text: t('auth.email') }}

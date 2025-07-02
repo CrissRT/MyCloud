@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import dayjs from 'dayjs';
 import express from 'express';
 import { OAuth2Client } from 'google-auth-library';
+import { google } from 'googleapis';
 import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
@@ -32,7 +33,6 @@ import {
   DEFAULT_STORAGE_SPACE_IN_MB,
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
-  getGoogleClientId,
   getNextBanDuration,
   getSaltRounds,
   getSerializedUserSessionCookie,
@@ -47,7 +47,6 @@ import {
 import { ErrorCodes } from '@shared/types';
 
 const SALT_ROUNDS = getSaltRounds();
-const GOOGLE_CLIENT_ID = getGoogleClientId();
 
 const router = express.Router();
 
@@ -432,18 +431,18 @@ router.post('/google', async (req, res) => {
       return;
     }
 
-    // Verify Google token
-    const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+    // Fetch Google user info using access token
+    const accessToken = resultParseBody.data.credential;
+    const oauth2Client = new OAuth2Client();
+    oauth2Client.setCredentials({ access_token: accessToken });
+    const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
 
-    let payload;
+    let userInfo;
     try {
-      const ticket = await client.verifyIdToken({
-        idToken: resultParseBody.data.credential,
-        audience: GOOGLE_CLIENT_ID
-      });
-      payload = ticket.getPayload();
-    } catch (authError) {
-      console.error('Google token verification failed:', authError);
+      const response = await oauth2.userinfo.get();
+      userInfo = response.data;
+    } catch (fetchError) {
+      console.error('Failed to fetch Google user info:', fetchError);
       res.status(401).json({
         code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.invalidGoogleToken')
@@ -451,7 +450,8 @@ router.post('/google', async (req, res) => {
       return;
     }
 
-    if (!payload || !payload.email || !payload.given_name || !payload.family_name) {
+    const { email, given_name: givenName, family_name: familyName } = userInfo;
+    if (!email || !givenName || !familyName) {
       res.status(400).json({
         code: ErrorCodes.INVALID_RECORD,
         message: req.t('errors.missingGoogleUserInfo')
@@ -460,7 +460,7 @@ router.post('/google', async (req, res) => {
     }
 
     // Check if user exists
-    let foundUser = await getUserByEmail(payload.email);
+    let foundUser = await getUserByEmail(email);
 
     if (!foundUser) {
       // Check if there's enough space to create a new user
@@ -475,13 +475,13 @@ router.post('/google', async (req, res) => {
 
       // Create new user with default password (since it's OAuth)
       const randomPassword = await hash(crypto.randomUUID(), SALT_ROUNDS);
-      const userName = payload.email.split('@')[0];
+      const userName = email.split('@')[0];
 
       foundUser = await createUser({
-        email: payload.email,
+        email: email,
         username: userName,
-        firstName: payload.given_name,
-        lastName: payload.family_name,
+        firstName: givenName,
+        lastName: familyName,
         password: randomPassword,
         role: $Enums.roleEnum.user,
         sex: $Enums.sexEnum.other, // Default since Google doesn't provide this

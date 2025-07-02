@@ -1,7 +1,13 @@
 // generated with @7nohe/openapi-react-query-codegen@1.6.2
 
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
-import { ForgotPasswordService, LoginService, RegisterService, ResetPasswordService } from '../requests/services.gen';
+import {
+  ForgotPasswordService,
+  GoogleService,
+  LoginService,
+  RegisterService,
+  ResetPasswordService
+} from '../requests/services.gen';
 import * as Common from './common';
 export const useRegisterServicePostAuthRegister = <
   TData = Common.RegisterServicePostAuthRegisterMutationResult,
@@ -129,5 +135,33 @@ export const useResetPasswordServicePostAuthResetPassword = <
   >({
     mutationFn: ({ requestBody }) =>
       ResetPasswordService.postAuthResetPassword({ requestBody }) as unknown as Promise<TData>,
+    ...options
+  });
+export const useGoogleServicePostAuthGoogle = <
+  TData = Common.GoogleServicePostAuthGoogleMutationResult,
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: Omit<
+    UseMutationOptions<
+      TData,
+      TError,
+      {
+        requestBody?: { credential: string };
+      },
+      TContext
+    >,
+    'mutationFn'
+  >
+) =>
+  useMutation<
+    TData,
+    TError,
+    {
+      requestBody?: { credential: string };
+    },
+    TContext
+  >({
+    mutationFn: ({ requestBody }) => GoogleService.postAuthGoogle({ requestBody }) as unknown as Promise<TData>,
     ...options
   });
