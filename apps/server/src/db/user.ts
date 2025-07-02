@@ -1,5 +1,5 @@
 import { User } from '@server/models';
-import { prisma } from '@server/utils';
+import { DEFAULT_STORAGE_SPACE_IN_MB, DEFAULT_USED_STORAGE_SPACE, prisma } from '@server/utils';
 
 export const getUserById = async (id: number) => {
   const user = await prisma.users.findUnique({ where: { id } });
@@ -44,7 +44,9 @@ export const createUser = async ({
     // Create storage for the user
     await tx.storage.create({
       data: {
-        userId: user.id
+        userId: user.id,
+        storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
+        usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
       }
     });
 
