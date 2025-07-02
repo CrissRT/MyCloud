@@ -89,6 +89,15 @@ export const getFrontendUrl = () => {
   return frontendUrl;
 };
 
+export const getGoogleClientId = () => {
+  const googleClientId = process.env.GOOGLE_CLIENT_ID;
+  if (!googleClientId) {
+    console.error('GOOGLE_CLIENT_ID value is not set in environment variables.');
+    process.exit(1);
+  }
+  return googleClientId;
+};
+
 export const prisma = new PrismaClient();
 
 export const LOCKOUT_TIERS_MINUTES = [5, 15, 60, 180, 720, 1440]; // up to 24 hours

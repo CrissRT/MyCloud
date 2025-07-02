@@ -71,7 +71,28 @@ export type PostAuthResetPasswordData = {
   };
 };
 
-export type PostAuthResetPasswordResponse = unknown;
+export type PostAuthResetPasswordResponse = void;
+
+export type PostAuthGoogleData = {
+  /**
+   * Google OAuth credential
+   */
+  requestBody?: {
+    credential: string;
+  };
+};
+
+export type PostAuthGoogleResponse = {
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  role: 'admin' | 'user';
+  sex: 'male' | 'female' | 'other';
+  birthDate: string;
+  storageSpaceInMB: string;
+  usedStorageInBytes: string;
+};
 
 export type $OpenApiTs = {
   '/auth/register': {
@@ -81,7 +102,7 @@ export type $OpenApiTs = {
         /**
          * Success
          */
-        200: {
+        201: {
           email: string;
           username: string;
           firstName: string;
@@ -98,15 +119,13 @@ export type $OpenApiTs = {
         400: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -122,15 +141,13 @@ export type $OpenApiTs = {
         401: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -146,15 +163,13 @@ export type $OpenApiTs = {
         402: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -170,15 +185,13 @@ export type $OpenApiTs = {
         403: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -194,15 +207,13 @@ export type $OpenApiTs = {
         404: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -218,15 +229,13 @@ export type $OpenApiTs = {
         405: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -242,15 +251,13 @@ export type $OpenApiTs = {
         406: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -266,15 +273,13 @@ export type $OpenApiTs = {
         407: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -290,15 +295,13 @@ export type $OpenApiTs = {
         408: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -314,15 +317,13 @@ export type $OpenApiTs = {
         409: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -338,15 +339,13 @@ export type $OpenApiTs = {
         410: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -362,15 +361,13 @@ export type $OpenApiTs = {
         411: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -386,15 +383,13 @@ export type $OpenApiTs = {
         412: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -410,15 +405,13 @@ export type $OpenApiTs = {
         413: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -434,15 +427,13 @@ export type $OpenApiTs = {
         414: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -458,15 +449,13 @@ export type $OpenApiTs = {
         415: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -482,15 +471,13 @@ export type $OpenApiTs = {
         416: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -506,15 +493,13 @@ export type $OpenApiTs = {
         417: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -530,15 +515,13 @@ export type $OpenApiTs = {
         418: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -554,15 +537,13 @@ export type $OpenApiTs = {
         421: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -578,15 +559,13 @@ export type $OpenApiTs = {
         422: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -602,15 +581,13 @@ export type $OpenApiTs = {
         423: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -626,15 +603,13 @@ export type $OpenApiTs = {
         424: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -650,15 +625,13 @@ export type $OpenApiTs = {
         425: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -674,15 +647,13 @@ export type $OpenApiTs = {
         426: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -698,15 +669,13 @@ export type $OpenApiTs = {
         428: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -722,15 +691,13 @@ export type $OpenApiTs = {
         429: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -746,15 +713,13 @@ export type $OpenApiTs = {
         431: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -770,15 +735,13 @@ export type $OpenApiTs = {
         451: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -794,15 +757,13 @@ export type $OpenApiTs = {
         500: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -818,15 +779,13 @@ export type $OpenApiTs = {
         501: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -842,15 +801,13 @@ export type $OpenApiTs = {
         502: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -866,15 +823,13 @@ export type $OpenApiTs = {
         503: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -890,15 +845,13 @@ export type $OpenApiTs = {
         504: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -914,15 +867,13 @@ export type $OpenApiTs = {
         505: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -938,15 +889,13 @@ export type $OpenApiTs = {
         506: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -962,15 +911,13 @@ export type $OpenApiTs = {
         507: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -986,15 +933,13 @@ export type $OpenApiTs = {
         508: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1010,15 +955,13 @@ export type $OpenApiTs = {
         510: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1034,15 +977,13 @@ export type $OpenApiTs = {
         511: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1079,15 +1020,13 @@ export type $OpenApiTs = {
         400: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1103,15 +1042,13 @@ export type $OpenApiTs = {
         401: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1127,15 +1064,13 @@ export type $OpenApiTs = {
         402: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1151,15 +1086,13 @@ export type $OpenApiTs = {
         403: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1175,15 +1108,13 @@ export type $OpenApiTs = {
         404: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1199,15 +1130,13 @@ export type $OpenApiTs = {
         405: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1223,15 +1152,13 @@ export type $OpenApiTs = {
         406: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1247,15 +1174,13 @@ export type $OpenApiTs = {
         407: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1271,15 +1196,13 @@ export type $OpenApiTs = {
         408: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1295,15 +1218,13 @@ export type $OpenApiTs = {
         409: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1319,15 +1240,13 @@ export type $OpenApiTs = {
         410: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1343,15 +1262,13 @@ export type $OpenApiTs = {
         411: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1367,15 +1284,13 @@ export type $OpenApiTs = {
         412: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1391,15 +1306,13 @@ export type $OpenApiTs = {
         413: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1415,15 +1328,13 @@ export type $OpenApiTs = {
         414: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1439,15 +1350,13 @@ export type $OpenApiTs = {
         415: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1463,15 +1372,13 @@ export type $OpenApiTs = {
         416: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1487,15 +1394,13 @@ export type $OpenApiTs = {
         417: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1511,15 +1416,13 @@ export type $OpenApiTs = {
         418: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1535,15 +1438,13 @@ export type $OpenApiTs = {
         421: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1559,15 +1460,13 @@ export type $OpenApiTs = {
         422: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1583,15 +1482,13 @@ export type $OpenApiTs = {
         423: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1607,15 +1504,13 @@ export type $OpenApiTs = {
         424: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1631,15 +1526,13 @@ export type $OpenApiTs = {
         425: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1655,15 +1548,13 @@ export type $OpenApiTs = {
         426: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1679,15 +1570,13 @@ export type $OpenApiTs = {
         428: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1703,15 +1592,13 @@ export type $OpenApiTs = {
         429: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1727,15 +1614,13 @@ export type $OpenApiTs = {
         431: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1751,15 +1636,13 @@ export type $OpenApiTs = {
         451: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1775,15 +1658,13 @@ export type $OpenApiTs = {
         500: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1799,15 +1680,13 @@ export type $OpenApiTs = {
         501: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1823,15 +1702,13 @@ export type $OpenApiTs = {
         502: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1847,15 +1724,13 @@ export type $OpenApiTs = {
         503: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1871,15 +1746,13 @@ export type $OpenApiTs = {
         504: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1895,15 +1768,13 @@ export type $OpenApiTs = {
         505: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1919,15 +1790,13 @@ export type $OpenApiTs = {
         506: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1943,15 +1812,13 @@ export type $OpenApiTs = {
         507: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1967,15 +1834,13 @@ export type $OpenApiTs = {
         508: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -1991,15 +1856,13 @@ export type $OpenApiTs = {
         510: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2015,15 +1878,13 @@ export type $OpenApiTs = {
         511: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2052,15 +1913,13 @@ export type $OpenApiTs = {
         400: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2076,15 +1935,13 @@ export type $OpenApiTs = {
         401: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2100,15 +1957,13 @@ export type $OpenApiTs = {
         402: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2124,15 +1979,13 @@ export type $OpenApiTs = {
         403: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2148,15 +2001,13 @@ export type $OpenApiTs = {
         404: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2172,15 +2023,13 @@ export type $OpenApiTs = {
         405: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2196,15 +2045,13 @@ export type $OpenApiTs = {
         406: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2220,15 +2067,13 @@ export type $OpenApiTs = {
         407: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2244,15 +2089,13 @@ export type $OpenApiTs = {
         408: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2268,15 +2111,13 @@ export type $OpenApiTs = {
         409: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2292,15 +2133,13 @@ export type $OpenApiTs = {
         410: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2316,15 +2155,13 @@ export type $OpenApiTs = {
         411: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2340,15 +2177,13 @@ export type $OpenApiTs = {
         412: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2364,15 +2199,13 @@ export type $OpenApiTs = {
         413: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2388,15 +2221,13 @@ export type $OpenApiTs = {
         414: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2412,15 +2243,13 @@ export type $OpenApiTs = {
         415: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2436,15 +2265,13 @@ export type $OpenApiTs = {
         416: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2460,15 +2287,13 @@ export type $OpenApiTs = {
         417: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2484,15 +2309,13 @@ export type $OpenApiTs = {
         418: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2508,15 +2331,13 @@ export type $OpenApiTs = {
         421: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2532,15 +2353,13 @@ export type $OpenApiTs = {
         422: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2556,15 +2375,13 @@ export type $OpenApiTs = {
         423: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2580,15 +2397,13 @@ export type $OpenApiTs = {
         424: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2604,15 +2419,13 @@ export type $OpenApiTs = {
         425: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2628,15 +2441,13 @@ export type $OpenApiTs = {
         426: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2652,15 +2463,13 @@ export type $OpenApiTs = {
         428: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2676,15 +2485,13 @@ export type $OpenApiTs = {
         429: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2700,15 +2507,13 @@ export type $OpenApiTs = {
         431: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2724,15 +2529,13 @@ export type $OpenApiTs = {
         451: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2748,15 +2551,13 @@ export type $OpenApiTs = {
         500: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2772,15 +2573,13 @@ export type $OpenApiTs = {
         501: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2796,15 +2595,13 @@ export type $OpenApiTs = {
         502: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2820,15 +2617,13 @@ export type $OpenApiTs = {
         503: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2844,15 +2639,13 @@ export type $OpenApiTs = {
         504: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2868,15 +2661,13 @@ export type $OpenApiTs = {
         505: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2892,15 +2683,13 @@ export type $OpenApiTs = {
         506: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2916,15 +2705,13 @@ export type $OpenApiTs = {
         507: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2940,15 +2727,13 @@ export type $OpenApiTs = {
         508: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2964,15 +2749,13 @@ export type $OpenApiTs = {
         510: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -2988,15 +2771,13 @@ export type $OpenApiTs = {
         511: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3016,22 +2797,20 @@ export type $OpenApiTs = {
         /**
          * Success
          */
-        200: unknown;
+        204: void;
         /**
          * Error
          */
         400: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3047,15 +2826,13 @@ export type $OpenApiTs = {
         401: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3071,15 +2848,13 @@ export type $OpenApiTs = {
         402: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3095,15 +2870,13 @@ export type $OpenApiTs = {
         403: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3119,15 +2892,13 @@ export type $OpenApiTs = {
         404: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3143,15 +2914,13 @@ export type $OpenApiTs = {
         405: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3167,15 +2936,13 @@ export type $OpenApiTs = {
         406: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3191,15 +2958,13 @@ export type $OpenApiTs = {
         407: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3215,15 +2980,13 @@ export type $OpenApiTs = {
         408: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3239,15 +3002,13 @@ export type $OpenApiTs = {
         409: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3263,15 +3024,13 @@ export type $OpenApiTs = {
         410: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3287,15 +3046,13 @@ export type $OpenApiTs = {
         411: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3311,15 +3068,13 @@ export type $OpenApiTs = {
         412: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3335,15 +3090,13 @@ export type $OpenApiTs = {
         413: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3359,15 +3112,13 @@ export type $OpenApiTs = {
         414: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3383,15 +3134,13 @@ export type $OpenApiTs = {
         415: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3407,15 +3156,13 @@ export type $OpenApiTs = {
         416: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3431,15 +3178,13 @@ export type $OpenApiTs = {
         417: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3455,15 +3200,13 @@ export type $OpenApiTs = {
         418: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3479,15 +3222,13 @@ export type $OpenApiTs = {
         421: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3503,15 +3244,13 @@ export type $OpenApiTs = {
         422: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3527,15 +3266,13 @@ export type $OpenApiTs = {
         423: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3551,15 +3288,13 @@ export type $OpenApiTs = {
         424: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3575,15 +3310,13 @@ export type $OpenApiTs = {
         425: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3599,15 +3332,13 @@ export type $OpenApiTs = {
         426: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3623,15 +3354,13 @@ export type $OpenApiTs = {
         428: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3647,15 +3376,13 @@ export type $OpenApiTs = {
         429: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3671,15 +3398,13 @@ export type $OpenApiTs = {
         431: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3695,15 +3420,13 @@ export type $OpenApiTs = {
         451: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3719,15 +3442,13 @@ export type $OpenApiTs = {
         500: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3743,15 +3464,13 @@ export type $OpenApiTs = {
         501: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3767,15 +3486,13 @@ export type $OpenApiTs = {
         502: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3791,15 +3508,13 @@ export type $OpenApiTs = {
         503: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3815,15 +3530,13 @@ export type $OpenApiTs = {
         504: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3839,15 +3552,13 @@ export type $OpenApiTs = {
         505: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3863,15 +3574,13 @@ export type $OpenApiTs = {
         506: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3887,15 +3596,13 @@ export type $OpenApiTs = {
         507: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3911,15 +3618,13 @@ export type $OpenApiTs = {
         508: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3935,15 +3640,13 @@ export type $OpenApiTs = {
         510: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {
@@ -3959,15 +3662,914 @@ export type $OpenApiTs = {
         511: {
           code:
             | 'VALIDATION_ERROR'
-            | 'USER_ALREADY_EXISTS'
+            | 'RECORD_ALREADY_EXISTS'
             | 'INTERNAL_SERVER_ERROR'
-            | 'INVALID_CREDENTIALS'
             | 'USER_LOCKED_OUT'
             | 'ZOD_ERROR'
             | 'INSUFFICIENT_STORAGE'
-            | 'USER_NOT_FOUND'
-            | 'FORGOT_PASSWORD_FAILED'
-            | 'INVALID_TOKEN';
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+      };
+    };
+  };
+  '/auth/google': {
+    post: {
+      req: PostAuthGoogleData;
+      res: {
+        /**
+         * Success
+         */
+        200: {
+          email: string;
+          username: string;
+          firstName: string;
+          lastName: string;
+          role: 'admin' | 'user';
+          sex: 'male' | 'female' | 'other';
+          birthDate: string;
+          storageSpaceInMB: string;
+          usedStorageInBytes: string;
+        };
+        /**
+         * Error
+         */
+        400: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        401: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        402: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        403: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        404: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        405: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        406: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        407: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        408: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        409: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        410: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        411: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        412: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        413: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        414: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        415: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        416: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        417: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        418: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        421: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        422: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        423: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        424: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        425: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        426: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        428: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        429: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        431: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        451: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        500: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        501: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        502: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        503: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        504: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        505: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        506: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        507: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        508: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        510: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
+          message:
+            | string
+            | {
+                formErrors: Array<string>;
+                fieldErrors: {
+                  [key: string]: Array<string>;
+                };
+              };
+        };
+        /**
+         * Error
+         */
+        511: {
+          code:
+            | 'VALIDATION_ERROR'
+            | 'RECORD_ALREADY_EXISTS'
+            | 'INTERNAL_SERVER_ERROR'
+            | 'USER_LOCKED_OUT'
+            | 'ZOD_ERROR'
+            | 'INSUFFICIENT_STORAGE'
+            | 'RECORD_NOT_FOUND'
+            | 'INVALID_RECORD';
           message:
             | string
             | {

@@ -2,6 +2,7 @@ export * from './AppLink/AppLink';
 export * from './Button/Button';
 export * from './DatePicker/DatePicker';
 export * from './Dropdown/Dropdown';
+export * from './GoogleOAuthButton/GoogleOAuthButton';
 export * from './Input/Input';
 export * from './NotificationContainer/NotificationContainer';
 export * from './Password/Password';

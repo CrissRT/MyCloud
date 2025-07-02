@@ -1,6 +1,12 @@
 // generated with @7nohe/openapi-react-query-codegen@1.6.2
 
-import { ForgotPasswordService, LoginService, RegisterService, ResetPasswordService } from '../requests/services.gen';
+import {
+  ForgotPasswordService,
+  GoogleService,
+  LoginService,
+  RegisterService,
+  ResetPasswordService
+} from '../requests/services.gen';
 export type RegisterServicePostAuthRegisterMutationResult = Awaited<
   ReturnType<typeof RegisterService.postAuthRegister>
 >;
@@ -11,3 +17,4 @@ export type ForgotPasswordServicePostAuthForgotPasswordMutationResult = Awaited<
 export type ResetPasswordServicePostAuthResetPasswordMutationResult = Awaited<
   ReturnType<typeof ResetPasswordService.postAuthResetPassword>
 >;
+export type GoogleServicePostAuthGoogleMutationResult = Awaited<ReturnType<typeof GoogleService.postAuthGoogle>>;

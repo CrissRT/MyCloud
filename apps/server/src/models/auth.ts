@@ -67,3 +67,9 @@ export const resetPasswordSchema = z
   );
 
 export type ResetPassword = z.infer<typeof resetPasswordSchema>;
+
+export const googleOAuthSchema = z.object({
+  credential: z.string().min(1)
+});
+
+export type GoogleOAuth = z.infer<typeof googleOAuthSchema>;

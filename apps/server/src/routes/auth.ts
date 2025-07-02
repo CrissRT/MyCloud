@@ -1,6 +1,9 @@
 import { compare, hash } from 'bcryptjs';
+import crypto from 'crypto';
 import dayjs from 'dayjs';
 import express from 'express';
+import { OAuth2Client } from 'google-auth-library';
+import { google } from 'googleapis';
 import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
@@ -17,6 +20,7 @@ import {
   AuthResponse,
   ForgotPasswordResponse,
   forgotPasswordSchema,
+  googleOAuthSchema,
   registerSchema,
   resetPasswordSchema,
   Session,
@@ -404,6 +408,132 @@ router.post('/reset-password', async (req, res) => {
     res.status(204).end();
   } catch (error) {
     console.error('Error during reset password:', error);
+    res.status(500).json({
+      code: ErrorCodes.INTERNAL_SERVER_ERROR,
+      message: req.t('errors.internalServerError')
+    });
+  }
+});
+
+router.post('/google', async (req, res) => {
+  try {
+    const deviceInfo = req.headers['user-agent'] || 'unknown';
+    const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
+
+    // Validate the request body
+    const resultParseBody = googleOAuthSchema.safeParse(req.body);
+
+    if (!resultParseBody.success) {
+      res.status(400).json({
+        code: ErrorCodes.ZOD_ERROR,
+        message: resultParseBody.error.formErrors
+      });
+      return;
+    }
+
+    // Fetch Google user info using access token
+    const accessToken = resultParseBody.data.credential;
+    const oauth2Client = new OAuth2Client();
+    oauth2Client.setCredentials({ access_token: accessToken });
+    const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
+
+    let userInfo;
+    try {
+      const response = await oauth2.userinfo.get();
+      userInfo = response.data;
+    } catch (fetchError) {
+      console.error('Failed to fetch Google user info:', fetchError);
+      res.status(401).json({
+        code: ErrorCodes.INVALID_RECORD,
+        message: req.t('errors.invalidGoogleToken')
+      });
+      return;
+    }
+
+    const { email, given_name: givenName, family_name: familyName } = userInfo;
+    if (!email || !givenName || !familyName) {
+      res.status(400).json({
+        code: ErrorCodes.INVALID_RECORD,
+        message: req.t('errors.missingGoogleUserInfo')
+      });
+      return;
+    }
+
+    // Check if user exists
+    let foundUser = await getUserByEmail(email);
+
+    if (!foundUser) {
+      // Check if there's enough space to create a new user
+      const isEnoughSpaceToAllocate = await checkIfEnoughSpaceInMB(DEFAULT_STORAGE_SPACE_IN_MB);
+      if (!isEnoughSpaceToAllocate) {
+        res.status(507).json({
+          code: ErrorCodes.INSUFFICIENT_STORAGE,
+          message: req.t('errors.insufficientStorage')
+        });
+        return;
+      }
+
+      // Create new user with default password (since it's OAuth)
+      const randomPassword = await hash(crypto.randomUUID(), SALT_ROUNDS);
+      const userName = email.split('@')[0];
+
+      foundUser = await createUser({
+        email: email,
+        username: userName,
+        firstName: givenName,
+        lastName: familyName,
+        password: randomPassword,
+        role: $Enums.roleEnum.user,
+        sex: $Enums.sexEnum.other, // Default since Google doesn't provide this
+        birthDate: dayjs('1990-01-01').toDate() // Default since Google doesn't provide this
+      });
+    }
+
+    const storageInfo = await getStorageInfoByUserId(foundUser.id);
+
+    const response: AuthResponse = {
+      email: foundUser.email,
+      username: foundUser.username,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+      sex: foundUser.sex,
+      birthDate: foundUser.birthDate,
+      storageSpaceInMB: String(storageInfo?.storageSpaceInMB || DEFAULT_STORAGE_SPACE_IN_MB),
+      usedStorageInBytes: String(storageInfo?.usedStorageInBytes || DEFAULT_USED_STORAGE_SPACE)
+    };
+
+    const userSessionCookie = getSerializedUserSessionCookie(response);
+
+    // Create or update session
+    const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
+
+    if (foundSession) {
+      await updateSessionById(foundSession.id, {
+        lastActive: dayjs().toDate(),
+        cookie: userSessionCookie,
+        loginAttempts: 0,
+        banStart: null,
+        banDurationMinutes: null
+      });
+    } else {
+      await createSession({
+        userId: foundUser.id,
+        deviceInfo,
+        ip,
+        cookie: userSessionCookie,
+        lastActive: dayjs().toDate(),
+        loginAttempts: 0,
+        createdAt: dayjs().toDate(),
+        banStart: null,
+        banDurationMinutes: null
+      });
+    }
+
+    setCookieHeader(res, userSessionCookie);
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error during Google OAuth:', error);
     res.status(500).json({
       code: ErrorCodes.INTERNAL_SERVER_ERROR,
       message: req.t('errors.internalServerError')

@@ -1,8 +1,8 @@
 import { prisma } from '@server/utils';
 
 export const getReservedStorageInMB = async () => {
-  const result = await prisma.users.aggregate({
-    _sum: { storageSpaceInMb: true }
+  const result = await prisma.storage.aggregate({
+    _sum: { storageSpaceInMB: true }
   });
-  return result._sum.storageSpaceInMb ?? 0n;
+  return result._sum.storageSpaceInMB ?? 0n;
 };

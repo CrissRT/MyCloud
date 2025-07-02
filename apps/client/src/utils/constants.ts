@@ -5,6 +5,13 @@ export const getAPIBaseUrl = () => {
   return baseUrl;
 };
 
+export const getGoogleSSOClientId = () => {
+  const clientId = process.env.NEXT_PUBLIC_SSO_GOOGLE;
+  if (!clientId) throw new Error('NEXT_PUBLIC_SSO_GOOGLE is not defined');
+
+  return clientId;
+};
+
 export type PromiseLanguage = Promise<{ lng: string }>;
 
 export enum Sex {

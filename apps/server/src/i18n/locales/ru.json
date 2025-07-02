@@ -12,7 +12,9 @@
     "resetTokenInvalid": "Недействительный токен сброса пароля",
     "resetTokenExpired": "Токен сброса пароля истек",
     "samePassword": "Новый пароль должен отличаться от старого пароля",
-    "userNotInitializedCorrectly": "Пользователь не был инициализирован корректно"
+    "userNotInitializedCorrectly": "Пользователь не был инициализирован корректно",
+    "invalidGoogleToken": "Недействительный токен OAuth Google",
+    "missingGoogleUserInfo": "Отсутствуют необходимые данные пользователя Google"
   },
 
   "success": {

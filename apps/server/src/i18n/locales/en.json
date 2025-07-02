@@ -12,7 +12,9 @@
     "resetTokenInvalid": "Reset token is invalid",
     "resetTokenExpired": "Reset token has expired",
     "samePassword": "New password must be different from the old password",
-    "userNotInitializedCorrectly": "User was not initialized correctly"
+    "userNotInitializedCorrectly": "User was not initialized correctly",
+    "invalidGoogleToken": "Invalid Google OAuth token",
+    "missingGoogleUserInfo": "Missing required Google user information"
   },
 
   "success": {
