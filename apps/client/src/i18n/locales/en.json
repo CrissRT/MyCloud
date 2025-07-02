@@ -17,6 +17,12 @@
       "joinUs": "Join MyCloud and store your files securely.",
       "alreadyHaveAccount": "Already have an account?"
     },
+    "forgotPassword": {
+      "forgotPassword": "Forgot Password?",
+      "enterEmail": "Enter your email to reset your password",
+      "sendResetLink": "Send Reset Link",
+      "rememberPassword": "Remember your password?"
+    },
     "email": "Email",
     "enterEmail": "Enter your email",
     "password": "Password",

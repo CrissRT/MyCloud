@@ -38,3 +38,15 @@ export const authResponseSchema = userSchema
   }));
 
 export type AuthResponse = z.infer<typeof authResponseSchema>;
+
+export const forgotPasswordSchema = userSchema.pick({
+  email: true
+});
+
+export type ForgotPassword = z.infer<typeof forgotPasswordSchema>;
+
+export const forgotPasswordResponseSchema = z.object({
+  message: z.string()
+});
+
+export type ForgotPasswordResponse = z.infer<typeof forgotPasswordResponseSchema>;

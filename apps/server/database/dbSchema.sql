@@ -39,6 +39,13 @@ CREATE TABLE "sessions" (
     "banStart" TIMESTAMP WITH TIME ZONE
 );
 
+-- Reset Tokens
+CREATE TABLE "resetTokens" (
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER REFERENCES "users"("id") ON DELETE CASCADE NOT NULL,
+    "token" TEXT NOT NULL
+);
+
 -- General Preferences
 CREATE TABLE "preferences" (
     "id" SERIAL PRIMARY KEY,

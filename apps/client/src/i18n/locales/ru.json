@@ -17,6 +17,12 @@
       "joinUs": "Присоединяйтесь к MyCloud и храните свои файлы в безопасности.",
       "alreadyHaveAccount": "Уже есть аккаунт?"
     },
+    "forgotPassword": {
+      "forgotPassword": "Забыли пароль?",
+      "enterEmail": "Введите ваш email для сброса пароля",
+      "sendResetLink": "Отправить ссылку для сброса",
+      "rememberPassword": "Вспомнили пароль?"
+    },
     "email": "Электронная почта",
     "enterEmail": "Введите ваш email",
     "password": "Пароль",
