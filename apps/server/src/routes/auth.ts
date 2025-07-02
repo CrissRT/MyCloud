@@ -32,6 +32,7 @@ import {
   DEFAULT_STORAGE_SPACE_IN_MB,
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
+  getGoogleClientId,
   getNextBanDuration,
   getSaltRounds,
   getSerializedUserSessionCookie,
@@ -46,6 +47,7 @@ import {
 import { ErrorCodes } from '@shared/types';
 
 const SALT_ROUNDS = getSaltRounds();
+const GOOGLE_CLIENT_ID = getGoogleClientId();
 
 const router = express.Router();
 
@@ -431,13 +433,13 @@ router.post('/google', async (req, res) => {
     }
 
     // Verify Google token
-    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
     let payload;
     try {
       const ticket = await client.verifyIdToken({
         idToken: resultParseBody.data.credential,
-        audience: process.env.GOOGLE_CLIENT_ID
+        audience: GOOGLE_CLIENT_ID
       });
       payload = ticket.getPayload();
     } catch (authError) {
