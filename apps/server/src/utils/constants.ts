@@ -53,6 +53,42 @@ export const getJwtSecret = () => {
   return jwtSecret;
 };
 
+export const getEmailService = () => {
+  const emailService = process.env.EMAIL_SERVICE;
+  if (!emailService) {
+    console.error('EMAIL_SERVICE value is not set in environment variables.');
+    process.exit(1);
+  }
+  return emailService;
+};
+
+export const getEmail = () => {
+  const email = process.env.EMAIL;
+  if (!email) {
+    console.error('EMAIL value is not set in environment variables.');
+    process.exit(1);
+  }
+  return email;
+};
+
+export const getEmailPassword = () => {
+  const emailPassword = process.env.EMAIL_PASSWORD;
+  if (!emailPassword) {
+    console.error('EMAIL_PASSWORD value is not set in environment variables.');
+    process.exit(1);
+  }
+  return emailPassword;
+};
+
+export const getFrontendUrl = () => {
+  const frontendUrl = process.env.FRONTEND_URL;
+  if (!frontendUrl) {
+    console.error('FRONTEND_URL value is not set in environment variables.');
+    process.exit(1);
+  }
+  return frontendUrl;
+};
+
 export const prisma = new PrismaClient();
 
 export const LOCKOUT_TIERS_MINUTES = [5, 15, 60, 180, 720, 1440]; // up to 24 hours

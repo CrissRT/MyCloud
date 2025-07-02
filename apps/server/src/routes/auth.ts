@@ -24,6 +24,7 @@ import {
   getSerializedUserSessionCookie,
   isBanned,
   MAX_LOGIN_ATTEMPTS,
+  sendResetPasswordEmail,
   setCookieHeader,
   shouldResetBanDueToInactivity,
   signJwt
@@ -268,14 +269,21 @@ router.post('/forgot-password', async (req, res) => {
     // Create a reset token in the database
     await createResetToken(resetToken, user.id);
 
-    // Here you would typically send the reset token to the user's email
-    // For demonstration purposes, we'll just return it in the response
+    try {
+      // Send the reset password email
+      await sendResetPasswordEmail(user.firstName, user.email, resetToken);
 
-    const response: ForgotPasswordResponse = {
-      message: req.t('success.resetPasswordEmailSent')
-    };
+      const response: ForgotPasswordResponse = {
+        message: req.t('success.resetPasswordEmailSent')
+      };
 
-    res.status(200).json(response);
+      res.status(200).json(response);
+    } catch {
+      res.status(500).json({
+        code: ErrorCodes.FORGOT_PASSWORD_FAILED,
+        message: req.t('errors.resetPasswordFailed')
+      });
+    }
   } catch (error) {
     console.error('Error during forgot password:', error);
     res.status(500).json({

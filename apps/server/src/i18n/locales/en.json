@@ -8,7 +8,7 @@
     "invalidCredentials": "Invalid credentials",
     "insufficientStorage": "Insufficient storage available",
     "userNotFound": "User was not found",
-    "forgotPasswordFailed": "Failed to send forgot password email",
+    "resetPasswordFailed": "Failed to send forgot password email",
     "resetTokenInvalid": "Reset token is invalid",
     "resetTokenExpired": "Reset token has expired"
   },

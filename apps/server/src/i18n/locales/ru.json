@@ -8,7 +8,7 @@
     "invalidCredentials": "Неверные учетные данные",
     "insufficientStorage": "Недостаточно доступного места для хранения",
     "userNotFound": "Пользователь не был найден",
-    "forgotPasswordFailed": "Не удалось отправить письмо для сброса пароля",
+    "resetPasswordFailed": "Не удалось отправить письмо для сброса пароля",
     "resetTokenInvalid": "Недействительный токен сброса пароля",
     "resetTokenExpired": "Токен сброса пароля истек"
   },
