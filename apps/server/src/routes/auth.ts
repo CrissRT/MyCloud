@@ -4,7 +4,15 @@ import express from 'express';
 import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
-import { createSession, createUser, getUserByEmail, updateSessionById, updateUserById } from '@server/db';
+import {
+  createSession,
+  createStorageInfo,
+  createUser,
+  getStorageInfoByUserId,
+  getUserByEmail,
+  updateSessionById,
+  updateUserById
+} from '@server/db';
 import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
   AuthResponse,
@@ -95,10 +103,10 @@ router.post('/register', async (req, res) => {
 
     const createdUser = await createUser({
       ...response,
-      password: hashedPassword,
-      storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
-      usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
+      password: hashedPassword
     });
+
+    await createStorageInfo(createdUser.id);
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
 
@@ -203,6 +211,17 @@ router.post('/login', async (req, res) => {
     session.banStart = null;
     session.banDurationMinutes = null;
 
+    // Get storage information for the user
+    const foundStorage = await getStorageInfoByUserId(foundUser.id);
+
+    if (!foundStorage) {
+      res.status(500).json({
+        code: ErrorCodes.INTERNAL_SERVER_ERROR,
+        message: req.t('errors.internalServerError')
+      });
+      return;
+    }
+
     const userCookie = getSerializedUserSessionCookie({
       email: foundUser.email,
       username: foundUser.username,
@@ -211,8 +230,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMb),
-      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
+      storageSpaceInMB: String(foundStorage.storageSpaceInMB),
+      usedStorageInBytes: String(foundStorage.usedStorageInBytes)
     });
 
     session.cookie = userCookie;
@@ -228,8 +247,8 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundUser.storageSpaceInMb),
-      usedStorageInBytes: String(foundUser.usedStorageSpaceInBytes)
+      storageSpaceInMB: String(foundStorage.storageSpaceInMB),
+      usedStorageInBytes: String(foundStorage.usedStorageInBytes)
     };
 
     setCookieHeader(res, userCookie);
