@@ -41,7 +41,8 @@
     "enterLastName": "Enter your last name",
     "enterSex": "Enter your sex",
     "birthDate": "Birth Date",
-    "enterBirthDate": "Enter your birth date"
+    "enterBirthDate": "Enter your birth date",
+    "or": "or"
   },
   "common": {
     "clear": "Clear",

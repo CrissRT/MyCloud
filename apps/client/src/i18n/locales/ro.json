@@ -41,7 +41,8 @@
     "enterLastName": "Introduceți numele de familie",
     "enterSex": "Introduceți sexul",
     "birthDate": "Data nașterii",
-    "enterBirthDate": "Introduceți data nașterii"
+    "enterBirthDate": "Introduceți data nașterii",
+    "or": "sau"
   },
   "common": {
     "clear": "Șterge",

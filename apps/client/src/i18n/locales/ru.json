@@ -41,7 +41,8 @@
     "enterLastName": "Введите вашу фамилию",
     "enterSex": "Введите ваш пол",
     "birthDate": "Дата рождения",
-    "enterBirthDate": "Введите дату рождения"
+    "enterBirthDate": "Введите дату рождения",
+    "or": "или"
   },
   "common": {
     "clear": "Очистить",
