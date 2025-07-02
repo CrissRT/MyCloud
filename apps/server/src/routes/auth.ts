@@ -4,7 +4,7 @@ import express from 'express';
 import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
-import { createSession, createUser, getUserByEmail, updateSession, updateUserById } from '@server/db';
+import { createSession, createUser, getUserByEmail, updateSessionById, updateUserById } from '@server/db';
 import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
   AuthResponse,
@@ -189,7 +189,7 @@ router.post('/login', async (req, res) => {
         session.banDurationMinutes = banDuration;
       }
 
-      session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
+      session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
       res.status(401).json({
         code: ErrorCodes.INVALID_CREDENTIALS,
@@ -218,7 +218,7 @@ router.post('/login', async (req, res) => {
     session.cookie = userCookie;
     session.lastActive = dayjs().toDate();
 
-    session = foundSession ? await updateSession({ ...foundSession, ...session }) : await createSession(session);
+    session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
     const response: AuthResponse = {
       email: foundUser.email,
@@ -373,7 +373,7 @@ router.post('/reset-password', async (req, res) => {
     }
 
     // Update the user's password
-    await updateUserById(user.id, { ...user, password: hashedPassword });
+    await updateUserById(user.id, { password: hashedPassword });
 
     // Delete the reset token from the database
     await deleteResetTokenByUserId(user.id);
