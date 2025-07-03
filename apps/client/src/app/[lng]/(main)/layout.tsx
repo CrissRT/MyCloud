@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
 import { PropsWithChildren } from 'react';
-import { NavButton } from '@client/components';
+import { Button, NavButton } from '@client/components';
 import createServerI18n from '@client/i18n/i18n.server';
 import { getUser, PromiseLanguage, protectedRoutes } from '@client/utils';
-import { faHouse, faStar, faTrash, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faHouse, faStar, faTrash, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ProfileButtons } from './components';
 
@@ -48,7 +49,10 @@ const DashboardLayout = async ({ children, params }: Props) => {
 
       <main className="flex-1 p-8 overflow-y-auto">
         <header className="flex justify-end">
-          <ProfileButtons />
+          <div className="flex gap-4">
+            <Button icon={<FontAwesomeIcon icon={faBell} />} size="sm" variant="text"></Button>
+            <ProfileButtons />
+          </div>
         </header>
         {children}
       </main>

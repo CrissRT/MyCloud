@@ -11,6 +11,7 @@ type Props = {
   width?: 'full';
   align?: 'left' | 'center' | 'right';
   icon?: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   loading?: boolean;
 } & PropsWithChildren &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -23,6 +24,7 @@ export const Button = ({
   width,
   loading,
   align = 'center',
+  size,
   ...rest
 }: Props) => {
   const isIconOnly = !children && !!icon;
@@ -38,6 +40,20 @@ export const Button = ({
           ['justify-center']: align === 'center',
           ['justify-start']: align === 'left',
           ['justify-end']: align === 'right'
+        },
+        {
+          ['text-sm']: size === 'sm',
+          ['text-base']: size === 'md',
+          ['text-lg']: size === 'lg',
+          ['text-xl']: size === 'xl',
+          ['text-2xl']: size === '2xl'
+        },
+        {
+          ['h-8']: size === 'sm',
+          ['h-10']: size === 'md',
+          ['h-12']: size === 'lg',
+          ['h-14']: size === 'xl',
+          ['h-16']: size === '2xl'
         },
         {
           ['p-2']: isIconOnly,
