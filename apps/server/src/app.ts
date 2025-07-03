@@ -6,13 +6,19 @@ import { authApi } from '@server/api';
 import { zodMiddleware } from '@server/api/middlewares';
 import { i18n } from '@server/i18n/i18n';
 import { authRouter } from '@server/routes';
-import { getHostNameOfServer, getPortOfServer, prisma } from '@server/utils';
+import { getFrontendUrl, getHostNameOfServer, getPortOfServer, prisma } from '@server/utils';
 import { zodiosApp } from '@zodios/express';
 import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
 
 const app = zodiosApp();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: getFrontendUrl(), // Allow all origins, adjust as needed for production
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Language'], // Allowed headers
+    credentials: true // Allow cookies to be sent with requests
+  })
+);
 app.use(handle(i18n));
 
 app.use(zodMiddleware);

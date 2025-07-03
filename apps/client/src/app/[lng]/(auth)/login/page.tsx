@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useGoogleServicePostAuthGoogle, useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
 import { Button, GoogleOAuthButton, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes, showApiErrors } from '@client/utils';
+import { guestRoutes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
@@ -54,12 +54,12 @@ const Page = () => {
       title={t('auth.login.welcome')}
       description={t('auth.login.login')}
       additionalLink={{
-        href: routes.forgotPassword,
+        href: guestRoutes.forgotPassword,
         label: t('auth.login.buttons.forgetPassword')
       }}
       redirect={{
         description: t('auth.login.dontHaveAccount'),
-        href: routes.register,
+        href: guestRoutes.register,
         linkLabel: t('auth.login.buttons.register')
       }}
     >

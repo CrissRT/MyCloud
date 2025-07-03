@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useGoogleServicePostAuthGoogle, useRegisterServicePostAuthRegister } from '@client/api/openapi/queries';
 import { Button, DatePicker, Dropdown, GoogleOAuthButton, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes, Sex, showApiErrors } from '@client/utils';
+import { guestRoutes, Sex, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
@@ -66,7 +66,7 @@ const Page = () => {
       title={t('auth.register.createAccount')}
       description={t('auth.register.joinUs')}
       redirect={{
-        href: routes.login,
+        href: guestRoutes.login,
         description: t('auth.register.alreadyHaveAccount'),
         linkLabel: t('auth.login.buttons.login')
       }}

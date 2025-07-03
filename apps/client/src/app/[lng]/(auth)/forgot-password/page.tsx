@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useForgotPasswordServicePostAuthForgotPassword } from '@client/api/openapi/queries';
 import { Button, Input } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes, showApiErrors } from '@client/utils';
+import { guestRoutes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const schema = z.object({
@@ -44,7 +44,7 @@ const Page = () => {
       description={t('auth.forgotPassword.enterEmail')}
       redirect={{
         description: t('auth.forgotPassword.rememberPassword'),
-        href: routes.login,
+        href: guestRoutes.login,
         linkLabel: t('auth.login.buttons.login')
       }}
     >
