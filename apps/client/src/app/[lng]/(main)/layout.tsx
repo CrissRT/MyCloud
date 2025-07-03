@@ -47,9 +47,9 @@ const DashboardLayout = async ({ children, params }: Props) => {
         </div>
       </aside>
 
-      <main className="flex-1 p-6 overflow-y-auto">
-        <header className="flex justify-end">
-          <div className="flex items-center">
+      <main className="flex p-6 overflow-y-auto flex-col flex-1">
+        <header className="flex justify-end mb-3">
+          <div className="flex items-center gap-6">
             <Dropdown
               button={{ children: <FontAwesomeIcon icon={faBell} /> }}
               options={[{ value: '123', label: 'Option 1111111111111' }]}

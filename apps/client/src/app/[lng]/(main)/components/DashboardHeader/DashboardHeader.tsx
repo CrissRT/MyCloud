@@ -13,7 +13,7 @@ export const DashboardHeader = ({ parents, title }: Props) => {
   const parentsSlice = parents?.slice(-2) || [];
 
   return (
-    <div className="flex text-3xl font-bold mb-4 w-full justify-between">
+    <div className="flex text-3xl mb-2 font-bold w-full justify-between">
       <h1>
         {parentsSlice[0] && (
           <>
