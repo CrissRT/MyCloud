@@ -205,7 +205,7 @@ router.post('/login', async (req, res) => {
         session.banDurationMinutes = banDuration;
       }
 
-      session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
+      session = foundSession ? await updateSessionById({ ...foundSession, ...session }) : await createSession(session);
 
       res.status(401).json({
         code: ErrorCodes.INVALID_RECORD,
@@ -245,7 +245,7 @@ router.post('/login', async (req, res) => {
     session.cookie = userCookie;
     session.lastActive = dayjs().toDate();
 
-    session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
+    session = foundSession ? await updateSessionById({ ...foundSession, ...session }) : await createSession(session);
 
     const response: AuthResponse = {
       email: foundUser.email,
@@ -509,7 +509,8 @@ router.post('/google', async (req, res) => {
     const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
 
     if (foundSession) {
-      await updateSessionById(foundSession.id, {
+      await updateSessionById({
+        ...foundSession,
         lastActive: dayjs().toDate(),
         cookie: userSessionCookie,
         loginAttempts: 0,
