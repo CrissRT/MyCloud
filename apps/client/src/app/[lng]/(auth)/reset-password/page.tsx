@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useResetPasswordServicePostAuthResetPassword } from '@client/api/openapi/queries';
 import { Button, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { routes, showApiErrors } from '@client/utils';
+import { guestRoutes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
@@ -53,7 +53,7 @@ const Page = () => {
       description={t('auth.resetPassword.resetDescription')}
       redirect={{
         description: t('auth.forgotPassword.rememberPassword'),
-        href: routes.login,
+        href: guestRoutes.login,
         linkLabel: t('auth.login.buttons.login')
       }}
     >

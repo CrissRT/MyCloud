@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { useTranslation } from 'react-i18next';
 import { AppLink, Button } from '@client/components';
-import { routes } from '@client/utils';
+import { guestRoutes } from '@client/utils';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -52,8 +52,8 @@ const NotFound = () => {
         </div>
 
         <div className="w-full flex gap-4 justify-center">
-          <AppLink href={routes.login}>{t('auth.login.buttons.login')}</AppLink>
-          <AppLink href={routes.register}>{t('auth.login.buttons.register')}</AppLink>
+          <AppLink href={guestRoutes.login}>{t('auth.login.buttons.login')}</AppLink>
+          <AppLink href={guestRoutes.register}>{t('auth.login.buttons.register')}</AppLink>
         </div>
       </div>
     </div>
