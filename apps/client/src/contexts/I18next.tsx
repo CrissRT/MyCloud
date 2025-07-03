@@ -1,15 +1,28 @@
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { makeZodI18nMap } from 'zod-i18n-map';
 
-import { PropsWithChildren, useEffect, useRef } from 'react';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { useLanguage } from '@client/hooks';
 import { initI18nClient } from '@client/i18n/i18n.client';
+import { i18nConfig } from '@client/i18n/settings';
 
 export const AppI18nextProvider = ({ children }: PropsWithChildren) => {
-  const { language: validLanguage, isClient } = useLanguage();
+  const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Extract language from pathname
+  const pathLanguage = pathname.split('/')[1];
+
+  // Validate and fallback to default if invalid
+  const validLanguage = i18nConfig.locales.includes(pathLanguage) ? pathLanguage : i18nConfig.defaultLocale;
 
   // Initialize with the valid language to prevent mismatches
   const i18nextRef = useRef(initI18nClient(validLanguage));
@@ -40,6 +53,13 @@ export const AppI18nextProvider = ({ children }: PropsWithChildren) => {
     // Return empty cleanup function if no animation frame was set
     return () => {};
   }, [validLanguage, isClient]);
+
+  useEffect(() => {
+    const instance = i18nextRef.current;
+    const handler = (lng: string) => router.push(`/${lng}${pathname.slice(pathLanguage.length + 1)}`);
+    instance.on('languageChanged', handler);
+    return () => instance.off('languageChanged', handler);
+  }, [router, pathname, pathLanguage]);
 
   return <I18nextProvider i18n={i18nextRef.current}>{children}</I18nextProvider>;
 };
