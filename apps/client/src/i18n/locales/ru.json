@@ -57,7 +57,11 @@
     "noResults": "Результаты не найдены",
     "noOptions": "Нет доступных опций",
     "selectOptions": "Выберите опции",
-    "loading": "Загрузка"
+    "loading": "Загрузка",
+    "myFiles": "Мои файлы",
+    "favorites": "Избранное",
+    "trash": "Корзина",
+    "admin": "Админ"
   },
   "errors": {
     "notFound": {

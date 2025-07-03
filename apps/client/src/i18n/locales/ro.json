@@ -57,7 +57,11 @@
     "noResults": "Nu s-au găsit rezultate",
     "noOptions": "Nu sunt opțiuni disponibile",
     "selectOptions": "Selectați opțiuni",
-    "loading": "Se încarcă"
+    "loading": "Se încarcă",
+    "myFiles": "Fișierele mele",
+    "favorites": "Preferate",
+    "trash": "Coș de gunoi",
+    "admin": "Admin"
   },
   "errors": {
     "notFound": {

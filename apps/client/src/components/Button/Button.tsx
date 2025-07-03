@@ -9,12 +9,22 @@ type Props = {
   variant?: 'filled' | 'outlined' | 'text';
   color?: 'primary' | 'error' | 'secondary';
   width?: 'full';
+  align?: 'left' | 'center' | 'right';
   icon?: React.ReactNode;
   loading?: boolean;
 } & PropsWithChildren &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({ children, icon, variant = 'filled', color = 'primary', width, loading, ...rest }: Props) => {
+export const Button = ({
+  children,
+  icon,
+  variant = 'filled',
+  color = 'primary',
+  width,
+  loading,
+  align = 'center',
+  ...rest
+}: Props) => {
   const isIconOnly = !children && !!icon;
 
   const { t } = useTranslation();
@@ -23,7 +33,12 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
     <button
       {...rest}
       className={classNames(
-        'flex gap-1 items-center justify-center rounded cursor-pointer scale-100 hover:scale-102 transition-transform duration-200 ease-in-out',
+        'flex gap-1 items-center rounded cursor-pointer scale-100 hover:scale-102 transition-transform duration-200 ease-in-out',
+        {
+          ['justify-center']: align === 'center',
+          ['justify-start']: align === 'left',
+          ['justify-end']: align === 'right'
+        },
         {
           ['p-2']: isIconOnly,
           ['m-1']: isIconOnly

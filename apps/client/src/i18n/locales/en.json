@@ -57,7 +57,11 @@
     "noResults": "No results found",
     "noOptions": "No options available",
     "selectOptions": "Select options",
-    "loading": "Loading"
+    "loading": "Loading",
+    "myFiles": "My Files",
+    "favorites": "Favorites",
+    "trash": "Trash",
+    "admin": "Admin"
   },
   "errors": {
     "notFound": {
