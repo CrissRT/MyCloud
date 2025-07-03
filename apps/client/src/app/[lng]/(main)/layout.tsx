@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import { PropsWithChildren } from 'react';
-import { NavButton } from '@client/components';
+import { Dropdown, NavButton } from '@client/components';
 import createServerI18n from '@client/i18n/i18n.server';
 import { getUser, PromiseLanguage, protectedRoutes } from '@client/utils';
 import { faHouse, faStar, faTrash, faUserShield } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,6 @@ interface Props extends PropsWithChildren {
 const DashboardLayout = async ({ children, params }: Props) => {
   const user = await getUser();
   const { lng } = await params;
-
   const { t } = await createServerI18n(lng);
 
   return (
@@ -45,7 +44,18 @@ const DashboardLayout = async ({ children, params }: Props) => {
         </div>
       </aside>
 
-      <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+      <main className="flex-1 p-8 overflow-y-auto">
+        <header className="flex justify-end">
+          <Dropdown
+            button={{ children: 'asdasd' }}
+            options={[
+              { label: t('common.profile'), value: 'profile' },
+              { label: t('common.profilessss'), value: 'profile' }
+            ]}
+          />
+        </header>
+        {children}
+      </main>
     </div>
   );
 };
