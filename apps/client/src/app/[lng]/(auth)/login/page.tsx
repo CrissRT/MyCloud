@@ -33,7 +33,7 @@ const Page = () => {
   });
 
   const { mutateAsync, isPending } = useLoginServicePostAuthLogin({
-    onSuccess: () => login(),
+    onSuccess: async () => await login(),
     onError: showApiErrors
   });
 
@@ -41,7 +41,7 @@ const Page = () => {
     await mutateAsync({ requestBody: { email: data.email, password: data.password } });
 
   const { mutateAsync: googleLogin } = useGoogleServicePostAuthGoogle({
-    onSuccess: () => login(),
+    onSuccess: async () => await login(),
     onError: showApiErrors
   });
 

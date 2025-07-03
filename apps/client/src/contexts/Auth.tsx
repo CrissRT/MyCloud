@@ -4,11 +4,11 @@ import { useRouter } from 'next/navigation';
 
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { PostAuthRegisterResponse } from '@client/api/openapi/requests';
-import { getUser, logOutUser, protectedRoutes, routes } from '@client/utils';
+import { getUser, guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
 
 interface AuthContextProps {
   user: PostAuthRegisterResponse | null;
-  logOut: () => void;
+  logOut: () => Promise<void>;
   login: () => Promise<void>;
 }
 
@@ -33,10 +33,10 @@ export const AuthProvider = ({ children, client }: Props) => {
     if (userData) setUser(userData);
   };
 
-  const logOut = () => {
-    router.push(routes.home);
+  const logOut = async () => {
+    await logOutUser();
+    router.push(guestRoutes.login);
     setUser(null);
-    logOutUser();
   };
 
   return <AuthContext.Provider value={{ user, logOut, login }}>{children}</AuthContext.Provider>;
