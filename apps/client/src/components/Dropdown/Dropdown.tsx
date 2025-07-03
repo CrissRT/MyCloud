@@ -417,7 +417,6 @@ export const Dropdown = ({
             ref={dropdownRef}
             className={classNames(
               'absolute z-50 min-w-full bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg max-h-64 overflow-hidden animate-fade-in',
-              sizeClasses[size],
               {
                 'left-0': !alignRight,
                 'right-0': alignRight,
