@@ -1,10 +1,12 @@
 import Image from 'next/image';
 
 import { PropsWithChildren } from 'react';
-import { Dropdown, NavButton } from '@client/components';
+import { NavButton } from '@client/components';
 import createServerI18n from '@client/i18n/i18n.server';
 import { getUser, PromiseLanguage, protectedRoutes } from '@client/utils';
 import { faHouse, faStar, faTrash, faUserShield } from '@fortawesome/free-solid-svg-icons';
+
+import { ProfileButtons } from './components';
 
 interface Props extends PropsWithChildren {
   params: PromiseLanguage;
@@ -46,13 +48,7 @@ const DashboardLayout = async ({ children, params }: Props) => {
 
       <main className="flex-1 p-8 overflow-y-auto">
         <header className="flex justify-end">
-          <Dropdown
-            button={{ children: 'asdasd' }}
-            options={[
-              { label: t('common.profile'), value: 'profile' },
-              { label: t('common.profilessss'), value: 'profile' }
-            ]}
-          />
+          <ProfileButtons />
         </header>
         {children}
       </main>
