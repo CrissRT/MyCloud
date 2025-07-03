@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
@@ -7,13 +8,14 @@ import { useTranslation } from 'react-i18next';
 import { useGoogleServicePostAuthGoogle, useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
 import { Button, GoogleOAuthButton, Input, Password } from '@client/components';
 import { AuthLayout } from '@client/layouts';
-import { guestRoutes, showApiErrors } from '@client/utils';
+import { guestRoutes, protectedRoutes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
 const Page = () => {
   const { t: customZod } = useTranslation('customZod');
   const { t } = useTranslation();
+  const router = useRouter();
 
   const schema = z.object({
     email: z.string().email(),
@@ -31,8 +33,8 @@ const Page = () => {
   });
 
   const { mutateAsync, isPending } = useLoginServicePostAuthLogin({
-    onSuccess: (data) => {
-      console.log('Login successful:', data);
+    onSuccess: () => {
+      router.push(protectedRoutes.dashboard);
     },
     onError: showApiErrors
   });
@@ -41,8 +43,8 @@ const Page = () => {
     await mutateAsync({ requestBody: { email: data.email, password: data.password } });
 
   const { mutateAsync: googleLogin } = useGoogleServicePostAuthGoogle({
-    onSuccess: (data) => {
-      console.log('Login successful:', data);
+    onSuccess: () => {
+      router.push(protectedRoutes.dashboard);
     },
     onError: showApiErrors
   });
