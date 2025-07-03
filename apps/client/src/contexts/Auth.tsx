@@ -36,6 +36,8 @@ export const AuthProvider = ({ children, client }: Props) => {
   const logOut = async () => {
     await logOutUser();
     router.push(guestRoutes.login);
+    // Delay to ensure logout is processed before clearing user state
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay to ensure logout is processed
     setUser(null);
   };
 
