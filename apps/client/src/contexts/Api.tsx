@@ -16,6 +16,9 @@ const getCookie = (name: string) => {
 export const APIProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     OpenAPI.BASE = getAPIBaseUrl();
+    // send HTTP-only cookies with every request
+    OpenAPI.WITH_CREDENTIALS = true;
+    OpenAPI.CREDENTIALS = 'include';
 
     OpenAPI.interceptors.request.use(async (config) => {
       const language = getCookie('NEXT_LOCALE') || i18nConfig.defaultLocale;
