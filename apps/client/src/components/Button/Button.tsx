@@ -11,7 +11,7 @@ type Props = {
   width?: 'full';
   align?: 'left' | 'center' | 'right';
   icon?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   loading?: boolean;
 } & PropsWithChildren &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -42,26 +42,20 @@ export const Button = ({
           ['justify-end']: align === 'right'
         },
         {
-          ['text-sm']: size === 'sm',
-          ['text-base']: size === 'md',
-          ['text-lg']: size === 'lg',
-          ['text-xl']: size === 'xl',
-          ['text-2xl']: size === '2xl'
+          ['text-sm py-2 px-3']: size === 'sm' && !isIconOnly,
+          ['py-3 px-4']: size === 'md' && !isIconOnly,
+          ['py-4 px-5 text-lg']: size === 'lg' && !isIconOnly,
+          ['py-5 px-6 text-xl']: size === 'xl' && !isIconOnly,
+          ['p-2 min-w-8']: isIconOnly && (size === 'sm' || !size),
+          ['p-3 min-w-10']: isIconOnly && size === 'md',
+          ['p-4 min-w-12']: isIconOnly && size === 'lg',
+          ['p-5 min-w-14']: isIconOnly && size === 'xl'
         },
         {
           ['h-8']: size === 'sm',
-          ['h-10']: size === 'md',
+          ['h-10']: size === 'md' || !size,
           ['h-12']: size === 'lg',
-          ['h-14']: size === 'xl',
-          ['h-16']: size === '2xl'
-        },
-        {
-          ['p-2']: isIconOnly,
-          ['m-1']: isIconOnly
-        },
-        {
-          ['py-3']: !isIconOnly,
-          ['px-6']: !isIconOnly
+          ['h-14']: size === 'xl'
         },
         {
           ['bg-(--primary-color) text-white']: variant === 'filled' && color === 'primary',

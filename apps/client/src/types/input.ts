@@ -10,6 +10,6 @@ export interface InputProps {
   icon?: ImageProps | React.ReactElement;
   input?: React.InputHTMLAttributes<HTMLInputElement>;
   iconPosition?: 'left' | 'right';
-  size?: '2xl' | 'xl' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   error?: string | boolean;
 }

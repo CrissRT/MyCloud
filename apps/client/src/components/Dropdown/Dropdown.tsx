@@ -37,7 +37,7 @@ interface BaseProps {
   disabled?: boolean;
   clearable?: boolean;
   searchable?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   button?: {
     children: React.ReactNode | string;
     showIcon?: true;
@@ -290,13 +290,14 @@ export const Dropdown = ({
   }, [isOpen, measured]);
 
   const sizeClasses = {
-    sm: 'py-2 px-3 text-sm',
-    md: 'py-3 px-4',
-    lg: 'py-4 px-5 text-lg'
+    sm: 'py-2 px-3 text-sm h-8',
+    md: 'py-3 px-4 h-10',
+    lg: 'py-4 px-5 text-lg h-12',
+    xl: 'py-5 px-6 text-xl h-14'
   };
 
   return (
-    <div className="mb-6 max-w-full relative" ref={containerRef}>
+    <div className={classNames('relative', { 'mb-6': label || error })} ref={containerRef}>
       {label && (
         <label htmlFor={input?.id || input?.name} {...label} className="block mb-2 text-(--text-primary)">
           {label.text}
@@ -440,7 +441,7 @@ export const Dropdown = ({
 
             <div className="max-h-48 overflow-y-auto">
               {filteredOptions.length === 0 ? (
-                <div className="p-3 text-(--text-secondary) text-center">
+                <div className={classNames('text-(--text-secondary) text-center', sizeClasses[size])}>
                   {searchable ? t('common.noResults') : t('common.noOptions')}
                 </div>
               ) : (
@@ -470,9 +471,9 @@ export const Dropdown = ({
             </div>
           </div>
         )}
-      </div>
 
-      {error && <p className="mt-1 text-(--error-color)">{error}</p>}
+        {error && <p className="mt-1 text-(--error-color)">{error}</p>}
+      </div>
     </div>
   );
 };

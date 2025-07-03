@@ -81,12 +81,13 @@ const Page = () => {
           label={{ text: t('auth.email') }}
           error={errors.email?.message}
           input={{ placeholder: t('auth.enterEmail'), id: 'email', ...register('email', { required: true }) }}
-          size="2xl"
+          size="xl"
         />
         <Password
           label={{ text: t('auth.password') }}
           error={errors.password?.message}
           input={{ placeholder: t('auth.enterPassword'), id: 'password', ...register('password', { required: true }) }}
+          size="xl"
         />
         <Password
           label={{ text: t('auth.confirmPassword') }}
@@ -96,7 +97,7 @@ const Page = () => {
             id: 'confirmPassword',
             ...register('confirmPassword', { required: true })
           }}
-          size="2xl"
+          size="xl"
         />
         <Input
           label={{ text: t('auth.firstName') }}
@@ -106,7 +107,7 @@ const Page = () => {
             ...register('firstName', { required: true })
           }}
           error={errors.firstName?.message}
-          size="2xl"
+          size="xl"
         />
         <Input
           label={{ text: t('auth.lastName') }}
@@ -116,12 +117,13 @@ const Page = () => {
             ...register('lastName', { required: true })
           }}
           error={errors.lastName?.message}
-          size="2xl"
+          size="xl"
         />
         <DatePicker
           label={{ text: t('auth.birthDate') }}
           error={errors.birthDate?.message}
           input={{ ...register('birthDate', { required: true }) }}
+          size="xl"
         />
         <Dropdown
           label={{ text: t('common.sex') }}
@@ -132,6 +134,7 @@ const Page = () => {
           ]}
           error={errors.sex?.message}
           input={{ ...register('sex', { required: true }) }}
+          size="xl"
         />
         <Button width="full" loading={isPending}>
           {t('auth.register.createAccount')}

@@ -72,7 +72,7 @@ const Page = () => {
         <Input
           label={{ text: t('auth.email') }}
           input={{ id: 'email', placeholder: t('auth.enterEmail'), ...register('email', { required: true }) }}
-          size="2xl"
+          size="lg"
           error={errors.email?.message}
         />
         <Password

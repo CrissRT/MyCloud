@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+import { Button, Dropdown } from '@client/components';
+
 interface Props {
   parents?: string[];
   title: string;
@@ -11,7 +13,7 @@ export const DashboardHeader = ({ parents, title }: Props) => {
   const parentsSlice = parents?.slice(-2) || [];
 
   return (
-    <div className="flex text-3xl font-bold mb-4 w-full">
+    <div className="flex text-3xl font-bold mb-4 w-full justify-between">
       <h1>
         {parentsSlice[0] && (
           <>
@@ -31,6 +33,12 @@ export const DashboardHeader = ({ parents, title }: Props) => {
         )}
         {title}
       </h1>
+
+      <div className="flex gap-4">
+        <Dropdown options={[]} size="sm" />
+
+        <Button size="sm">test</Button>
+      </div>
     </div>
   );
 };

@@ -26,6 +26,7 @@ export const GoogleOAuthButton = ({ onSuccess }: Props) => {
       variant="outlined"
       color="primary"
       width="full"
+      size="lg"
       onClick={() => login()}
       icon={
         <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none">
