@@ -9,10 +9,19 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 
 import { APIProvider, AppI18nextProvider, QueryClientContext } from '@client/contexts';
+import { i18nConfig } from '@client/i18n/settings';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import '@client/styles/globals.css';
 import '@client/styles/theme.css';
+
+export const getStaticProps = () => {
+  return {
+    props: {
+      lng: i18nConfig.locales
+    }
+  };
+};
 
 const RootLayout = async ({
   children,
