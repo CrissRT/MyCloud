@@ -43,7 +43,8 @@
     "birthDate": "Birth Date",
     "enterBirthDate": "Enter your birth date",
     "or": "or",
-    "continueWithGoogle": "Continue with Google"
+    "continueWithGoogle": "Continue with Google",
+    "logOut": "Log Out"
   },
   "common": {
     "clear": "Clear",
@@ -61,7 +62,8 @@
     "myFiles": "My Files",
     "favorites": "Favorites",
     "trash": "Trash",
-    "admin": "Admin"
+    "admin": "Admin",
+    "settings": "Settings"
   },
   "errors": {
     "notFound": {

@@ -43,7 +43,8 @@
     "birthDate": "Дата рождения",
     "enterBirthDate": "Введите дату рождения",
     "or": "или",
-    "continueWithGoogle": "Продолжить с Google"
+    "continueWithGoogle": "Продолжить с Google",
+    "logOut": "Выйти"
   },
   "common": {
     "clear": "Очистить",
@@ -61,7 +62,8 @@
     "myFiles": "Мои файлы",
     "favorites": "Избранное",
     "trash": "Корзина",
-    "admin": "Админ"
+    "admin": "Админ",
+    "settings": "Настройки"
   },
   "errors": {
     "notFound": {

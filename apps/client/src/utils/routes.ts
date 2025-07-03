@@ -3,7 +3,8 @@ export const routes = {
 };
 
 export const protectedRoutes = {
-  dashboard: '/dashboard'
+  dashboard: '/dashboard',
+  settings: '/settings'
 };
 
 export const guestRoutes = {

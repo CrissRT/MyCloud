@@ -17,3 +17,8 @@ export const getUser = async () => {
     return null;
   }
 };
+
+export const logOutUser = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete('user_session');
+};

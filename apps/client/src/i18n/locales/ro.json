@@ -43,7 +43,8 @@
     "birthDate": "Data nașterii",
     "enterBirthDate": "Introduceți data nașterii",
     "or": "sau",
-    "continueWithGoogle": "Continuă cu Google"
+    "continueWithGoogle": "Continuă cu Google",
+    "logOut": "Deconectare"
   },
   "common": {
     "clear": "Șterge",
@@ -61,7 +62,8 @@
     "myFiles": "Fișierele mele",
     "favorites": "Preferate",
     "trash": "Coș de gunoi",
-    "admin": "Admin"
+    "admin": "Admin",
+    "settings": "Setări"
   },
   "errors": {
     "notFound": {
