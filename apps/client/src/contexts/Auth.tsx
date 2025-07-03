@@ -2,6 +2,7 @@
 
 import { createContext, PropsWithChildren, useState } from 'react';
 import { PostAuthRegisterResponse } from '@client/api/openapi/requests';
+import { getLocalStorageUser, removeLocalStorageUser, setLocalStorageUser } from '@client/utils';
 
 interface AuthContextProps {
   user: PostAuthRegisterResponse | null;
@@ -12,11 +13,17 @@ interface AuthContextProps {
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<PostAuthRegisterResponse | null>(null);
+  const [user, setUser] = useState<PostAuthRegisterResponse | null>(getLocalStorageUser);
 
-  const login = (userData: PostAuthRegisterResponse) => setUser(userData);
+  const login = (userData: PostAuthRegisterResponse) => {
+    setLocalStorageUser(userData);
+    setUser(userData);
+  };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    removeLocalStorageUser();
+    setUser(null);
+  };
 
   return <AuthContext value={{ user, login, logout }}>{children}</AuthContext>;
 };
