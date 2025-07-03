@@ -4,7 +4,6 @@ import { useAuth } from '@client/hooks';
 
 const Page = () => {
   const { user } = useAuth();
-  console.log('🚀 ~ Page ~ user:', user);
   if (!user) {
     return <div>Please log in to view your dashboard.</div>;
   }
