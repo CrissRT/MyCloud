@@ -8,7 +8,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 
-import { APIProvider, AppI18nextProvider, AuthProvider, QueryClientContext } from '@client/contexts';
+import { APIProvider, AppI18nextProvider, QueryClientContext } from '@client/contexts';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import '@client/styles/globals.css';
@@ -25,20 +25,18 @@ const RootLayout = async ({
   return (
     <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px] min-h-full">
       <body className="antialiased w-full h-full text-(--text-primary) min-h-full">
-        <AuthProvider>
-          <GoogleOAuthProvider clientId={getGoogleSSOClientId()}>
-            <AppI18nextProvider>
-              <QueryClientContext>
-                <APIProvider>
-                  <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
-                    {children}
-                    <NotificationContainer />
-                  </ThemeProvider>
-                </APIProvider>
-              </QueryClientContext>
-            </AppI18nextProvider>
-          </GoogleOAuthProvider>
-        </AuthProvider>
+        <GoogleOAuthProvider clientId={getGoogleSSOClientId()}>
+          <AppI18nextProvider>
+            <QueryClientContext>
+              <APIProvider>
+                <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
+                  {children}
+                  <NotificationContainer />
+                </ThemeProvider>
+              </APIProvider>
+            </QueryClientContext>
+          </AppI18nextProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );
