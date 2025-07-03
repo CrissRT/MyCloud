@@ -2,19 +2,8 @@
 
 import classNames from 'classnames';
 
-import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-
-type Props = {
-  variant?: 'filled' | 'outlined' | 'text';
-  color?: 'primary' | 'error' | 'secondary';
-  width?: 'full';
-  align?: 'left' | 'center' | 'right';
-  icon?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  loading?: boolean;
-} & PropsWithChildren &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+import { ButtonProps } from '@client/utils';
 
 export const Button = ({
   children,
@@ -26,7 +15,7 @@ export const Button = ({
   align = 'center',
   size,
   ...rest
-}: Props) => {
+}: ButtonProps) => {
   const isIconOnly = !children && !!icon;
 
   const { t } = useTranslation();

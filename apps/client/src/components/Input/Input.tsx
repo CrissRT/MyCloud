@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import Image from 'next/image';
 
-import { InputProps } from '@client/types';
+import { InputProps } from '@client/utils';
 
 export const Input = ({ label, icon, input, size = 'md', iconPosition = 'right', error }: InputProps) => {
   const isIconImage = icon && typeof icon === 'object' && 'src' in icon;

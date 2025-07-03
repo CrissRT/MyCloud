@@ -69,7 +69,14 @@ const Page = () => {
         linkLabel: t('auth.login.buttons.login')
       }}
     >
-      <GoogleOAuthButton onSuccess={onGoogleSignIn} />
+      <GoogleOAuthButton
+        onSuccess={onGoogleSignIn}
+        type="button"
+        variant="outlined"
+        color="primary"
+        width="full"
+        size="xl"
+      />
       <div className="flex items-center my-4">
         <hr className="flex-grow border-gray-300" />
         <span className="px-3 text-gray-500 text-sm">{t('auth.or')}</span>
@@ -136,7 +143,7 @@ const Page = () => {
           input={{ ...register('sex', { required: true }) }}
           size="xl"
         />
-        <Button width="full" loading={isPending}>
+        <Button width="full" loading={isPending} size="xl">
           {t('auth.register.createAccount')}
         </Button>
       </form>
