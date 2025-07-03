@@ -15,13 +15,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import '@client/styles/globals.css';
 import '@client/styles/theme.css';
 
-export const getStaticProps = () => {
-  return {
-    props: {
-      lng: i18nConfig.locales
-    }
-  };
-};
+export const generateStaticParams = () => i18nConfig.locales.map((lng) => ({ lng }));
 
 const RootLayout = async ({
   children,
