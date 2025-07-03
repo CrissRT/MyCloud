@@ -25,8 +25,8 @@ const RootLayout = async ({
   return (
     <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px] min-h-full">
       <body className="antialiased w-full h-full text-(--text-primary) min-h-full">
-        <GoogleOAuthProvider clientId={getGoogleSSOClientId()}>
-          <AuthProvider>
+        <AuthProvider>
+          <GoogleOAuthProvider clientId={getGoogleSSOClientId()}>
             <AppI18nextProvider>
               <QueryClientContext>
                 <APIProvider>
@@ -37,8 +37,8 @@ const RootLayout = async ({
                 </APIProvider>
               </QueryClientContext>
             </AppI18nextProvider>
-          </AuthProvider>
-        </GoogleOAuthProvider>
+          </GoogleOAuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );
