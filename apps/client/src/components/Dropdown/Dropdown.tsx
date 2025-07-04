@@ -400,8 +400,7 @@ export const Dropdown = ({
         {isOpen && !measured && (
           <div
             ref={dropdownRef}
-            className="absolute z-50 left-0 right-0 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg max-h-64 overflow-hidden"
-            style={{ visibility: 'hidden', pointerEvents: 'none', left: '-9999px' }}
+            className="absolute z-50 invisible left-0 pointer-events-none right-0 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg max-h-64 overflow-hidden"
           >
             <div className="p-2">
               {filteredOptions.map((option) => (
@@ -439,7 +438,12 @@ export const Dropdown = ({
               </div>
             )}
 
-            <div className="max-h-48 overflow-y-auto">
+            <div
+              className={classNames({
+                'max-h-48 overflow-y-auto': filteredOptions.length > 6,
+                'max-h-fit': filteredOptions.length <= 6
+              })}
+            >
               {filteredOptions.length === 0 ? (
                 <div className={classNames('text-(--text-secondary) text-center', sizeClasses[size])}>
                   {searchable ? t('common.noResults') : t('common.noOptions')}
