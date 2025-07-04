@@ -283,7 +283,9 @@ export const Dropdown = ({
 
           setMeasured(true);
           // Align to right if overflow on right
-          const shouldAlignRight = containerRect.left + dropdownRect.width > window.innerWidth;
+          const spaceRight = window.innerWidth - containerRect.right;
+          const spaceLeft = containerRect.left;
+          const shouldAlignRight = dropdownRect.width > spaceRight && spaceLeft > spaceRight;
           setAlignRight(shouldAlignRight);
         }
       }, 0);
