@@ -20,7 +20,13 @@ export const NavButton = ({ href, icon, children }: Props) => {
 
   return (
     <Link href={href}>
-      <Button width="full" align="left" variant={isActive ? 'filled' : 'text'} icon={<FontAwesomeIcon icon={icon} />}>
+      <Button
+        width="full"
+        align="left"
+        size="md"
+        variant={isActive ? 'filled' : 'text'}
+        icon={<FontAwesomeIcon icon={icon} />}
+      >
         {children}
       </Button>
     </Link>

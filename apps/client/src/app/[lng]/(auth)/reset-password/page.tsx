@@ -62,6 +62,7 @@ const Page = () => {
           label={{ text: t('auth.password') }}
           error={errors.password?.message}
           input={{ placeholder: t('auth.enterPassword'), id: 'password', ...register('password', { required: true }) }}
+          size="xl"
         />
         <Password
           label={{ text: t('auth.confirmPassword') }}
@@ -71,9 +72,9 @@ const Page = () => {
             id: 'confirmPassword',
             ...register('confirmPassword', { required: true })
           }}
-          size="2xl"
+          size="xl"
         />
-        <Button width="full" type="submit">
+        <Button width="full" type="submit" size="xl">
           {t('auth.resetPassword.resetPassword')}
         </Button>
       </form>
