@@ -63,7 +63,13 @@
     "favorites": "Favorites",
     "trash": "Trash",
     "admin": "Admin",
-    "settings": "Settings"
+    "settings": "Settings",
+    "sort": {
+      "sortBy": "Sort by",
+      "sortByName": "Name",
+      "sortByDate": "Date",
+      "sortBySize": "Size"
+    }
   },
   "errors": {
     "notFound": {

@@ -63,7 +63,13 @@
     "favorites": "Избранное",
     "trash": "Корзина",
     "admin": "Админ",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "sort": {
+      "sortBy": "Сортировать по",
+      "sortByName": "Имени",
+      "sortByDate": "Дате",
+      "sortBySize": "Размеру"
+    }
   },
   "errors": {
     "notFound": {

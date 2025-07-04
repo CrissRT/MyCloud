@@ -63,7 +63,13 @@
     "favorites": "Preferate",
     "trash": "Coș de gunoi",
     "admin": "Admin",
-    "settings": "Setări"
+    "settings": "Setări",
+    "sort": {
+      "sortBy": "Sortează după",
+      "sortByName": "Nume",
+      "sortByDate": "Dată",
+      "sortBySize": "Dimensiune"
+    }
   },
   "errors": {
     "notFound": {

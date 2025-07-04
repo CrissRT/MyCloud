@@ -289,11 +289,25 @@ export const Dropdown = ({
       }, 0);
   }, [isOpen, measured]);
 
+  const baseSizeClasses = {
+    sm: { padding: 'py-2 px-3', text: 'text-sm', height: 'h-8' },
+    md: { padding: 'py-3 px-4', text: '', height: 'h-10' },
+    lg: { padding: 'py-4 px-5', text: 'text-lg', height: 'h-12' },
+    xl: { padding: 'py-5 px-6', text: 'text-xl', height: 'h-14' }
+  };
+
   const sizeClasses = {
-    sm: 'py-2 px-3 text-sm h-8',
-    md: 'py-3 px-4 h-10',
-    lg: 'py-4 px-5 text-lg h-12',
-    xl: 'py-5 px-6 text-xl h-14'
+    sm: `${baseSizeClasses.sm.padding} ${baseSizeClasses.sm.text} ${baseSizeClasses.sm.height}`,
+    md: `${baseSizeClasses.md.padding} ${baseSizeClasses.md.text} ${baseSizeClasses.md.height}`,
+    lg: `${baseSizeClasses.lg.padding} ${baseSizeClasses.lg.text} ${baseSizeClasses.lg.height}`,
+    xl: `${baseSizeClasses.xl.padding} ${baseSizeClasses.xl.text} ${baseSizeClasses.xl.height}`
+  };
+
+  const optionSizeClasses = {
+    sm: `${baseSizeClasses.sm.padding} ${baseSizeClasses.sm.text}`,
+    md: `${baseSizeClasses.md.padding} ${baseSizeClasses.md.text}`,
+    lg: `${baseSizeClasses.lg.padding} ${baseSizeClasses.lg.text}`,
+    xl: `${baseSizeClasses.xl.padding} ${baseSizeClasses.xl.text}`
   };
 
   return (
@@ -458,7 +472,8 @@ export const Dropdown = ({
                     <div
                       key={option.value}
                       className={classNames(
-                        'flex items-center justify-between p-3 cursor-pointer hover:bg-(--border-hover) transition-colors',
+                        'flex items-center justify-between cursor-pointer hover:bg-(--border-hover) transition-colors',
+                        optionSizeClasses[size],
                         {
                           'opacity-50 cursor-not-allowed': option.disabled,
                           'bg-(--border-hover)': isSelected

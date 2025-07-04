@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 
+import { useTranslation } from 'react-i18next';
 import { Button, Dropdown } from '@client/components';
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 
 export const DashboardHeader = ({ parents, title }: Props) => {
   const parentsSlice = parents?.slice(-2) || [];
+  const { t } = useTranslation();
 
   return (
     <div className="flex text-3xl mb-2 font-bold w-full justify-between">
@@ -35,7 +37,15 @@ export const DashboardHeader = ({ parents, title }: Props) => {
       </h1>
 
       <div className="flex gap-4">
-        <Dropdown options={[]} size="sm" />
+        <Dropdown
+          options={[
+            { label: t('common.sort.sortByName'), value: 'name' },
+            { label: t('common.sort.sortByDate'), value: 'date' },
+            { label: t('common.sort.sortBySize'), value: 'size' }
+          ]}
+          size="sm"
+          placeholder={t('common.sort.sortBy')}
+        />
 
         <Button size="sm">test</Button>
       </div>
