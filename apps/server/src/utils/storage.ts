@@ -202,3 +202,119 @@ export const isValidProfileImageType = (mimeType: string): boolean => {
  * @returns Boolean indicating if file size is within limits
  */
 export const isValidFileSize = (sizeBytes: number) => sizeBytes <= DEFAULT_STORAGE_SPACE_IN_MB;
+
+/**
+ * Generates a default profile image with user initials
+ * @param firstName - User's first name
+ * @param lastName - User's last name
+ * @param username - User's username (used for filename)
+ * @returns File path information for the generated image
+ */
+export const generateDefaultProfileImage = async (firstName: string, lastName: string, username: string) => {
+  // Get initials (first 2 characters)
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+
+  // Generate a consistent color based on username for consistency
+  const colors = [
+    '#FF6B6B',
+    '#4ECDC4',
+    '#45B7D1',
+    '#96CEB4',
+    '#FFEAA7',
+    '#DDA0DD',
+    '#98D8C8',
+    '#F7DC6F',
+    '#BB8FCE',
+    '#85C1E9',
+    '#F8C471',
+    '#82E0AA',
+    '#F1948A',
+    '#85CDCA',
+    '#D7BDE2'
+  ];
+
+  // Use username to generate consistent color index
+  let hash = 0;
+  for (let i = 0; i < username.length; i++) {
+    hash = username.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colorIndex = Math.abs(hash) % colors.length;
+  const backgroundColor = colors[colorIndex];
+
+  // Create SVG content
+  const svgContent = `
+    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="200" height="200" fill="${backgroundColor}"/>
+      <text 
+        x="100" 
+        y="120" 
+        font-family="Arial, sans-serif" 
+        font-size="80" 
+        font-weight="bold" 
+        text-anchor="middle" 
+        fill="white"
+      >${initials}</text>
+    </svg>
+  `;
+
+  // Ensure user directory exists
+  const userDir = await ensureUserUploadsDir(username);
+  const profileDir = path.join(userDir, 'profile');
+  await fs.mkdir(profileDir, { recursive: true });
+
+  // Generate filename
+  const filename = `default_avatar_${dayjs().valueOf()}.svg`;
+  const filePath = path.join(profileDir, filename);
+
+  // Save the SVG file
+  await fs.writeFile(filePath, svgContent, 'utf8');
+
+  // Return file information
+  const relativePath = path.relative(UPLOADS_BASE_DIR, filePath);
+
+  return {
+    filePath,
+    relativePath,
+    filename,
+    originalFilename: 'default_avatar.svg'
+  };
+};
+
+/**
+ * Creates a default profile image and updates user record
+ * @param firstName - User's first name
+ * @param lastName - User's last name
+ * @param username - User's username
+ * @returns Relative path to the generated image
+ */
+export const createDefaultProfileImageForUser = async (
+  firstName: string,
+  lastName: string,
+  username: string
+): Promise<string> => {
+  const imageInfo = await generateDefaultProfileImage(firstName, lastName, username);
+  return imageInfo.relativePath;
+};
+
+/**
+ * Sanitizes names to meet database constraints (minimum 3 characters)
+ * @param name - Original name
+ * @param fallback - Fallback to use if name is too short
+ * @returns Sanitized name that meets database constraints
+ */
+export const sanitizeNameForDatabase = (name: string, fallback: string = 'User'): string => {
+  const cleanName = name.trim();
+
+  // If name is less than 3 characters, pad it or use fallback
+  if (cleanName.length < 3) {
+    if (cleanName.length === 2) {
+      return cleanName + 'X'; // Pad with X to reach 3 characters
+    } else if (cleanName.length === 1) {
+      return cleanName + 'XX'; // Pad with XX to reach 3 characters
+    } else {
+      return fallback; // Use fallback if empty
+    }
+  }
+
+  return cleanName;
+};

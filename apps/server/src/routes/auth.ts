@@ -34,6 +34,7 @@ import {
   DEFAULT_STORAGE_SPACE_IN_MB,
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
+  generateDefaultProfileImage,
   getNextBanDuration,
   getSaltRounds,
   getSerializedUserSessionCookie,
@@ -122,6 +123,8 @@ router.post('/register', async (req, res) => {
       birthDate: response.birthDate,
       language
     });
+
+    await generateDefaultProfileImage(response.firstName, response.lastName, response.username);
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
 
@@ -507,7 +510,7 @@ router.post('/google', async (req, res) => {
         const response = await fetch(profilePicture);
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        await saveProfileImage(foundUser.username, profilePicture, buffer);
+        await saveProfileImage(foundUser.username, `${profilePicture}.jpg`, buffer);
       }
     } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
