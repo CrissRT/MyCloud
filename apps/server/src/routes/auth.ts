@@ -8,10 +8,8 @@ import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
 import {
-  createGeneralPreference,
-  createNotificationPreferences,
   createSession,
-  createUser,
+  createUserAndStorageAndPreferences,
   getStorageInfoByUserId,
   getUserByEmail,
   updateGeneralPreferenceByUserId,
@@ -107,8 +105,12 @@ router.post('/register', async (req, res) => {
       usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
     };
 
-    // Use transaction to ensure atomicity of user and storage creation
-    const createdUser = await createUser({
+    // Create generalPreferences for the user
+    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
+    const language = allowedLanguages.find((l) => l === req.i18n.language) || 'en';
+
+    // Create user with all related records in a single transaction
+    const createdUser = await createUserAndStorageAndPreferences({
       email: response.email,
       username: response.username,
       firstName: response.firstName,
@@ -116,14 +118,9 @@ router.post('/register', async (req, res) => {
       password: hashedPassword,
       role: response.role,
       sex: response.sex,
-      birthDate: response.birthDate
+      birthDate: response.birthDate,
+      language
     });
-
-    // Create generalPreferences for the user
-    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
-    const language = allowedLanguages.find((l) => l === req.i18n.language);
-    await createGeneralPreference({ userId: createdUser.id, language });
-    await createNotificationPreferences({ userId: createdUser.id });
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
 
@@ -493,7 +490,8 @@ router.post('/google', async (req, res) => {
       const randomPassword = await hash(crypto.randomUUID(), SALT_ROUNDS);
       const userName = email.split('@')[0];
 
-      foundUser = await createUser({
+      // Create user with all related records in a single transaction
+      foundUser = await createUserAndStorageAndPreferences({
         email: email,
         username: userName,
         firstName: givenName,
@@ -501,11 +499,9 @@ router.post('/google', async (req, res) => {
         password: randomPassword,
         role: $Enums.roleEnum.user,
         sex: $Enums.sexEnum.other, // Default since Google doesn't provide this
-        birthDate: dayjs('1990-01-01').toDate() // Default since Google doesn't provide this
+        birthDate: dayjs('1990-01-01').toDate(), // Default since Google doesn't provide this
+        language: language || 'en'
       });
-
-      await createNotificationPreferences({ userId: foundUser.id });
-      await createGeneralPreference({ userId: foundUser.id, language });
     } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const storageInfo = await getStorageInfoByUserId(foundUser.id);

@@ -15,7 +15,7 @@ export const getUserByEmail = async (email: string) => {
   return user;
 };
 
-export const createUser = async ({
+export const createUserAndStorageAndPreferences = async ({
   email,
   username,
   password,
@@ -23,9 +23,10 @@ export const createUser = async ({
   lastName,
   birthDate,
   role,
-  sex
-}: Omit<User, 'id' | 'createdAt'>) => {
-  // Use transaction to ensure atomicity of user and storage creation
+  sex,
+  language = 'en'
+}: Omit<User, 'id' | 'createdAt'> & { language?: 'en' | 'ro' | 'ru' }) => {
+  // Use transaction to ensure atomicity of user, storage, and preference creation
   const result = await prisma.$transaction(async (tx) => {
     // Create user
     const user = await tx.users.create({
@@ -47,6 +48,21 @@ export const createUser = async ({
         userId: user.id,
         storageSpaceInMB: DEFAULT_STORAGE_SPACE_IN_MB,
         usedStorageInBytes: DEFAULT_USED_STORAGE_SPACE
+      }
+    });
+
+    // Create general preferences for the user
+    await tx.preferences.create({
+      data: {
+        userId: user.id,
+        language
+      }
+    });
+
+    // Create notification preferences for the user
+    await tx.notificationPreferences.create({
+      data: {
+        userId: user.id
       }
     });
 
