@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { $Enums } from '@prisma/client';
 import {
   createGeneralPreference,
+  createNotificationPreferences,
   createSession,
   createUser,
   getStorageInfoByUserId,
@@ -122,6 +123,7 @@ router.post('/register', async (req, res) => {
     const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
     const language = allowedLanguages.find((l) => l === req.i18n.language);
     await createGeneralPreference({ userId: createdUser.id, language });
+    await createNotificationPreferences({ userId: createdUser.id });
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
 
@@ -502,6 +504,7 @@ router.post('/google', async (req, res) => {
         birthDate: dayjs('1990-01-01').toDate() // Default since Google doesn't provide this
       });
 
+      await createNotificationPreferences({ userId: foundUser.id });
       await createGeneralPreference({ userId: foundUser.id, language });
     } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
