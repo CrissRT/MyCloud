@@ -25,8 +25,9 @@ export const createUserAndStorageAndPreferences = async ({
   birthDate,
   role,
   sex,
-  language = 'en'
-}: Omit<User, 'id' | 'createdAt'> & { language?: $Enums.languageEnum }) => {
+  language = 'en',
+  profileName
+}: Omit<User, 'id' | 'createdAt'> & { language?: $Enums.languageEnum; profileName: string }) => {
   // Use transaction to ensure atomicity of user, storage, and preference creation
   const result = await prisma.$transaction(async (tx) => {
     // Create user
@@ -39,7 +40,8 @@ export const createUserAndStorageAndPreferences = async ({
         lastName,
         birthDate,
         role,
-        sex
+        sex,
+        profileImage: profileName
       }
     });
 

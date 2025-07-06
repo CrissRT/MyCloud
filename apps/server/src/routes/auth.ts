@@ -112,6 +112,11 @@ router.post('/register', async (req, res) => {
     const language = allowedLanguages.find((l) => l === req.i18n.language) || 'en';
 
     // Create user with all related records in a single transaction
+    const { filename: profileName } = await generateDefaultProfileImage(
+      response.firstName,
+      response.lastName,
+      response.username
+    );
     const createdUser = await createUserAndStorageAndPreferences({
       email: response.email,
       username: response.username,
@@ -121,10 +126,9 @@ router.post('/register', async (req, res) => {
       role: response.role,
       sex: response.sex,
       birthDate: response.birthDate,
-      language
+      language,
+      profileName
     });
-
-    await generateDefaultProfileImage(response.firstName, response.lastName, response.username);
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
 
@@ -492,6 +496,19 @@ router.post('/google', async (req, res) => {
       const randomPassword = await hash(crypto.randomUUID(), SALT_ROUNDS);
       const userName = email.split('@')[0];
 
+      let profileName: string;
+      if (profilePicture) {
+        // Fetch the image data from the URL and convert to Buffer
+        const response = await fetch(profilePicture);
+        const arrayBuffer = await response.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const { filename } = await saveProfileImage(userName, `${profilePicture}.jpg`, buffer);
+        profileName = filename;
+      } else {
+        const { filename } = await generateDefaultProfileImage(givenName, familyName, userName);
+        profileName = filename;
+      }
+
       // Create user with all related records in a single transaction
       foundUser = await createUserAndStorageAndPreferences({
         email: email,
@@ -502,16 +519,9 @@ router.post('/google', async (req, res) => {
         role: $Enums.roleEnum.user,
         sex: $Enums.sexEnum.other, // Default since Google doesn't provide this
         birthDate: dayjs('1990-01-01').toDate(), // Default since Google doesn't provide this
-        language: language || 'en'
+        language: language,
+        profileName
       });
-
-      if (profilePicture) {
-        // Fetch the image data from the URL and convert to Buffer
-        const response = await fetch(profilePicture);
-        const arrayBuffer = await response.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        await saveProfileImage(foundUser.username, `${profilePicture}.jpg`, buffer);
-      }
     } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const storageInfo = await getStorageInfoByUserId(foundUser.id);
