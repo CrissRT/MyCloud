@@ -501,7 +501,9 @@ router.post('/google', async (req, res) => {
         sex: $Enums.sexEnum.other, // Default since Google doesn't provide this
         birthDate: dayjs('1990-01-01').toDate() // Default since Google doesn't provide this
       });
-    }
+
+      await createGeneralPreference({ userId: foundUser.id, language });
+    } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const storageInfo = await getStorageInfoByUserId(foundUser.id);
 
@@ -544,8 +546,6 @@ router.post('/google', async (req, res) => {
         banDurationMinutes: null
       });
     }
-
-    await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     setCookieHeader(res, userSessionCookie);
     res.status(200).json(response);
