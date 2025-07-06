@@ -1,14 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useGoogleServicePostAuthGoogle, useRegisterServicePostAuthRegister } from '@client/api/openapi/queries';
 import { Button, DatePicker, Dropdown, GoogleOAuthButton, Input, Password } from '@client/components';
+import { useAuth } from '@client/hooks';
 import { AuthLayout } from '@client/layouts';
-import { guestRoutes, protectedRoutes, Sex, showApiErrors } from '@client/utils';
+import { guestRoutes, Sex, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
@@ -18,7 +18,7 @@ const Page = () => {
   const { t: customZod } = useTranslation('customZod');
   const { t } = useTranslation();
   const { t: zodT } = useTranslation('zod');
-  const router = useRouter();
+  const { login } = useAuth();
 
   const registerSchema = z
     .object({
@@ -46,18 +46,14 @@ const Page = () => {
   });
 
   const { mutateAsync, isPending } = useRegisterServicePostAuthRegister({
-    onSuccess: () => {
-      router.push(protectedRoutes.dashboard);
-    },
+    onSuccess: async () => await login(),
     onError: showApiErrors
   });
 
   const onSubmit = async (requestBody: RegisterType) => await mutateAsync({ requestBody });
 
   const { mutateAsync: googleSignIn } = useGoogleServicePostAuthGoogle({
-    onSuccess: () => {
-      router.push(protectedRoutes.dashboard);
-    },
+    onSuccess: async () => await login(),
     onError: showApiErrors
   });
 
@@ -73,7 +69,14 @@ const Page = () => {
         linkLabel: t('auth.login.buttons.login')
       }}
     >
-      <GoogleOAuthButton onSuccess={onGoogleSignIn} />
+      <GoogleOAuthButton
+        onSuccess={onGoogleSignIn}
+        type="button"
+        variant="outlined"
+        color="primary"
+        width="full"
+        size="xl"
+      />
       <div className="flex items-center my-4">
         <hr className="flex-grow border-gray-300" />
         <span className="px-3 text-gray-500 text-sm">{t('auth.or')}</span>
@@ -85,12 +88,13 @@ const Page = () => {
           label={{ text: t('auth.email') }}
           error={errors.email?.message}
           input={{ placeholder: t('auth.enterEmail'), id: 'email', ...register('email', { required: true }) }}
-          size="2xl"
+          size="xl"
         />
         <Password
           label={{ text: t('auth.password') }}
           error={errors.password?.message}
           input={{ placeholder: t('auth.enterPassword'), id: 'password', ...register('password', { required: true }) }}
+          size="xl"
         />
         <Password
           label={{ text: t('auth.confirmPassword') }}
@@ -100,7 +104,7 @@ const Page = () => {
             id: 'confirmPassword',
             ...register('confirmPassword', { required: true })
           }}
-          size="2xl"
+          size="xl"
         />
         <Input
           label={{ text: t('auth.firstName') }}
@@ -110,7 +114,7 @@ const Page = () => {
             ...register('firstName', { required: true })
           }}
           error={errors.firstName?.message}
-          size="2xl"
+          size="xl"
         />
         <Input
           label={{ text: t('auth.lastName') }}
@@ -120,12 +124,13 @@ const Page = () => {
             ...register('lastName', { required: true })
           }}
           error={errors.lastName?.message}
-          size="2xl"
+          size="xl"
         />
         <DatePicker
           label={{ text: t('auth.birthDate') }}
           error={errors.birthDate?.message}
           input={{ ...register('birthDate', { required: true }) }}
+          size="xl"
         />
         <Dropdown
           label={{ text: t('common.sex') }}
@@ -136,8 +141,9 @@ const Page = () => {
           ]}
           error={errors.sex?.message}
           input={{ ...register('sex', { required: true }) }}
+          size="xl"
         />
-        <Button width="full" loading={isPending}>
+        <Button width="full" loading={isPending} size="xl">
           {t('auth.register.createAccount')}
         </Button>
       </form>

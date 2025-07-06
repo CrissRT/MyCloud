@@ -1,16 +1,16 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { showApiErrors } from '@client/utils';
+import { ButtonProps, showApiErrors } from '@client/utils';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { Button } from '../Button/Button';
 
-type Props = {
+type Props = Omit<ButtonProps, 'children'> & {
   onSuccess: (credential: string) => void;
 };
 
-export const GoogleOAuthButton = ({ onSuccess }: Props) => {
+export const GoogleOAuthButton = ({ onSuccess, ...rest }: Props) => {
   const { t } = useTranslation();
 
   const login = useGoogleLogin({
@@ -22,10 +22,7 @@ export const GoogleOAuthButton = ({ onSuccess }: Props) => {
 
   return (
     <Button
-      type="button"
-      variant="outlined"
-      color="primary"
-      width="full"
+      {...rest}
       onClick={() => login()}
       icon={
         <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none">

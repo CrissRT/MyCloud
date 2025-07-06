@@ -44,9 +44,9 @@ const NotFound = () => {
       <div className="w-full flex flex-col items-center gap-6">
         <div className="w-full flex justify-center gap-6">
           <Link href="#">
-            <Button>{t('errors.notFound.goHomePage')}</Button>
+            <Button size="md">{t('errors.notFound.goHomePage')}</Button>
           </Link>
-          <Button variant="outlined" onClick={goBack}>
+          <Button variant="outlined" onClick={goBack} size="md">
             {t('errors.notFound.goBack')}
           </Button>
         </div>

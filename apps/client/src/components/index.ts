@@ -4,6 +4,8 @@ export * from './DatePicker/DatePicker';
 export * from './Dropdown/Dropdown';
 export * from './GoogleOAuthButton/GoogleOAuthButton';
 export * from './Input/Input';
+export * from './NavButton/NavButton';
 export * from './NotificationContainer/NotificationContainer';
 export * from './Password/Password';
+export * from './SegmentedControl/SegmentedControl';
 export * from './Spinner/Spinner';

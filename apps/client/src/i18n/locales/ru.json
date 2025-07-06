@@ -43,7 +43,8 @@
     "birthDate": "Дата рождения",
     "enterBirthDate": "Введите дату рождения",
     "or": "или",
-    "continueWithGoogle": "Продолжить с Google"
+    "continueWithGoogle": "Продолжить с Google",
+    "logOut": "Выйти"
   },
   "common": {
     "clear": "Очистить",
@@ -57,7 +58,19 @@
     "noResults": "Результаты не найдены",
     "noOptions": "Нет доступных опций",
     "selectOptions": "Выберите опции",
-    "loading": "Загрузка"
+    "loading": "Загрузка",
+    "myFiles": "Мои файлы",
+    "favorites": "Избранное",
+    "trash": "Корзина",
+    "admin": "Админ",
+    "settings": "Настройки",
+    "sort": {
+      "sortBy": "Сортировать по",
+      "sortByName": "Имени",
+      "sortByDate": "Дате",
+      "sortBySize": "Размеру"
+    },
+    "upload": "Загрузить"
   },
   "errors": {
     "notFound": {

@@ -43,7 +43,8 @@
     "birthDate": "Birth Date",
     "enterBirthDate": "Enter your birth date",
     "or": "or",
-    "continueWithGoogle": "Continue with Google"
+    "continueWithGoogle": "Continue with Google",
+    "logOut": "Log Out"
   },
   "common": {
     "clear": "Clear",
@@ -57,7 +58,19 @@
     "noResults": "No results found",
     "noOptions": "No options available",
     "selectOptions": "Select options",
-    "loading": "Loading"
+    "loading": "Loading",
+    "myFiles": "My Files",
+    "favorites": "Favorites",
+    "trash": "Trash",
+    "admin": "Admin",
+    "settings": "Settings",
+    "sort": {
+      "sortBy": "Sort by",
+      "sortByName": "Name",
+      "sortByDate": "Date",
+      "sortBySize": "Size"
+    },
+    "upload": "Upload"
   },
   "errors": {
     "notFound": {

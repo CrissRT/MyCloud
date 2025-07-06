@@ -2,19 +2,20 @@
 
 import classNames from 'classnames';
 
-import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ButtonProps } from '@client/utils';
 
-type Props = {
-  variant?: 'filled' | 'outlined' | 'text';
-  color?: 'primary' | 'error' | 'secondary';
-  width?: 'full';
-  icon?: React.ReactNode;
-  loading?: boolean;
-} & PropsWithChildren &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-export const Button = ({ children, icon, variant = 'filled', color = 'primary', width, loading, ...rest }: Props) => {
+export const Button = ({
+  children,
+  icon,
+  variant = 'filled',
+  color = 'primary',
+  width,
+  loading,
+  align = 'center',
+  size,
+  ...rest
+}: ButtonProps) => {
   const isIconOnly = !children && !!icon;
 
   const { t } = useTranslation();
@@ -23,14 +24,27 @@ export const Button = ({ children, icon, variant = 'filled', color = 'primary', 
     <button
       {...rest}
       className={classNames(
-        'flex gap-1 items-center justify-center rounded cursor-pointer scale-100 hover:scale-102 transition-transform duration-200 ease-in-out',
+        'flex gap-1 items-center rounded cursor-pointer scale-100 hover:scale-102 transition-transform duration-200 ease-in-out',
         {
-          ['p-2']: isIconOnly,
-          ['m-1']: isIconOnly
+          ['justify-center']: align === 'center',
+          ['justify-start']: align === 'left',
+          ['justify-end']: align === 'right'
         },
         {
-          ['py-3']: !isIconOnly,
-          ['px-6']: !isIconOnly
+          ['text-sm py-2 px-3']: size === 'sm' && !isIconOnly,
+          ['py-3 px-4']: size === 'md' && !isIconOnly,
+          ['py-4 px-5 text-lg']: size === 'lg' && !isIconOnly,
+          ['py-5 px-6 text-xl']: size === 'xl' && !isIconOnly,
+          ['p-2 min-w-8']: isIconOnly && (size === 'sm' || !size),
+          ['p-3 min-w-10']: isIconOnly && size === 'md',
+          ['p-4 min-w-12']: isIconOnly && size === 'lg',
+          ['p-5 min-w-14']: isIconOnly && size === 'xl'
+        },
+        {
+          ['h-8']: size === 'sm',
+          ['h-10']: size === 'md' || !size,
+          ['h-12']: size === 'lg',
+          ['h-14']: size === 'xl'
         },
         {
           ['bg-(--primary-color) text-white']: variant === 'filled' && color === 'primary',

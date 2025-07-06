@@ -43,7 +43,8 @@
     "birthDate": "Data nașterii",
     "enterBirthDate": "Introduceți data nașterii",
     "or": "sau",
-    "continueWithGoogle": "Continuă cu Google"
+    "continueWithGoogle": "Continuă cu Google",
+    "logOut": "Deconectare"
   },
   "common": {
     "clear": "Șterge",
@@ -57,7 +58,19 @@
     "noResults": "Nu s-au găsit rezultate",
     "noOptions": "Nu sunt opțiuni disponibile",
     "selectOptions": "Selectați opțiuni",
-    "loading": "Se încarcă"
+    "loading": "Se încarcă",
+    "myFiles": "Fișierele mele",
+    "favorites": "Preferate",
+    "trash": "Coș de gunoi",
+    "admin": "Admin",
+    "settings": "Setări",
+    "sort": {
+      "sortBy": "Sortează după",
+      "sortByName": "Nume",
+      "sortByDate": "Dată",
+      "sortBySize": "Dimensiune"
+    },
+    "upload": "Încărcare"
   },
   "errors": {
     "notFound": {

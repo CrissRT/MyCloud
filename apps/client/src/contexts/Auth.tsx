@@ -1,13 +1,15 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { PostAuthRegisterResponse } from '@client/api/openapi/requests';
-import { getUser } from '@client/utils';
+import { getUser, guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
 
 interface AuthContextProps {
   user: PostAuthRegisterResponse | null;
+  logOut: () => Promise<void>;
+  login: () => Promise<void>;
 }
 
 interface Props extends PropsWithChildren {
@@ -18,21 +20,26 @@ export const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider = ({ children, client }: Props) => {
   const [user, setUser] = useState<PostAuthRegisterResponse | null>(client);
-  const pathname = usePathname();
+  const router = useRouter();
 
   // Sync initial client prop (from SSR) to state
   useEffect(() => {
     setUser(client);
   }, [client]);
 
-  // Refresh user info on client-side route changes
-  useEffect(() => {
-    async function refreshUser() {
-      const fresh = await getUser();
-      setUser(fresh);
-    }
-    refreshUser();
-  }, [pathname]);
+  const login = async () => {
+    const userData = await getUser();
+    router.push(protectedRoutes.dashboard);
+    if (userData) setUser(userData);
+  };
 
-  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+  const logOut = async () => {
+    await logOutUser();
+    router.push(guestRoutes.login);
+    // Delay to ensure logout is processed before clearing user state
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay to ensure logout is processed
+    setUser(null);
+  };
+
+  return <AuthContext.Provider value={{ user, logOut, login }}>{children}</AuthContext.Provider>;
 };

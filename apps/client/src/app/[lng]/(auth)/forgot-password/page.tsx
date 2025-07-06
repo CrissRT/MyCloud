@@ -53,9 +53,9 @@ const Page = () => {
           input={{ placeholder: t('auth.enterEmail'), id: 'email', ...register('email') }}
           label={{ text: t('auth.email') }}
           error={errors?.email?.message}
-          size="2xl"
+          size="xl"
         />
-        <Button width="full" type="submit" loading={isPending}>
+        <Button width="full" type="submit" loading={isPending} size="xl">
           {t('auth.forgotPassword.sendResetLink')}
         </Button>
       </form>

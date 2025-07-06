@@ -12,6 +12,7 @@ import { getWeekdaysShort } from '@shared/utils';
 interface Props {
   label?: { text: string } & React.InputHTMLAttributes<HTMLLabelElement>;
   error?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   input?: React.InputHTMLAttributes<HTMLInputElement> & {
     ref?: (instance: HTMLInputElement | null) => void;
   };
@@ -30,7 +31,7 @@ const getMonthName = (year: number, month: number, lng: string = 'en') =>
     .locale(lng)
     .format('MMMM');
 
-export const DatePicker = ({ label, error, input }: Props) => {
+export const DatePicker = ({ label, error, size = 'md', input }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -44,6 +45,13 @@ export const DatePicker = ({ label, error, input }: Props) => {
   const year = monthYear.year;
   const { t, i18n } = useTranslation();
 
+  const sizeClasses = {
+    sm: 'py-2 px-3 text-sm h-8',
+    md: 'py-3 px-4 h-10',
+    lg: 'py-4 px-5 text-lg h-12',
+    xl: 'py-5 px-6 text-xl h-14'
+  };
+
   const combinedRefCallback = (element: HTMLInputElement | null) => {
     if (input?.ref) input.ref(element);
     inputRef.current = element;
@@ -54,8 +62,12 @@ export const DatePicker = ({ label, error, input }: Props) => {
   }, [input?.value]);
 
   useEffect(() => {
-    if (!showCalendar) return;
-    setMeasured(false);
+    if (!showCalendar) {
+      setMeasured(false);
+      setOpenAbove(false);
+      return;
+    }
+
     // Wait for calendar to render, then measure
     setTimeout(() => {
       const calendar = calendarRef.current;
@@ -234,7 +246,7 @@ export const DatePicker = ({ label, error, input }: Props) => {
   };
 
   return (
-    <div className="mb-6 max-w-full relative" ref={containerRef}>
+    <div className={classNames('relative', { 'mb-6': label || error })} ref={containerRef}>
       {label && (
         <label htmlFor={label.id || label.name} {...label} className="block mb-2 text-(--text-primary)">
           {label.text}
@@ -248,7 +260,10 @@ export const DatePicker = ({ label, error, input }: Props) => {
           value={selected || ''}
           onClick={onInputClick}
           readOnly
-          className="appearance-none w-full py-3 px-4 rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) placeholder-(--text-secondary) cursor-pointer outline-none focus:outline-none"
+          className={classNames(
+            'appearance-none w-full rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) placeholder-(--text-secondary) cursor-pointer outline-none focus:outline-none',
+            sizeClasses[size]
+          )}
           placeholder="YYYY-MM-DD"
         />
         <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-(--text-secondary) text-xl">
@@ -256,8 +271,9 @@ export const DatePicker = ({ label, error, input }: Props) => {
         </span>
         {showCalendar && !measured && renderCalendar(true)}
         {showCalendar && measured && renderCalendar(false)}
+
+        {error && <p className="mt-1 text-(--error-color)">{error}</p>}
       </div>
-      {error && <p className="mt-1 text-(--error-color)">{error}</p>}
     </div>
   );
 };

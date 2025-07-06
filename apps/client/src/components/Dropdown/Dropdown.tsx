@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@client/components';
 import { faCheck, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -11,6 +12,7 @@ export interface DropdownOption {
   value: string | number;
   label: string;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 interface SingleSelectProps {
@@ -35,7 +37,11 @@ interface BaseProps {
   disabled?: boolean;
   clearable?: boolean;
   searchable?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  button?: {
+    children: React.ReactNode | string;
+    showIcon?: true;
+  };
   input?: React.InputHTMLAttributes<HTMLInputElement> & {
     ref?: (instance: HTMLInputElement | null) => void;
   };
@@ -74,6 +80,7 @@ export const Dropdown = ({
   searchable = false,
   size = 'md',
   input,
+  button,
   ...selectProps
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -83,6 +90,8 @@ export const Dropdown = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [openAbove, setOpenAbove] = useState(false);
   const [measured, setMeasured] = useState(false);
+  const [alignRight, setAlignRight] = useState(false);
+  const [maxHeight, setMaxHeight] = useState(256);
   const [internalValue, setInternalValue] = useState<string | number | (string | number)[] | undefined>(undefined);
   const { t } = useTranslation();
 
@@ -181,9 +190,17 @@ export const Dropdown = ({
         const syntheticEvent = createSyntheticEvent(inputRef.current, String(option.value));
         input.onChange(syntheticEvent);
       }
+
+      option.onClick?.();
     }
   };
 
+  const onClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (disabled) return;
+
+    setIsOpen((prev) => !prev);
+  };
   // Handle clear selection
   const onClear = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -231,7 +248,11 @@ export const Dropdown = ({
   // Click outside handler
   useEffect(() => {
     if (!isOpen) {
-      setMeasured(false); // Reset measurement when closing
+      // Reset all states when closing
+      setMeasured(false);
+      setOpenAbove(false);
+      setAlignRight(false);
+      setMaxHeight(256);
       return;
     }
 
@@ -247,12 +268,12 @@ export const Dropdown = ({
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, [isOpen]);
 
-  // Dropdown positioning
+  // Dropdown positioning - unified with DatePicker logic
   useEffect(() => {
     if (!isOpen) return;
 
-    // Only remeasure when dropdown is first opened, not when filtering
-    if (!measured)
+    // Wait for dropdown to render, then measure (same approach as DatePicker)
+    if (!measured) {
       setTimeout(() => {
         const container = containerRef.current;
         const dropdown = dropdownRef.current;
@@ -262,22 +283,52 @@ export const Dropdown = ({
           const spaceBelow = window.innerHeight - containerRect.bottom;
           const spaceAbove = containerRect.top;
 
-          if (spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height) setOpenAbove(true);
-          else setOpenAbove(false);
+          // Use same logic as DatePicker for openAbove determination
+          const shouldOpenAbove = spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height;
+          setOpenAbove(shouldOpenAbove);
+
+          // Align to right if overflow on right
+          const spaceRight = window.innerWidth - containerRect.right;
+          const spaceLeft = containerRect.left;
+          const shouldAlignRight = dropdownRect.width > spaceRight && spaceLeft > spaceRight;
+          setAlignRight(shouldAlignRight);
+
+          // Calculate dynamic max height based on available viewport space
+          const availableHeight = shouldOpenAbove
+            ? Math.max(spaceAbove - 20, 120) // 20px padding, min 120px
+            : Math.max(spaceBelow - 20, 120);
+
+          setMaxHeight(Math.min(availableHeight, window.innerHeight * 0.6)); // Max 60% of viewport
 
           setMeasured(true);
         }
       }, 0);
+    }
   }, [isOpen, measured]);
 
+  const baseSizeClasses = {
+    sm: { padding: 'py-2 px-3', text: 'text-sm', height: 'h-8' },
+    md: { padding: 'py-3 px-4', text: '', height: 'h-10' },
+    lg: { padding: 'py-4 px-5', text: 'text-lg', height: 'h-12' },
+    xl: { padding: 'py-5 px-6', text: 'text-xl', height: 'h-14' }
+  };
+
   const sizeClasses = {
-    sm: 'py-2 px-3 text-sm',
-    md: 'py-3 px-4',
-    lg: 'py-4 px-5 text-lg'
+    sm: `${baseSizeClasses.sm.padding} ${baseSizeClasses.sm.text} ${baseSizeClasses.sm.height}`,
+    md: `${baseSizeClasses.md.padding} ${baseSizeClasses.md.text} ${baseSizeClasses.md.height}`,
+    lg: `${baseSizeClasses.lg.padding} ${baseSizeClasses.lg.text} ${baseSizeClasses.lg.height}`,
+    xl: `${baseSizeClasses.xl.padding} ${baseSizeClasses.xl.text} ${baseSizeClasses.xl.height}`
+  };
+
+  const optionSizeClasses = {
+    sm: `${baseSizeClasses.sm.padding} ${baseSizeClasses.sm.text}`,
+    md: `${baseSizeClasses.md.padding} ${baseSizeClasses.md.text}`,
+    lg: `${baseSizeClasses.lg.padding} ${baseSizeClasses.lg.text}`,
+    xl: `${baseSizeClasses.xl.padding} ${baseSizeClasses.xl.text}`
   };
 
   return (
-    <div className="mb-6 max-w-full relative" ref={containerRef}>
+    <div className={classNames('relative', { 'mb-6': label || error })} ref={containerRef}>
       {label && (
         <label htmlFor={input?.id || input?.name} {...label} className="block mb-2 text-(--text-primary)">
           {label.text}
@@ -294,75 +345,106 @@ export const Dropdown = ({
         />
 
         {/* Display area */}
-        <div
-          className={classNames(
-            'appearance-none w-full rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) cursor-pointer outline-none flex items-center justify-between',
-            sizeClasses[size],
-            {
-              'opacity-50 cursor-not-allowed': disabled,
-              'border-(--border-hover)': isOpen
+        {button?.children ? (
+          <Button
+            variant="text"
+            align="left"
+            onClick={onClick}
+            disabled={disabled}
+            icon={
+              button.showIcon ? (
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  className={classNames('w-4 h-4 text-(--text-secondary)', { 'rotate-180': isOpen })}
+                />
+              ) : null
             }
-          )}
-          onClick={() => !disabled && setIsOpen(!isOpen)}
-        >
-          <div className="flex-1 min-w-0">
-            {multiple && Array.isArray(selectedOptions) && selectedOptions.length > 0 ? (
-              <div className="flex flex-wrap gap-1">
-                {selectedOptions.map((option) => (
-                  <span
-                    key={option.value}
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-(--primary) text-white rounded text-sm"
-                  >
-                    {option.label}
-                    <button
-                      type="button"
-                      onClick={(e) => onRemoveOption(option.value, e)}
-                      className="hover:bg-(--primary-dark) rounded p-0.5"
-                    >
-                      <FontAwesomeIcon icon={faTimes} className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <span
-                className={classNames({
-                  'text-(--text-secondary)':
-                    !selectedOptions || (multiple && Array.isArray(selectedOptions) && selectedOptions.length === 0)
-                })}
-              >
-                {displayText}
-              </span>
+          >
+            {button?.children}
+          </Button>
+        ) : (
+          <div
+            className={classNames(
+              'appearance-none w-full rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) cursor-pointer outline-none flex items-center justify-between',
+              sizeClasses[size],
+              {
+                'opacity-50 cursor-not-allowed': disabled,
+                'border-(--border-hover)': isOpen
+              }
             )}
-          </div>
-
-          <div className="flex items-center gap-2 ml-2">
-            {clearable &&
-              ((multiple && Array.isArray(currentValue) && currentValue.length > 0) ||
-                (!multiple && currentValue !== undefined)) && (
-                <button type="button" onClick={onClear} className="text-(--text-secondary) hover:text-(--text-primary)">
-                  <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
-                </button>
+            onClick={onClick}
+          >
+            <div className="flex-1 min-w-0">
+              {multiple && Array.isArray(selectedOptions) && selectedOptions.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {selectedOptions.map((option) => (
+                    <span
+                      key={option.value}
+                      className="inline-flex items-center gap-1 px-2 py-1 bg-(--primary) text-white rounded text-sm"
+                    >
+                      {option.label}
+                      <button
+                        type="button"
+                        onClick={(e) => onRemoveOption(option.value, e)}
+                        className="hover:bg-(--primary-dark) rounded p-0.5"
+                      >
+                        <FontAwesomeIcon icon={faTimes} className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <span
+                  className={classNames({
+                    'text-(--text-secondary)':
+                      !selectedOptions || (multiple && Array.isArray(selectedOptions) && selectedOptions.length === 0)
+                  })}
+                >
+                  {displayText}
+                </span>
               )}
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              className={classNames('w-4 h-4 text-(--text-secondary) transition-transform', {
-                'rotate-180': isOpen
-              })}
-            />
-          </div>
-        </div>
+            </div>
 
-        {/* Dropdown menu */}
+            <div className="flex items-center gap-2 ml-2">
+              {clearable &&
+                ((multiple && Array.isArray(currentValue) && currentValue.length > 0) ||
+                  (!multiple && currentValue !== undefined)) && (
+                  <button
+                    type="button"
+                    onClick={onClear}
+                    className="text-(--text-secondary) hover:text-(--text-primary)"
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
+                  </button>
+                )}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                className={classNames('w-4 h-4 text-(--text-secondary) transition-transform', {
+                  'rotate-180': isOpen
+                })}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Dropdown menu - hidden for measurement */}
         {isOpen && !measured && (
           <div
             ref={dropdownRef}
-            className="absolute z-50 left-0 right-0 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg max-h-64 overflow-hidden"
-            style={{ visibility: 'hidden', pointerEvents: 'none', left: '-9999px' }}
+            className="absolute z-50 invisible left-[-9999px] pointer-events-none min-w-full max-w-screen-sm bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg overflow-hidden"
           >
+            {searchable && (
+              <div className="p-3 border-b border-(--border-color)">
+                <input
+                  type="text"
+                  placeholder={t('common.search')}
+                  className="w-full p-2 border border-(--border-color) rounded-lg outline-none focus:border-(--border-hover) bg-transparent text-(--text-primary) placeholder-(--text-secondary)"
+                />
+              </div>
+            )}
             <div className="p-2">
               {filteredOptions.map((option) => (
-                <div key={option.value} className="p-2">
+                <div key={option.value} className={optionSizeClasses[size]}>
                   {option.label}
                 </div>
               ))}
@@ -370,16 +452,20 @@ export const Dropdown = ({
           </div>
         )}
 
+        {/* Dropdown menu - visible after measurement */}
         {isOpen && measured && (
           <div
             ref={dropdownRef}
             className={classNames(
-              'absolute z-50 left-0 right-0 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg max-h-64 overflow-hidden animate-fade-in',
+              'absolute z-50 min-w-full max-w-screen-sm bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg overflow-hidden animate-fade-in',
               {
+                'left-0': !alignRight,
+                'right-0': alignRight,
                 'bottom-full mb-2': openAbove,
                 'top-full mt-2': !openAbove
               }
             )}
+            style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
               <div className="p-3 border-b border-(--border-color)">
@@ -394,9 +480,16 @@ export const Dropdown = ({
               </div>
             )}
 
-            <div className="max-h-48 overflow-y-auto">
+            <div
+              className="overflow-y-auto"
+              style={{
+                maxHeight: searchable
+                  ? `${maxHeight - 80}px` // Account for search input height
+                  : `${maxHeight}px`
+              }}
+            >
               {filteredOptions.length === 0 ? (
-                <div className="p-3 text-(--text-secondary) text-center">
+                <div className={classNames('text-(--text-secondary) text-center', sizeClasses[size])}>
                   {searchable ? t('common.noResults') : t('common.noOptions')}
                 </div>
               ) : (
@@ -409,7 +502,8 @@ export const Dropdown = ({
                     <div
                       key={option.value}
                       className={classNames(
-                        'flex items-center justify-between p-3 cursor-pointer hover:bg-(--border-hover) transition-colors',
+                        'flex items-center justify-between cursor-pointer hover:bg-(--border-hover) transition-colors',
+                        optionSizeClasses[size],
                         {
                           'opacity-50 cursor-not-allowed': option.disabled,
                           'bg-(--border-hover)': isSelected
@@ -426,9 +520,9 @@ export const Dropdown = ({
             </div>
           </div>
         )}
-      </div>
 
-      {error && <p className="mt-1 text-(--error-color)">{error}</p>}
+        {error && <p className="mt-1 text-(--error-color)">{error}</p>}
+      </div>
     </div>
   );
 };

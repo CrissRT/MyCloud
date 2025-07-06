@@ -1,21 +1,21 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useGoogleServicePostAuthGoogle, useLoginServicePostAuthLogin } from '@client/api/openapi/queries';
 import { Button, GoogleOAuthButton, Input, Password } from '@client/components';
+import { useAuth } from '@client/hooks';
 import { AuthLayout } from '@client/layouts';
-import { guestRoutes, protectedRoutes, showApiErrors } from '@client/utils';
+import { guestRoutes, showApiErrors } from '@client/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordRegex } from '@shared/utils';
 
 const Page = () => {
   const { t: customZod } = useTranslation('customZod');
   const { t } = useTranslation();
-  const router = useRouter();
+  const { login } = useAuth();
 
   const schema = z.object({
     email: z.string().email(),
@@ -33,9 +33,7 @@ const Page = () => {
   });
 
   const { mutateAsync, isPending } = useLoginServicePostAuthLogin({
-    onSuccess: () => {
-      router.push(protectedRoutes.dashboard);
-    },
+    onSuccess: async () => await login(),
     onError: showApiErrors
   });
 
@@ -43,9 +41,7 @@ const Page = () => {
     await mutateAsync({ requestBody: { email: data.email, password: data.password } });
 
   const { mutateAsync: googleLogin } = useGoogleServicePostAuthGoogle({
-    onSuccess: () => {
-      router.push(protectedRoutes.dashboard);
-    },
+    onSuccess: async () => await login(),
     onError: showApiErrors
   });
 
@@ -65,7 +61,14 @@ const Page = () => {
         linkLabel: t('auth.login.buttons.register')
       }}
     >
-      <GoogleOAuthButton onSuccess={onGoogleLogin} />
+      <GoogleOAuthButton
+        onSuccess={onGoogleLogin}
+        type="button"
+        variant="outlined"
+        color="primary"
+        width="full"
+        size="xl"
+      />
       <div className="flex items-center my-4">
         <hr className="flex-grow border-gray-300" />
         <span className="px-3 text-gray-500 text-sm">{t('auth.or')}</span>
@@ -76,7 +79,7 @@ const Page = () => {
         <Input
           label={{ text: t('auth.email') }}
           input={{ id: 'email', placeholder: t('auth.enterEmail'), ...register('email', { required: true }) }}
-          size="2xl"
+          size="xl"
           error={errors.email?.message}
         />
         <Password
@@ -87,8 +90,9 @@ const Page = () => {
             ...register('password', { required: true })
           }}
           error={errors.password?.message}
+          size="xl"
         />
-        <Button width="full" type="submit" loading={isPending}>
+        <Button width="full" type="submit" loading={isPending} size="xl">
           {t('auth.login.buttons.login')}
         </Button>
       </form>
