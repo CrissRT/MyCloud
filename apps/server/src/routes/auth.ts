@@ -40,6 +40,7 @@ import {
   isBanned,
   isValidJwt,
   MAX_LOGIN_ATTEMPTS,
+  saveProfileImage,
   sendResetPasswordEmail,
   setCookieHeader,
   shouldResetBanDueToInactivity,
@@ -461,7 +462,7 @@ router.post('/google', async (req, res) => {
       return;
     }
 
-    const { email, given_name: givenName, family_name: familyName } = userInfo;
+    const { email, given_name: givenName, family_name: familyName, picture: profilePicture } = userInfo;
     if (!email || !givenName || !familyName) {
       res.status(400).json({
         code: ErrorCodes.INVALID_RECORD,
@@ -500,6 +501,14 @@ router.post('/google', async (req, res) => {
         birthDate: dayjs('1990-01-01').toDate(), // Default since Google doesn't provide this
         language: language || 'en'
       });
+
+      if (profilePicture) {
+        // Fetch the image data from the URL and convert to Buffer
+        const response = await fetch(profilePicture);
+        const arrayBuffer = await response.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        await saveProfileImage(foundUser.username, profilePicture, buffer);
+      }
     } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const storageInfo = await getStorageInfoByUserId(foundUser.id);

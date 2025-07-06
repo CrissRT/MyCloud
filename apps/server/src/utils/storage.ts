@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import dayjs from 'dayjs';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -40,7 +41,7 @@ export const ensureUserUploadsDir = async (username: string): Promise<string> =>
 export const generateUniqueFilename = (originalFilename: string): string => {
   const ext = path.extname(originalFilename);
   const name = path.basename(originalFilename, ext);
-  const timestamp = Date.now();
+  const timestamp = dayjs().valueOf();
   const randomStr = crypto.randomBytes(8).toString('hex');
 
   return `${name}_${timestamp}_${randomStr}${ext}`;
