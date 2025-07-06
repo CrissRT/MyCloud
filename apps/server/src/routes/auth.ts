@@ -30,12 +30,12 @@ import {
 } from '@server/models';
 import {
   checkIfEnoughSpaceInMB,
+  convertMimeTypeToFileExtension,
   decodeJwt,
   DEFAULT_STORAGE_SPACE_IN_MB,
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
   generateDefaultProfileImage,
-  getExtensionFromMimeType,
   getNextBanDuration,
   getSaltRounds,
   getSerializedUserSessionCookie,
@@ -527,7 +527,7 @@ router.post('/google', async (req, res) => {
 
         const { filename } = await saveProfileImage(
           userName,
-          `${profilePicture}${getExtensionFromMimeType(String(mimeType))}`,
+          `${profilePicture}${convertMimeTypeToFileExtension(String(mimeType))}`,
           buffer
         );
         profileName = filename;

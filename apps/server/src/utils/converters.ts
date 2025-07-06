@@ -44,3 +44,15 @@ export const sanitizeNameForDatabase = (name: string, fallback: string = 'User')
 
   return cleanName;
 };
+
+export const convertMimeTypeToFileExtension = (mimeType: string): string => {
+  const mimeToExt: Record<string, string> = {
+    'image/jpeg': '.jpg',
+    'image/jpg': '.jpg',
+    'image/png': '.png',
+    'image/gif': '.gif',
+    'image/webp': '.webp'
+  };
+
+  return mimeToExt[mimeType.toLowerCase()] || '.jpg'; // Default to .jpg if unknown
+};
