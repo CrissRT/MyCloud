@@ -1,3 +1,4 @@
+import { $Enums } from '@prisma/client';
 import { User } from '@server/models';
 import { DEFAULT_STORAGE_SPACE_IN_MB, DEFAULT_USED_STORAGE_SPACE, prisma } from '@server/utils';
 
@@ -25,7 +26,7 @@ export const createUserAndStorageAndPreferences = async ({
   role,
   sex,
   language = 'en'
-}: Omit<User, 'id' | 'createdAt'> & { language?: 'en' | 'ro' | 'ru' }) => {
+}: Omit<User, 'id' | 'createdAt'> & { language?: $Enums.languageEnum }) => {
   // Use transaction to ensure atomicity of user, storage, and preference creation
   const result = await prisma.$transaction(async (tx) => {
     // Create user
