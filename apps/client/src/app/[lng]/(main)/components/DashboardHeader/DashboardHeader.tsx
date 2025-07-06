@@ -3,8 +3,8 @@
 import Link from 'next/link';
 
 import { useTranslation } from 'react-i18next';
-import { Button, Dropdown } from '@client/components';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { Button, Dropdown, SegmentedControl } from '@client/components';
+import { faList, faTableCellsLarge, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
@@ -38,7 +38,7 @@ export const DashboardHeader = ({ parents, title }: Props) => {
         {title}
       </h1>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
         <Dropdown
           options={[
             { label: t('common.sort.sortByName'), value: 'name' },
@@ -47,6 +47,15 @@ export const DashboardHeader = ({ parents, title }: Props) => {
           ]}
           size="sm"
           placeholder={t('common.sort.sortBy')}
+        />
+
+        <SegmentedControl
+          options={[
+            { value: 'grid', icon: <FontAwesomeIcon icon={faTableCellsLarge} /> },
+            { value: 'list', icon: <FontAwesomeIcon icon={faList} /> }
+          ]}
+          value="grid"
+          size="sm"
         />
 
         <Button size="sm" icon={<FontAwesomeIcon icon={faUpload} />}>
