@@ -91,6 +91,7 @@ export const Dropdown = ({
   const [openAbove, setOpenAbove] = useState(false);
   const [measured, setMeasured] = useState(false);
   const [alignRight, setAlignRight] = useState(false);
+  const [maxHeight, setMaxHeight] = useState(256);
   const [internalValue, setInternalValue] = useState<string | number | (string | number)[] | undefined>(undefined);
   const { t } = useTranslation();
 
@@ -247,7 +248,11 @@ export const Dropdown = ({
   // Click outside handler
   useEffect(() => {
     if (!isOpen) {
-      setMeasured(false); // Reset measurement when closing
+      // Reset all states when closing
+      setMeasured(false);
+      setOpenAbove(false);
+      setAlignRight(false);
+      setMaxHeight(256);
       return;
     }
 
@@ -263,12 +268,12 @@ export const Dropdown = ({
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, [isOpen]);
 
-  // Dropdown positioning
+  // Dropdown positioning - unified with DatePicker logic
   useEffect(() => {
     if (!isOpen) return;
 
-    // Only remeasure when dropdown is first opened, not when filtering
-    if (!measured)
+    // Wait for dropdown to render, then measure (same approach as DatePicker)
+    if (!measured) {
       setTimeout(() => {
         const container = containerRef.current;
         const dropdown = dropdownRef.current;
@@ -278,17 +283,27 @@ export const Dropdown = ({
           const spaceBelow = window.innerHeight - containerRect.bottom;
           const spaceAbove = containerRect.top;
 
-          if (spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height) setOpenAbove(true);
-          else setOpenAbove(false);
+          // Use same logic as DatePicker for openAbove determination
+          const shouldOpenAbove = spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height;
+          setOpenAbove(shouldOpenAbove);
 
-          setMeasured(true);
           // Align to right if overflow on right
           const spaceRight = window.innerWidth - containerRect.right;
           const spaceLeft = containerRect.left;
           const shouldAlignRight = dropdownRect.width > spaceRight && spaceLeft > spaceRight;
           setAlignRight(shouldAlignRight);
+
+          // Calculate dynamic max height based on available viewport space
+          const availableHeight = shouldOpenAbove
+            ? Math.max(spaceAbove - 20, 120) // 20px padding, min 120px
+            : Math.max(spaceBelow - 20, 120);
+
+          setMaxHeight(Math.min(availableHeight, window.innerHeight * 0.6)); // Max 60% of viewport
+
+          setMeasured(true);
         }
       }, 0);
+    }
   }, [isOpen, measured]);
 
   const baseSizeClasses = {
@@ -412,15 +427,24 @@ export const Dropdown = ({
           </div>
         )}
 
-        {/* Dropdown menu */}
+        {/* Dropdown menu - hidden for measurement */}
         {isOpen && !measured && (
           <div
             ref={dropdownRef}
-            className="absolute z-50 invisible left-0 pointer-events-none right-0 bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg max-h-64 overflow-hidden"
+            className="absolute z-50 invisible left-[-9999px] pointer-events-none min-w-full max-w-screen-sm bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg overflow-hidden"
           >
+            {searchable && (
+              <div className="p-3 border-b border-(--border-color)">
+                <input
+                  type="text"
+                  placeholder={t('common.search')}
+                  className="w-full p-2 border border-(--border-color) rounded-lg outline-none focus:border-(--border-hover) bg-transparent text-(--text-primary) placeholder-(--text-secondary)"
+                />
+              </div>
+            )}
             <div className="p-2">
               {filteredOptions.map((option) => (
-                <div key={option.value} className="p-2">
+                <div key={option.value} className={optionSizeClasses[size]}>
                   {option.label}
                 </div>
               ))}
@@ -428,11 +452,12 @@ export const Dropdown = ({
           </div>
         )}
 
+        {/* Dropdown menu - visible after measurement */}
         {isOpen && measured && (
           <div
             ref={dropdownRef}
             className={classNames(
-              'absolute z-50 min-w-full bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg max-h-64 overflow-hidden animate-fade-in',
+              'absolute z-50 min-w-full max-w-screen-sm bg-(--bg-color) border border-(--border-color) rounded-xl shadow-lg overflow-hidden animate-fade-in',
               {
                 'left-0': !alignRight,
                 'right-0': alignRight,
@@ -440,6 +465,7 @@ export const Dropdown = ({
                 'top-full mt-2': !openAbove
               }
             )}
+            style={{ maxHeight: `${maxHeight}px` }}
           >
             {searchable && (
               <div className="p-3 border-b border-(--border-color)">
@@ -455,10 +481,12 @@ export const Dropdown = ({
             )}
 
             <div
-              className={classNames({
-                'max-h-48 overflow-y-auto': filteredOptions.length > 6,
-                'max-h-fit': filteredOptions.length <= 6
-              })}
+              className="overflow-y-auto"
+              style={{
+                maxHeight: searchable
+                  ? `${maxHeight - 80}px` // Account for search input height
+                  : `${maxHeight}px`
+              }}
             >
               {filteredOptions.length === 0 ? (
                 <div className={classNames('text-(--text-secondary) text-center', sizeClasses[size])}>

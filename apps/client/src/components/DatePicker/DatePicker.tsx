@@ -62,8 +62,12 @@ export const DatePicker = ({ label, error, size = 'md', input }: Props) => {
   }, [input?.value]);
 
   useEffect(() => {
-    if (!showCalendar) return;
-    setMeasured(false);
+    if (!showCalendar) {
+      setMeasured(false);
+      setOpenAbove(false);
+      return;
+    }
+
     // Wait for calendar to render, then measure
     setTimeout(() => {
       const calendar = calendarRef.current;
