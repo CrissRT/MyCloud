@@ -201,7 +201,7 @@ export const isValidProfileImageType = (mimeType: string): boolean => {
  * @param sizeBytes - File size in bytes
  * @returns Boolean indicating if file size is within limits
  */
-export const isValidFileSize = (sizeBytes: number) => sizeBytes <= DEFAULT_STORAGE_SPACE_IN_MB * 1024 * 1024;
+export const isValidFileSize = (sizeBytes: number) => sizeBytes <= DEFAULT_STORAGE_SPACE_IN_MB * 1024n * 1024n;
 
 /**
  * Generates a default profile image with user initials
