@@ -69,7 +69,8 @@
       "sortByName": "Имени",
       "sortByDate": "Дате",
       "sortBySize": "Размеру"
-    }
+    },
+    "upload": "Загрузить"
   },
   "errors": {
     "notFound": {

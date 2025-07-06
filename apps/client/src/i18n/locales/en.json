@@ -69,7 +69,8 @@
       "sortByName": "Name",
       "sortByDate": "Date",
       "sortBySize": "Size"
-    }
+    },
+    "upload": "Upload"
   },
   "errors": {
     "notFound": {

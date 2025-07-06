@@ -69,7 +69,8 @@
       "sortByName": "Nume",
       "sortByDate": "Dată",
       "sortBySize": "Dimensiune"
-    }
+    },
+    "upload": "Încărcare"
   },
   "errors": {
     "notFound": {

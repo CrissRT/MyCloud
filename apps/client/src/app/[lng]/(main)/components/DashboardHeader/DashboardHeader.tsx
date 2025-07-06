@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import { useTranslation } from 'react-i18next';
 import { Button, Dropdown } from '@client/components';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
   parents?: string[];
@@ -47,7 +49,9 @@ export const DashboardHeader = ({ parents, title }: Props) => {
           placeholder={t('common.sort.sortBy')}
         />
 
-        <Button size="sm">test</Button>
+        <Button size="sm" icon={<FontAwesomeIcon icon={faUpload} />}>
+          {t('common.upload')}
+        </Button>
       </div>
     </div>
   );
