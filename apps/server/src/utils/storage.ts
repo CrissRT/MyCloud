@@ -186,6 +186,23 @@ export const deleteAllUserFiles = async (username: string) => {
 };
 
 /**
+ * Gets the file extension for a given MIME type
+ * @param mimeType - The MIME type to get extension for
+ * @returns File extension with dot (e.g., '.jpg', '.png')
+ */
+export const getExtensionFromMimeType = (mimeType: string): string => {
+  const mimeToExt: Record<string, string> = {
+    'image/jpeg': '.jpg',
+    'image/jpg': '.jpg',
+    'image/png': '.png',
+    'image/gif': '.gif',
+    'image/webp': '.webp'
+  };
+
+  return mimeToExt[mimeType.toLowerCase()] || '.jpg'; // Default to .jpg if unknown
+};
+
+/**
  * Validates file type for profile images
  * @param mimeType - File MIME type
  * @returns Boolean indicating if file type is allowed for profile images

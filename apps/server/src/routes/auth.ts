@@ -35,11 +35,14 @@ import {
   DEFAULT_USED_STORAGE_SPACE,
   findRelevantSession,
   generateDefaultProfileImage,
+  getExtensionFromMimeType,
   getNextBanDuration,
   getSaltRounds,
   getSerializedUserSessionCookie,
   isBanned,
+  isValidFileSize,
   isValidJwt,
+  isValidProfileImageType,
   MAX_LOGIN_ATTEMPTS,
   saveProfileImage,
   sendResetPasswordEmail,
@@ -502,7 +505,31 @@ router.post('/google', async (req, res) => {
         const response = await fetch(profilePicture);
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        const { filename } = await saveProfileImage(userName, `${profilePicture}.jpg`, buffer);
+
+        // Validate MIME type and file size
+        const mimeType = response.headers.get('content-type');
+        const fileSize = buffer.length;
+        if (!isValidProfileImageType(String(mimeType))) {
+          res.status(400).json({
+            code: ErrorCodes.INVALID_TYPE,
+            message: req.t('errors.invalidImageType')
+          });
+          return;
+        }
+
+        if (!isValidFileSize(fileSize)) {
+          res.status(413).json({
+            code: ErrorCodes.RESOURCE_TOO_LARGE,
+            message: req.t('errors.fileTooLarge')
+          });
+          return;
+        }
+
+        const { filename } = await saveProfileImage(
+          userName,
+          `${profilePicture}${getExtensionFromMimeType(String(mimeType))}`,
+          buffer
+        );
         profileName = filename;
       } else {
         const { filename } = await generateDefaultProfileImage(givenName, familyName, userName);

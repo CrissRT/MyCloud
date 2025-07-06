@@ -14,7 +14,9 @@
     "samePassword": "Новый пароль должен отличаться от старого пароля",
     "userNotInitializedCorrectly": "Пользователь не был инициализирован корректно",
     "invalidGoogleToken": "Недействительный токен OAuth Google",
-    "missingGoogleUserInfo": "Отсутствуют необходимые данные пользователя Google"
+    "missingGoogleUserInfo": "Отсутствуют необходимые данные пользователя Google",
+    "invalidImageType": "Недопустимый тип файла изображения. Разрешены только JPEG, PNG, GIF и WebP",
+    "fileTooLarge": "Файл слишком большой или превышает максимальный размер, разрешенный вашим текущим тарифным планом"
   },
 
   "success": {
