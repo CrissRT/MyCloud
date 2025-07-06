@@ -132,7 +132,6 @@ router.post('/register', async (req, res) => {
       cookie: userSessionCookie,
       lastActive: dayjs().toDate(),
       loginAttempts: 0,
-      createdAt: dayjs().toDate(),
       banStart: null,
       banDurationMinutes: null
     });
@@ -184,7 +183,6 @@ router.post('/login', async (req, res) => {
         cookie: null,
         lastActive: dayjs().toDate(),
         loginAttempts: 0,
-        createdAt: dayjs().toDate(),
         banStart: null,
         banDurationMinutes: null
       };
@@ -214,7 +212,7 @@ router.post('/login', async (req, res) => {
         session.banDurationMinutes = banDuration;
       }
 
-      session = foundSession ? await updateSessionById({ ...foundSession, ...session }) : await createSession(session);
+      session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
       res.status(401).json({
         code: ErrorCodes.INVALID_RECORD,
@@ -254,7 +252,7 @@ router.post('/login', async (req, res) => {
     session.cookie = userCookie;
     session.lastActive = dayjs().toDate();
 
-    session = foundSession ? await updateSessionById({ ...foundSession, ...session }) : await createSession(session);
+    session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
     await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
@@ -524,8 +522,10 @@ router.post('/google', async (req, res) => {
     const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
 
     if (foundSession) {
-      await updateSessionById({
-        ...foundSession,
+      await updateSessionById(foundSession.id, {
+        userId: foundUser.id,
+        deviceInfo,
+        ip,
         lastActive: dayjs().toDate(),
         cookie: userSessionCookie,
         loginAttempts: 0,
@@ -540,7 +540,6 @@ router.post('/google', async (req, res) => {
         cookie: userSessionCookie,
         lastActive: dayjs().toDate(),
         loginAttempts: 0,
-        createdAt: dayjs().toDate(),
         banStart: null,
         banDurationMinutes: null
       });
