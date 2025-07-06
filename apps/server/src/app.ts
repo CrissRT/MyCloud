@@ -14,9 +14,9 @@ const app = zodiosApp();
 
 app.use(
   cors({
-    origin: getFrontendUrl(), // Allow all origins, adjust as needed for production
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Language'], // Allowed headers
-    credentials: true // Allow cookies to be sent with requests
+    origin: getFrontendUrl(),
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Language'],
+    credentials: true
   })
 );
 app.use(handle(i18n));
