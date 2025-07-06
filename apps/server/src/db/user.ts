@@ -21,7 +21,7 @@ export const createUserAndStorageAndPreferences = async ({
   username,
   password,
   firstName,
-  lastName,
+  lastName = firstName,
   birthDate,
   role,
   sex,
