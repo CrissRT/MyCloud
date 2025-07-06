@@ -32,6 +32,7 @@ model users {
   birthDate               DateTime                 @db.Date
   role                    roleEnum                 @default(user)
   sex                     sexEnum                  @default(other)
+  profileImage            String?
   createdAt               DateTime                 @default(now()) @db.Timestamptz(6)
   notificationPreferences notificationPreferences?
   notifications           notifications[]

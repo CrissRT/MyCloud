@@ -20,6 +20,7 @@ CREATE TABLE "users" (
     "birthDate" DATE NOT NULL,
     "role" "roleEnum" NOT NULL DEFAULT 'user',
     "sex" "sexEnum" NOT NULL DEFAULT 'other',
+    "profileImage" TEXT,
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL
 );
 
