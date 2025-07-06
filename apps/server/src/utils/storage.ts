@@ -295,26 +295,3 @@ export const createDefaultProfileImageForUser = async (
   const imageInfo = await generateDefaultProfileImage(firstName, lastName, username);
   return imageInfo.relativePath;
 };
-
-/**
- * Sanitizes names to meet database constraints (minimum 3 characters)
- * @param name - Original name
- * @param fallback - Fallback to use if name is too short
- * @returns Sanitized name that meets database constraints
- */
-export const sanitizeNameForDatabase = (name: string, fallback: string = 'User'): string => {
-  const cleanName = name.trim();
-
-  // If name is less than 3 characters, pad it or use fallback
-  if (cleanName.length < 3) {
-    if (cleanName.length === 2) {
-      return cleanName + 'X'; // Pad with X to reach 3 characters
-    } else if (cleanName.length === 1) {
-      return cleanName + 'XX'; // Pad with XX to reach 3 characters
-    } else {
-      return fallback; // Use fallback if empty
-    }
-  }
-
-  return cleanName;
-};

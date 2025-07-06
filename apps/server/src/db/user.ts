@@ -1,6 +1,11 @@
 import { $Enums } from '@prisma/client';
 import { User } from '@server/models';
-import { DEFAULT_STORAGE_SPACE_IN_MB, DEFAULT_USED_STORAGE_SPACE, prisma } from '@server/utils';
+import {
+  DEFAULT_STORAGE_SPACE_IN_MB,
+  DEFAULT_USED_STORAGE_SPACE,
+  prisma,
+  sanitizeNameForDatabase
+} from '@server/utils';
 
 export const getUserById = async (id: number) => {
   const user = await prisma.users.findUnique({ where: { id } });
@@ -20,8 +25,8 @@ export const createUserAndStorageAndPreferences = async ({
   email,
   username,
   password,
-  firstName,
-  lastName = firstName,
+  firstName = ,
+  lastName = sanitizeNameForDatabase(firstName),
   birthDate,
   role,
   sex,
