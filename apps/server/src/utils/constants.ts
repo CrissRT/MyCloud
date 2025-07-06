@@ -108,3 +108,6 @@ export const MAX_LOGIN_ATTEMPTS = 10; // Maximum login attempts before lockout
 
 export const DEFAULT_STORAGE_SPACE_IN_MB = 15360n; // 15 GB = 15360 MB
 export const DEFAULT_USED_STORAGE_SPACE = 0n; // Default to 0 bytes used
+
+// Base uploads directory relative to src folder
+export const UPLOADS_BASE_DIR = path.join(__dirname, '..', 'uploads');
