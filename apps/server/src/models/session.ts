@@ -23,8 +23,7 @@ export const sessionCreateSchema = sessionSchema.pick({
   lastActive: true,
   loginAttempts: true,
   banDurationMinutes: true,
-  banStart: true,
-  createdAt: true
+  banStart: true
 });
 
 export type SessionCreate = z.infer<typeof sessionCreateSchema>;

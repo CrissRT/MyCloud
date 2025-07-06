@@ -9,9 +9,10 @@ import { z } from 'zod';
 import { $Enums } from '@prisma/client';
 import {
   createSession,
-  createUser,
+  createUserAndStorageAndPreferences,
   getStorageInfoByUserId,
   getUserByEmail,
+  updateGeneralPreferenceByUserId,
   updateSessionById,
   updateUserById
 } from '@server/db';
@@ -104,8 +105,12 @@ router.post('/register', async (req, res) => {
       usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
     };
 
-    // Use transaction to ensure atomicity of user and storage creation
-    const createdUser = await createUser({
+    // Create generalPreferences for the user
+    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
+    const language = allowedLanguages.find((l) => l === req.i18n.language) || 'en';
+
+    // Create user with all related records in a single transaction
+    const createdUser = await createUserAndStorageAndPreferences({
       email: response.email,
       username: response.username,
       firstName: response.firstName,
@@ -113,7 +118,8 @@ router.post('/register', async (req, res) => {
       password: hashedPassword,
       role: response.role,
       sex: response.sex,
-      birthDate: response.birthDate
+      birthDate: response.birthDate,
+      language
     });
 
     const userSessionCookie = getSerializedUserSessionCookie(response);
@@ -126,7 +132,6 @@ router.post('/register', async (req, res) => {
       cookie: userSessionCookie,
       lastActive: dayjs().toDate(),
       loginAttempts: 0,
-      createdAt: dayjs().toDate(),
       banStart: null,
       banDurationMinutes: null
     });
@@ -141,6 +146,9 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
+    const language = allowedLanguages.find((l) => l === req.i18n.language);
+
     const parse = userLoginSchema.safeParse(req.body);
     if (!parse.success) {
       res.status(400).json({
@@ -175,7 +183,6 @@ router.post('/login', async (req, res) => {
         cookie: null,
         lastActive: dayjs().toDate(),
         loginAttempts: 0,
-        createdAt: dayjs().toDate(),
         banStart: null,
         banDurationMinutes: null
       };
@@ -205,7 +212,7 @@ router.post('/login', async (req, res) => {
         session.banDurationMinutes = banDuration;
       }
 
-      session = foundSession ? await updateSessionById({ ...foundSession, ...session }) : await createSession(session);
+      session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
 
       res.status(401).json({
         code: ErrorCodes.INVALID_RECORD,
@@ -245,7 +252,9 @@ router.post('/login', async (req, res) => {
     session.cookie = userCookie;
     session.lastActive = dayjs().toDate();
 
-    session = foundSession ? await updateSessionById({ ...foundSession, ...session }) : await createSession(session);
+    session = foundSession ? await updateSessionById(foundSession.id, session) : await createSession(session);
+
+    await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const response: AuthResponse = {
       email: foundUser.email,
@@ -417,6 +426,8 @@ router.post('/reset-password', async (req, res) => {
 
 router.post('/google', async (req, res) => {
   try {
+    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
+    const language = allowedLanguages.find((l) => l === req.i18n.language);
     const deviceInfo = req.headers['user-agent'] || 'unknown';
     const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
 
@@ -477,7 +488,8 @@ router.post('/google', async (req, res) => {
       const randomPassword = await hash(crypto.randomUUID(), SALT_ROUNDS);
       const userName = email.split('@')[0];
 
-      foundUser = await createUser({
+      // Create user with all related records in a single transaction
+      foundUser = await createUserAndStorageAndPreferences({
         email: email,
         username: userName,
         firstName: givenName,
@@ -485,9 +497,10 @@ router.post('/google', async (req, res) => {
         password: randomPassword,
         role: $Enums.roleEnum.user,
         sex: $Enums.sexEnum.other, // Default since Google doesn't provide this
-        birthDate: dayjs('1990-01-01').toDate() // Default since Google doesn't provide this
+        birthDate: dayjs('1990-01-01').toDate(), // Default since Google doesn't provide this
+        language: language || 'en'
       });
-    }
+    } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const storageInfo = await getStorageInfoByUserId(foundUser.id);
 
@@ -509,8 +522,10 @@ router.post('/google', async (req, res) => {
     const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
 
     if (foundSession) {
-      await updateSessionById({
-        ...foundSession,
+      await updateSessionById(foundSession.id, {
+        userId: foundUser.id,
+        deviceInfo,
+        ip,
         lastActive: dayjs().toDate(),
         cookie: userSessionCookie,
         loginAttempts: 0,
@@ -525,7 +540,6 @@ router.post('/google', async (req, res) => {
         cookie: userSessionCookie,
         lastActive: dayjs().toDate(),
         loginAttempts: 0,
-        createdAt: dayjs().toDate(),
         banStart: null,
         banDurationMinutes: null
       });
