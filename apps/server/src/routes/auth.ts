@@ -8,10 +8,12 @@ import { z } from 'zod';
 
 import { $Enums } from '@prisma/client';
 import {
+  createGeneralPreference,
   createSession,
   createUser,
   getStorageInfoByUserId,
   getUserByEmail,
+  updateGeneralPreferenceByUserId,
   updateSessionById,
   updateUserById
 } from '@server/db';
@@ -116,6 +118,11 @@ router.post('/register', async (req, res) => {
       birthDate: response.birthDate
     });
 
+    // Create generalPreferences for the user
+    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
+    const language = allowedLanguages.find((l) => l === req.i18n.language);
+    await createGeneralPreference({ userId: createdUser.id, language });
+
     const userSessionCookie = getSerializedUserSessionCookie(response);
 
     // Create a session for the user
@@ -141,6 +148,9 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
+    const language = allowedLanguages.find((l) => l === req.i18n.language);
+
     const parse = userLoginSchema.safeParse(req.body);
     if (!parse.success) {
       res.status(400).json({
@@ -246,6 +256,8 @@ router.post('/login', async (req, res) => {
     session.lastActive = dayjs().toDate();
 
     session = foundSession ? await updateSessionById({ ...foundSession, ...session }) : await createSession(session);
+
+    await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const response: AuthResponse = {
       email: foundUser.email,
@@ -417,6 +429,8 @@ router.post('/reset-password', async (req, res) => {
 
 router.post('/google', async (req, res) => {
   try {
+    const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
+    const language = allowedLanguages.find((l) => l === req.i18n.language);
     const deviceInfo = req.headers['user-agent'] || 'unknown';
     const ip = String(req?.headers?.['x-forwarded-for']).split(',')[0] || req.ip || 'unknown';
 
@@ -530,6 +544,8 @@ router.post('/google', async (req, res) => {
         banDurationMinutes: null
       });
     }
+
+    await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     setCookieHeader(res, userSessionCookie);
     res.status(200).json(response);
