@@ -29,3 +29,30 @@ export const convertGBToMB = (gb: bigint | number) => BigInt(gb) * BigInt(1024);
 export const convertGBToBytes = (gb: bigint | number) => BigInt(gb) * BigInt(1024 * 1024 * 1024);
 
 export const convertBytesToGB = (bytes: bigint | number) => BigInt(bytes) / BigInt(1024 * 1024 * 1024);
+
+export const sanitizeNameForDatabase = (name: string, fallback: string = 'User'): string => {
+  const cleanName = name.trim();
+
+  // If name is less than 3 characters, pad it or use fallback
+  if (cleanName.length < 3) {
+    if (cleanName.length === 2)
+      return cleanName + 'X'; // Pad with X to reach 3 characters
+    else if (cleanName.length === 1)
+      return cleanName + 'XX'; // Pad with XX to reach 3 characters
+    else return fallback; // Use fallback if empty
+  }
+
+  return cleanName;
+};
+
+export const convertMimeTypeToFileExtension = (mimeType: string): string => {
+  const mimeToExt: Record<string, string> = {
+    'image/jpeg': '.jpg',
+    'image/jpg': '.jpg',
+    'image/png': '.png',
+    'image/gif': '.gif',
+    'image/webp': '.webp'
+  };
+
+  return mimeToExt[mimeType.toLowerCase()] || '.jpg'; // Default to .jpg if unknown
+};

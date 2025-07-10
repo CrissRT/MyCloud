@@ -1,6 +1,11 @@
 import { $Enums } from '@prisma/client';
 import { User } from '@server/models';
-import { DEFAULT_STORAGE_SPACE_IN_MB, DEFAULT_USED_STORAGE_SPACE, prisma } from '@server/utils';
+import {
+  DEFAULT_STORAGE_SPACE_IN_MB,
+  DEFAULT_USED_STORAGE_SPACE,
+  prisma,
+  sanitizeNameForDatabase
+} from '@server/utils';
 
 export const getUserById = async (id: number) => {
   const user = await prisma.users.findUnique({ where: { id } });
@@ -21,12 +26,13 @@ export const createUserAndStorageAndPreferences = async ({
   username,
   password,
   firstName,
-  lastName = firstName,
+  lastName,
   birthDate,
   role,
   sex,
-  language = 'en'
-}: Omit<User, 'id' | 'createdAt'> & { language?: $Enums.languageEnum }) => {
+  language = 'en',
+  profileName
+}: Omit<User, 'id' | 'createdAt'> & { language?: $Enums.languageEnum; profileName: string }) => {
   // Use transaction to ensure atomicity of user, storage, and preference creation
   const result = await prisma.$transaction(async (tx) => {
     // Create user
@@ -35,11 +41,12 @@ export const createUserAndStorageAndPreferences = async ({
         email,
         username,
         password,
-        firstName,
-        lastName,
+        firstName: sanitizeNameForDatabase(firstName),
+        lastName: sanitizeNameForDatabase(lastName),
         birthDate,
         role,
-        sex
+        sex,
+        profileImage: profileName
       }
     });
 

@@ -14,7 +14,9 @@
     "samePassword": "New password must be different from the old password",
     "userNotInitializedCorrectly": "User was not initialized correctly",
     "invalidGoogleToken": "Invalid Google OAuth token",
-    "missingGoogleUserInfo": "Missing required Google user information"
+    "missingGoogleUserInfo": "Missing required Google user information",
+    "invalidImageType": "Invalid image file type. Only JPEG, PNG, GIF, and WebP are allowed",
+    "fileTooLarge": "File is too large or exceeds the maximum size your current plan allows"
   },
 
   "success": {

@@ -5,3 +5,4 @@ export * from './disk';
 export * from './jwt';
 export * from './mail';
 export * from './session';
+export * from './storage';
