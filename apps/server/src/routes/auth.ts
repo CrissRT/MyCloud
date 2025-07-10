@@ -19,7 +19,7 @@ import {
 import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
   AuthCookie,
-  ForgotPasswordResponse,
+  CommonResponse,
   forgotPasswordSchema,
   googleOAuthSchema,
   registerSchema,
@@ -326,8 +326,9 @@ router.post('/forgot-password', async (req, res) => {
       // Send the reset password email
       await sendResetPasswordEmail(`${user.firstName} ${user.lastName}`, user.email, resetToken);
 
-      const response: ForgotPasswordResponse = {
-        message: req.t('success.resetPasswordEmailSent')
+      const response: CommonResponse = {
+        message: req.t('success.resetPasswordEmailSent'),
+        success: true
       };
 
       res.status(200).json(response);

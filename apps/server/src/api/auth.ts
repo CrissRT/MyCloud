@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 import {
   authCookieSchema,
+  commonResponseSchema,
   errors,
-  forgotPasswordResponseSchema,
   forgotPasswordSchema,
   googleOAuthSchema,
   registerSchema,
@@ -52,7 +52,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/forgot-password',
     alias: 'forgotPassword',
-    response: forgotPasswordResponseSchema,
+    response: commonResponseSchema,
     status: 200,
     description: 'Send forgot password email',
     errors: errors,

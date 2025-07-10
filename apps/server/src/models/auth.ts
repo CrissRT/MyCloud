@@ -50,11 +50,12 @@ export const forgotPasswordSchema = userSchema.pick({
 
 export type ForgotPassword = z.infer<typeof forgotPasswordSchema>;
 
-export const forgotPasswordResponseSchema = z.object({
-  message: z.string()
+export const commonResponseSchema = z.object({
+  message: z.string(),
+  success: z.boolean()
 });
 
-export type ForgotPasswordResponse = z.infer<typeof forgotPasswordResponseSchema>;
+export type CommonResponse = z.infer<typeof commonResponseSchema>;
 
 export const resetPasswordSchema = z
   .object({
