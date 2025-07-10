@@ -15,6 +15,6 @@ const cookieOptions = {
 export const getSerializedUserSessionCookie = (user: AuthCookie) =>
   cookie.serialize('user_session', JSON.stringify(user), cookieOptions);
 
-export const setCookieHeader = (res: Response, cookie: string) => {
-  res.setHeader('Set-Cookie', cookie);
+export const setCookieHeader = (res: Response, cookieHeader: string) => {
+  res.setHeader('Set-Cookie', cookieHeader);
 };
