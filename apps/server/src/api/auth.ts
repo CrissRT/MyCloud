@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import {
-  authResponseSchema,
+  authCookieSchema,
   errors,
   forgotPasswordResponseSchema,
   forgotPasswordSchema,
@@ -17,7 +17,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/register',
     alias: 'register',
-    response: authResponseSchema,
+    response: authCookieSchema,
     status: 201,
     description: 'Register a new user',
     errors: errors,
@@ -34,7 +34,8 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/login',
     alias: 'login',
-    response: authResponseSchema,
+    response: authCookieSchema,
+
     status: 200,
     description: 'Login a user',
     errors: errors,
@@ -85,7 +86,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/google',
     alias: 'googleOAuth',
-    response: authResponseSchema,
+    response: authCookieSchema,
     status: 200,
     description: 'Login or register a user with Google OAuth',
     errors: errors,

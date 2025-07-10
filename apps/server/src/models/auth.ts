@@ -20,7 +20,7 @@ export const userLoginSchema = userSchema.pick({
 });
 export type Login = z.infer<typeof userLoginSchema>;
 
-export const authResponseSchema = userSchema
+export const authCookieSchema = userSchema
   .pick({
     email: true,
     username: true,
@@ -42,7 +42,7 @@ export const authResponseSchema = userSchema
     usedStorageInBytes: String(user.usedStorageInBytes)
   }));
 
-export type AuthResponse = z.infer<typeof authResponseSchema>;
+export type AuthCookie = z.infer<typeof authCookieSchema>;
 
 export const forgotPasswordSchema = userSchema.pick({
   email: true

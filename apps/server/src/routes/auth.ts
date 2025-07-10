@@ -18,7 +18,7 @@ import {
 } from '@server/db';
 import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
-  AuthResponse,
+  AuthCookie,
   ForgotPasswordResponse,
   forgotPasswordSchema,
   googleOAuthSchema,
@@ -98,7 +98,7 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await hash(resultParseBody.data.password, SALT_ROUNDS);
     const userName = resultParseBody.data.email.split('@')[0];
 
-    const response: AuthResponse = {
+    const response: AuthCookie = {
       email: resultParseBody.data.email,
       username: userName,
       firstName: resultParseBody.data.firstName,
@@ -267,7 +267,7 @@ router.post('/login', async (req, res) => {
 
     await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
-    const response: AuthResponse = {
+    const response: AuthCookie = {
       email: foundUser.email,
       username: foundUser.username,
       firstName: foundUser.firstName,
@@ -553,7 +553,7 @@ router.post('/google', async (req, res) => {
 
     const storageInfo = await getStorageInfoByUserId(foundUser.id);
 
-    const response: AuthResponse = {
+    const response: AuthCookie = {
       email: foundUser.email,
       username: foundUser.username,
       firstName: foundUser.firstName,
