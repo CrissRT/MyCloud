@@ -18,7 +18,6 @@ import {
 } from '@server/db';
 import { createResetToken, deleteResetTokenByUserId, getResetTokenByUserId } from '@server/db/resetTokens';
 import {
-  AuthCookie,
   CommonResponse,
   forgotPasswordSchema,
   googleOAuthSchema,
@@ -98,42 +97,40 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await hash(resultParseBody.data.password, SALT_ROUNDS);
     const userName = resultParseBody.data.email.split('@')[0];
 
-    const response: AuthCookie = {
-      email: resultParseBody.data.email,
-      username: userName,
-      firstName: resultParseBody.data.firstName,
-      lastName: resultParseBody.data.lastName,
-      role: $Enums.roleEnum.user,
-      sex: resultParseBody.data.sex,
-      birthDate: resultParseBody.data.birthDate,
-      storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
-      usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
-    };
-
     // Create generalPreferences for the user
     const allowedLanguages: $Enums.languageEnum[] = ['ro', 'ru', 'en'];
     const language = allowedLanguages.find((l) => l === req.i18n.language) || 'en';
 
     // Create user with all related records in a single transaction
-    const { filename: profileName } = await generateDefaultProfileImage(
-      response.firstName,
-      response.lastName,
-      response.username
+    const { filename: profileImagePath } = await generateDefaultProfileImage(
+      resultParseBody.data.firstName,
+      resultParseBody.data.lastName,
+      userName
     );
     const createdUser = await createUserAndStorageAndPreferences({
-      email: response.email,
-      username: response.username,
-      firstName: response.firstName,
-      lastName: response.lastName,
+      email: resultParseBody.data.email,
+      username: userName,
+      firstName: resultParseBody.data.firstName,
+      lastName: resultParseBody.data.lastName,
       password: hashedPassword,
-      role: response.role,
-      sex: response.sex,
-      birthDate: response.birthDate,
+      role: $Enums.roleEnum.user,
+      sex: resultParseBody.data.sex,
+      birthDate: resultParseBody.data.birthDate,
       language,
-      profileName
+      profileImagePath
     });
 
-    const userSessionCookie = getSerializedUserSessionCookie(response);
+    const userSessionCookie = getSerializedUserSessionCookie({
+      email: createdUser.email,
+      username: createdUser.username,
+      firstName: createdUser.firstName,
+      lastName: createdUser.lastName,
+      role: createdUser.role,
+      sex: createdUser.sex,
+      birthDate: createdUser.birthDate,
+      storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
+      usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE)
+    });
 
     // Create a session for the user
     await createSession({
@@ -146,6 +143,11 @@ router.post('/register', async (req, res) => {
       banStart: null,
       banDurationMinutes: null
     });
+
+    const response: CommonResponse = {
+      message: req.t('success.registration'),
+      success: true
+    };
 
     setCookieHeader(res, userSessionCookie);
     res.status(201).json(response);
@@ -267,16 +269,9 @@ router.post('/login', async (req, res) => {
 
     await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
-    const response: AuthCookie = {
-      email: foundUser.email,
-      username: foundUser.username,
-      firstName: foundUser.firstName,
-      lastName: foundUser.lastName,
-      role: foundUser.role,
-      sex: foundUser.sex,
-      birthDate: foundUser.birthDate,
-      storageSpaceInMB: String(foundStorage.storageSpaceInMB),
-      usedStorageInBytes: String(foundStorage.usedStorageInBytes)
+    const response: CommonResponse = {
+      message: req.t('success.login'),
+      success: true
     };
 
     setCookieHeader(res, userCookie);
@@ -426,7 +421,12 @@ router.post('/reset-password', async (req, res) => {
     // Delete the reset token from the database
     await deleteResetTokenByUserId(user.id);
 
-    res.status(204).end();
+    const response: CommonResponse = {
+      message: req.t('success.resetPassword'),
+      success: true
+    };
+
+    res.status(204).json(response);
   } catch (error) {
     console.error('Error during reset password:', error);
     res.status(500).json({
@@ -500,7 +500,7 @@ router.post('/google', async (req, res) => {
       const randomPassword = await hash(crypto.randomUUID(), SALT_ROUNDS);
       const userName = email.split('@')[0];
 
-      let profileName: string;
+      let profileImagePath: string;
       if (profilePicture) {
         // Fetch the image data from the URL and convert to Buffer
         const response = await fetch(profilePicture);
@@ -531,10 +531,10 @@ router.post('/google', async (req, res) => {
           `${profilePicture}${convertMimeTypeToFileExtension(String(mimeType))}`,
           buffer
         );
-        profileName = filename;
+        profileImagePath = filename;
       } else {
         const { filename } = await generateDefaultProfileImage(givenName, familyName, userName);
-        profileName = filename;
+        profileImagePath = filename;
       }
 
       // Create user with all related records in a single transaction
@@ -548,13 +548,13 @@ router.post('/google', async (req, res) => {
         sex: $Enums.sexEnum.other, // Default since Google doesn't provide this
         birthDate: dayjs('1990-01-01').toDate(), // Default since Google doesn't provide this
         language: language,
-        profileName
+        profileImagePath
       });
     } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
     const storageInfo = await getStorageInfoByUserId(foundUser.id);
 
-    const response: AuthCookie = {
+    const userSessionCookie = getSerializedUserSessionCookie({
       email: foundUser.email,
       username: foundUser.username,
       firstName: foundUser.firstName,
@@ -564,9 +564,7 @@ router.post('/google', async (req, res) => {
       birthDate: foundUser.birthDate,
       storageSpaceInMB: String(storageInfo?.storageSpaceInMB || DEFAULT_STORAGE_SPACE_IN_MB),
       usedStorageInBytes: String(storageInfo?.usedStorageInBytes || DEFAULT_USED_STORAGE_SPACE)
-    };
-
-    const userSessionCookie = getSerializedUserSessionCookie(response);
+    });
 
     // Create or update session
     const foundSession = await findRelevantSession(ip, deviceInfo, foundUser.id);
@@ -594,6 +592,11 @@ router.post('/google', async (req, res) => {
         banDurationMinutes: null
       });
     }
+
+    const response: CommonResponse = {
+      message: req.t('success.login'),
+      success: true
+    };
 
     setCookieHeader(res, userSessionCookie);
     res.status(200).json(response);

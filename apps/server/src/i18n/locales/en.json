@@ -20,6 +20,10 @@
   },
 
   "success": {
-    "resetPasswordEmailSent": "Reset password email sent successfully"
+    "resetPasswordEmailSent": "Reset password email sent successfully",
+    "login": "Login successful",
+    "registration": "Registration successful",
+    "forgotPassword": "Forgot password request processed successfully",
+    "resetPassword": "Password reset successfully"
   }
 }

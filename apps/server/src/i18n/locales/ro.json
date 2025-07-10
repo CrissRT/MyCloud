@@ -20,6 +20,10 @@
   },
 
   "success": {
-    "resetPasswordEmailSent": "Emailul pentru resetarea parolei a fost trimis cu succes"
+    "resetPasswordEmailSent": "Emailul pentru resetarea parolei a fost trimis cu succes",
+    "login": "Autentificare reușită",
+    "registration": "Înregistrare reușită",
+    "forgotPassword": "Cererea de uitare a parolei a fost procesată cu succes",
+    "resetPassword": "Parola a fost resetată cu succes"
   }
 }
