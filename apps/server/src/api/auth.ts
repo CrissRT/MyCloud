@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 import {
   commonResponseSchema,
   errors,
@@ -67,7 +65,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/reset-password',
     alias: 'resetPassword',
-    response: z.void(),
+    response: commonResponseSchema,
     status: 204,
     description: 'Reset user password',
     errors: errors,
