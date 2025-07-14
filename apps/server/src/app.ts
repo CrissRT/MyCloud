@@ -5,7 +5,7 @@ import { serve, setup } from 'swagger-ui-express';
 import { authApi } from '@server/api';
 import { zodMiddleware } from '@server/api/middlewares';
 import { i18n } from '@server/i18n/i18n';
-import { authRouter } from '@server/routes';
+import { accountRouter, authRouter } from '@server/routes';
 import { getFrontendUrl, getHostNameOfServer, getPortOfServer, prisma } from '@server/utils';
 import { zodiosApp } from '@zodios/express';
 import { openApiBuilder } from '@zodios/openapi';
@@ -24,6 +24,7 @@ app.use(handle(i18n));
 app.use(zodMiddleware);
 
 app.use('/auth', authRouter);
+app.use('/account', accountRouter);
 
 const swaggerDocument = openApiBuilder({
   title: 'User API',
@@ -34,7 +35,7 @@ const swaggerDocument = openApiBuilder({
   .addSecurityScheme('cookieAuth', {
     type: 'apiKey',
     in: 'cookie',
-    name: 'user_session' // Your actual cookie name
+    name: 'user_session'
   })
   .addPublicApi(authApi)
   // .addProtectedApi('cookieAuth', userApi)
