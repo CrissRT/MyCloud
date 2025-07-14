@@ -82,6 +82,19 @@ CREATE TABLE "notifications" (
     "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL
 );
 
+-- Folders
+CREATE TABLE "folders" (
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER REFERENCES "users"("id") ON DELETE CASCADE NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "sizeBytes" BIGINT NOT NULL DEFAULT 0,
+    "parentFolderId" INTEGER REFERENCES "folders"("id") ON DELETE CASCADE,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+    "isFavorite" BOOLEAN NOT NULL DEFAULT FALSE,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT FALSE
+);
+
 -- Files
 CREATE TABLE "files" (
     "id" SERIAL PRIMARY KEY,
@@ -107,15 +120,3 @@ CREATE TABLE "filesSharable" (
     "shareLinkExpire" TIMESTAMP WITH TIME ZONE
 );
 
--- Folders
-CREATE TABLE "folders" (
-    "id" SERIAL PRIMARY KEY,
-    "userId" INTEGER REFERENCES "users"("id") ON DELETE CASCADE NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "sizeBytes" BIGINT NOT NULL DEFAULT 0,
-    "parentFolderId" INTEGER REFERENCES "folders"("id") ON DELETE CASCADE,
-    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
-    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
-    "isFavorite" BOOLEAN NOT NULL DEFAULT FALSE,
-    "isDeleted" BOOLEAN NOT NULL DEFAULT FALSE
-);
