@@ -16,7 +16,9 @@
     "invalidGoogleToken": "Tokenul OAuth Google este invalid",
     "missingGoogleUserInfo": "Informațiile necesare ale utilizatorului Google lipsesc",
     "invalidImageType": "Tip de fișier imagine invalid. Sunt permise doar JPEG, PNG, GIF și WebP",
-    "fileTooLarge": "Fișierul este prea mare sau depășește dimensiunea maximă permisă de planul tău curent"
+    "fileTooLarge": "Fișierul este prea mare sau depășește dimensiunea maximă permisă de planul tău curent",
+    "authenticationFailed": "Autentificare necesară - nu s-a găsit cookie de sesiune",
+    "invalidSessionCookie": "Cookie de sesiune invalid"
   },
 
   "success": {
