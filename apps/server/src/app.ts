@@ -2,7 +2,7 @@ import cors from 'cors';
 import { handle } from 'i18next-http-middleware';
 import { serve, setup } from 'swagger-ui-express';
 
-import { authApi } from '@server/api';
+import { accountApi, authApi } from '@server/api';
 import { zodMiddleware } from '@server/api/middlewares';
 import { i18n } from '@server/i18n/i18n';
 import { accountRouter, authRouter } from '@server/routes';
@@ -38,7 +38,7 @@ const swaggerDocument = openApiBuilder({
     name: 'user_session'
   })
   .addPublicApi(authApi)
-  // .addProtectedApi('cookieAuth', userApi)
+  .addProtectedApi('cookieAuth', accountApi)
   .build();
 
 app.get('/docs/swagger.json', (_req, res) => {
