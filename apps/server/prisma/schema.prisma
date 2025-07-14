@@ -34,6 +34,8 @@ model users {
   sex                     sexEnum                  @default(other)
   profileImage            String
   createdAt               DateTime                 @default(now()) @db.Timestamptz(6)
+  files                   files[]
+  folders                 folders[]
   notificationPreferences notificationPreferences?
   notifications           notifications[]
   preferences             preferences?
@@ -85,6 +87,49 @@ model storage {
   storageSpaceInMB   BigInt @default(15360)
   usedStorageInBytes BigInt @default(0)
   users              users  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model files {
+  id             Int              @id @default(autoincrement())
+  userId         Int
+  parentFolderId Int?
+  name           String           @db.VarChar(255)
+  originalName   String           @db.VarChar(255)
+  filePath       String
+  mimeType       String           @db.VarChar(128)
+  sizeBytes      BigInt           @default(0)
+  uploadStatus   uploadStatusEnum @default(processing)
+  createdAt      DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime         @default(now()) @db.Timestamptz(6)
+  isFavorite     Boolean          @default(false)
+  isDeleted      Boolean          @default(false)
+  folders        folders?         @relation(fields: [parentFolderId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users          users            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  filesSharable  filesSharable[]
+}
+
+model filesSharable {
+  id              Int       @id @default(autoincrement())
+  fileId          Int
+  shareLink       String
+  shareLinkExpire DateTime? @db.Timestamptz(6)
+  files           files     @relation(fields: [fileId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model folders {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  name           String    @db.VarChar(255)
+  sizeBytes      BigInt    @default(0)
+  parentFolderId Int?
+  createdAt      DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime  @default(now()) @db.Timestamptz(6)
+  isFavorite     Boolean   @default(false)
+  isDeleted      Boolean   @default(false)
+  files          files[]
+  folders        folders?  @relation("foldersTofolders", fields: [parentFolderId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  other_folders  folders[] @relation("foldersTofolders")
+  users          users     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 enum appearanceEnum {
