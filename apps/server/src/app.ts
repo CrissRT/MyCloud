@@ -8,7 +8,7 @@ import { i18n } from '@server/i18n/i18n';
 import { authRouter } from '@server/routes';
 import { getFrontendUrl, getHostNameOfServer, getPortOfServer, prisma } from '@server/utils';
 import { zodiosApp } from '@zodios/express';
-import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
+import { openApiBuilder } from '@zodios/openapi';
 
 const app = zodiosApp();
 
@@ -31,15 +31,31 @@ const swaggerDocument = openApiBuilder({
   description: 'A simple user API'
 })
   .addServer({ url: '/' })
-  .addSecurityScheme('admin', bearerAuthScheme())
+  .addSecurityScheme('cookieAuth', {
+    type: 'apiKey',
+    in: 'cookie',
+    name: 'user_session' // Your actual cookie name
+  })
   .addPublicApi(authApi)
+  // .addProtectedApi('cookieAuth', userApi)
   .build();
 
 app.get('/docs/swagger.json', (_req, res) => {
   res.json(swaggerDocument);
 });
 app.use('/docs', serve);
-app.use('/docs', setup(undefined, { swaggerUrl: '/docs/swagger.json' }));
+app.use(
+  '/docs',
+  setup(undefined, {
+    swaggerUrl: '/docs/swagger.json',
+    swaggerOptions: {
+      // Show cookie authentication option in UI
+      persistAuthorization: true,
+      // This tells Swagger UI to include cookies in requests
+      withCredentials: true
+    }
+  })
+);
 
 const PORT = getPortOfServer();
 const HOSTNAME = getHostNameOfServer();

@@ -1,3 +1,4 @@
+import express from 'express';
 import { z } from 'zod';
 
 import { storageSchema } from './storage';
@@ -74,3 +75,7 @@ export const googleOAuthSchema = z.object({
 });
 
 export type GoogleOAuth = z.infer<typeof googleOAuthSchema>;
+
+export type AuthenticatedRequest = express.Request & {
+  user?: AuthCookie;
+};
