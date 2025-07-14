@@ -36,20 +36,20 @@ export const authenticateWithCookie = async (req: AuthenticatedRequest, res: Res
     // Parse the user session data
     const userData = JSON.parse(userSession);
 
-    if (!userData) {
+    if (!userData || !userData.email) {
       res.status(401).json({ code: ErrorCodes.INVALID_RECORD, message: req.t('errors.invalidSessionCookie') });
       return;
     }
 
     // Check if the user session is cached
-    if (userEmailCache.has(userData.user.email)) {
-      req.user = userData.user;
+    if (userEmailCache.has(userData.email)) {
+      req.user = userData;
       next();
       return;
     }
 
     // If not cached, fetch user data from the database
-    const userFromDb = await getUserByEmail(userData.user.email);
+    const userFromDb = await getUserByEmail(userData.email);
 
     if (!userFromDb) {
       res.status(401).json({ code: ErrorCodes.INVALID_RECORD, message: req.t('errors.invalidSessionCookie') });
@@ -60,7 +60,7 @@ export const authenticateWithCookie = async (req: AuthenticatedRequest, res: Res
     userEmailCache.add(userFromDb.email);
 
     // Attach user data to request for use in route handlers
-    req.user = userData.user;
+    req.user = userData;
     next();
   } catch {
     res.status(401).json({ code: ErrorCodes.INVALID_RECORD, message: req.t('errors.invalidSessionCookie') });

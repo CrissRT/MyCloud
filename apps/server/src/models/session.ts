@@ -27,3 +27,15 @@ export const sessionCreateSchema = sessionSchema.pick({
 });
 
 export type SessionCreate = z.infer<typeof sessionCreateSchema>;
+
+export const sessionUpdateSchema = sessionSchema.pick({
+  deviceInfo: true,
+  ip: true,
+  cookie: true,
+  lastActive: true,
+  loginAttempts: true,
+  banDurationMinutes: true,
+  banStart: true
+});
+
+export type SessionUpdate = z.infer<typeof sessionUpdateSchema>;
