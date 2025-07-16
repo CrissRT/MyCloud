@@ -78,13 +78,15 @@ export type PostAuthGoogleResponse = {
 };
 
 export type GetAccountMeResponse = {
+    id: number;
     email: string;
     username: string;
     firstName: string;
     lastName: string;
-    role: 'admin' | 'user';
     sex: 'male' | 'female' | 'other';
     birthDate: string;
+    role: 'admin' | 'user';
+    profileImage: string;
     storageSpaceInMB: string;
     usedStorageInBytes: string;
 };
@@ -2567,13 +2569,15 @@ export type $OpenApiTs = {
                  * Success
                  */
                 200: {
+                    id: number;
                     email: string;
                     username: string;
                     firstName: string;
                     lastName: string;
-                    role: 'admin' | 'user';
                     sex: 'male' | 'female' | 'other';
                     birthDate: string;
+                    role: 'admin' | 'user';
+                    profileImage: string;
                     storageSpaceInMB: string;
                     usedStorageInBytes: string;
                 };
