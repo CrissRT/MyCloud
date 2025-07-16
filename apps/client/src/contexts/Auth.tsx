@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { createContext, PropsWithChildren, useState } from 'react';
+import { createContext, PropsWithChildren, useState, useEffect } from 'react';
 import { GetAccountMeResponse } from '@client/api/openapi/requests';
 import { guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
 import { useMeServiceGetAccountMe } from '@client/api/openapi/queries';
@@ -17,8 +17,12 @@ export const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const { data: userData } = useMeServiceGetAccountMe();
-  const [user, setUser] = useState(userData || null);
+  const [user, setUser] = useState<GetAccountMeResponse | null>(userData || null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (userData) setUser(userData);
+  }, [userData]);
 
   const login = async () => {
     router.push(protectedRoutes.dashboard);

@@ -7,7 +7,7 @@ import { PromiseLanguage, protectedRoutes } from '@client/utils';
 import { faBell, faHouse, faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ProfileButtons } from './components';
+import { AdminNavButton, ProfileButtons } from './components';
 
 interface Props extends PropsWithChildren {
   params: PromiseLanguage;
@@ -37,11 +37,7 @@ const DashboardLayout = async ({ children, params }: Props) => {
             <NavButton href={'#'} icon={faTrash}>
               {t('common.trash')}
             </NavButton>
-            {/* {user && user.role === 'admin' && (
-              <NavButton href={'#'} icon={faUserShield}>
-                {t('common.admin')}
-              </NavButton>
-            )} */}
+            <AdminNavButton />
           </nav>
         </div>
       </aside>
