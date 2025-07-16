@@ -78,7 +78,6 @@ export type PostAuthGoogleResponse = {
 };
 
 export type GetAccountMeResponse = {
-    id: number;
     email: string;
     username: string;
     firstName: string;
@@ -2569,7 +2568,6 @@ export type $OpenApiTs = {
                  * Success
                  */
                 200: {
-                    id: number;
                     email: string;
                     username: string;
                     firstName: string;
