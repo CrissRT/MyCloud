@@ -2,7 +2,7 @@ import { ThemeProvider } from 'next-themes';
 
 import { PropsWithChildren } from 'react';
 import { NotificationContainer } from '@client/components';
-import { getGoogleSSOClientId, getUser, PromiseLanguage } from '@client/utils';
+import { getGoogleSSOClientId, PromiseLanguage } from '@client/utils';
 import { config } from '@fortawesome/fontawesome-svg-core';
 
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -24,25 +24,24 @@ const RootLayout = async ({
   params: PromiseLanguage;
 } & PropsWithChildren) => {
   const { lng } = await params;
-  const user = await getUser();
 
   return (
     <html lang={lng} suppressHydrationWarning className="h-full w-full min-w-[320px] min-h-full">
       <body className="antialiased w-full h-full text-(--text-primary) min-h-full">
-        <AuthProvider client={user}>
-          <GoogleOAuthProvider clientId={getGoogleSSOClientId()}>
-            <AppI18nextProvider>
-              <QueryClientContext>
+        <QueryClientContext>
+          <AuthProvider>
+            <GoogleOAuthProvider clientId={getGoogleSSOClientId()}>
+              <AppI18nextProvider>
                 <APIProvider>
                   <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
                     {children}
                     <NotificationContainer />
                   </ThemeProvider>
                 </APIProvider>
-              </QueryClientContext>
-            </AppI18nextProvider>
-          </GoogleOAuthProvider>
-        </AuthProvider>
+              </AppI18nextProvider>
+            </GoogleOAuthProvider>
+          </AuthProvider>
+        </QueryClientContext>
       </body>
     </html>
   );

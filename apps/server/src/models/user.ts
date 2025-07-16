@@ -23,7 +23,6 @@ export type User = z.infer<typeof userSchema>;
 
 export const profileSchema = userSchema
   .pick({
-    id: true,
     email: true,
     username: true,
     firstName: true,
@@ -33,7 +32,7 @@ export const profileSchema = userSchema
     role: true
   })
   .extend({
-    profileImage: z.string()
+    profileImage: z.string().base64()
   })
   .merge(
     storageSchema.pick({

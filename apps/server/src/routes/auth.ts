@@ -102,7 +102,7 @@ router.post('/register', async (req, res) => {
     const language = allowedLanguages.find((l) => l === req.i18n.language) || 'en';
 
     // Create user with all related records in a single transaction
-    const { filename: profileImagePath } = await generateDefaultProfileImage(
+    const profileImageName = await generateDefaultProfileImage(
       resultParseBody.data.firstName,
       resultParseBody.data.lastName,
       userName
@@ -117,7 +117,7 @@ router.post('/register', async (req, res) => {
       sex: resultParseBody.data.sex,
       birthDate: resultParseBody.data.birthDate,
       language,
-      profileImagePath
+      profileImageName
     });
 
     const userSessionCookie = getSerializedUserSessionCookie({
@@ -520,7 +520,7 @@ router.post('/google', async (req, res) => {
       const randomPassword = await hash(crypto.randomUUID(), SALT_ROUNDS);
       const userName = email.split('@')[0];
 
-      let profileImagePath: string;
+      let profileImageName: string;
       if (profilePicture) {
         // Fetch the image data from the URL and convert to Buffer
         const response = await fetch(profilePicture);
@@ -551,10 +551,10 @@ router.post('/google', async (req, res) => {
           `${profilePicture}${convertMimeTypeToFileExtension(String(mimeType))}`,
           buffer
         );
-        profileImagePath = filename;
+        profileImageName = filename;
       } else {
-        const { filename } = await generateDefaultProfileImage(givenName, familyName, userName);
-        profileImagePath = filename;
+        const filename = await generateDefaultProfileImage(givenName, familyName, userName);
+        profileImageName = filename;
       }
 
       // Create user with all related records in a single transaction
@@ -568,7 +568,7 @@ router.post('/google', async (req, res) => {
         sex: $Enums.sexEnum.other, // Default since Google doesn't provide this
         birthDate: dayjs('1990-01-01').toDate(), // Default since Google doesn't provide this
         language: language,
-        profileImagePath
+        profileImageName
       });
     } else await updateGeneralPreferenceByUserId(foundUser.id, { language });
 

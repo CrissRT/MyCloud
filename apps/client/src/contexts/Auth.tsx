@@ -2,33 +2,25 @@
 
 import { useRouter } from 'next/navigation';
 
-import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { PostAuthRegisterResponse } from '@client/api/openapi/requests';
-import { getUser, guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
+import { createContext, PropsWithChildren, useState } from 'react';
+import { GetAccountMeResponse } from '@client/api/openapi/requests';
+import { guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
+import { useMeServiceGetAccountMe } from '@client/api/openapi/queries';
 
 interface AuthContextProps {
-  user: PostAuthRegisterResponse | null;
+  user: GetAccountMeResponse | null;
   logOut: () => Promise<void>;
   login: () => Promise<void>;
 }
 
-interface Props extends PropsWithChildren {
-  client: PostAuthRegisterResponse | null;
-}
-
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
-export const AuthProvider = ({ children, client }: Props) => {
-  const [user, setUser] = useState<PostAuthRegisterResponse | null>(client);
+export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const { data: userData } = useMeServiceGetAccountMe();
+  const [user, setUser] = useState(userData || null);
   const router = useRouter();
 
-  // Sync initial client prop (from SSR) to state
-  useEffect(() => {
-    setUser(client);
-  }, [client]);
-
   const login = async () => {
-    const userData = await getUser();
     router.push(protectedRoutes.dashboard);
     if (userData) setUser(userData);
   };
@@ -36,8 +28,7 @@ export const AuthProvider = ({ children, client }: Props) => {
   const logOut = async () => {
     await logOutUser();
     router.push(guestRoutes.login);
-    // Delay to ensure logout is processed before clearing user state
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay to ensure logout is processed
+    // await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay to ensure logout is processed
     setUser(null);
   };
 

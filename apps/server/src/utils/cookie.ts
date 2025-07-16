@@ -1,9 +1,10 @@
 import cookie from 'cookie';
 import { NextFunction, Response } from 'express';
 
-import { getUserByEmail } from '@server/db';
 import { AuthCookie, AuthenticatedRequest } from '@server/models';
 import { ErrorCodes } from '@shared/types';
+
+import { findRelevantSession } from './session';
 
 const userEmailCache = new Set<string>();
 
@@ -33,7 +34,6 @@ export const authenticateWithCookie = async (req: AuthenticatedRequest, res: Res
       return;
     }
 
-    // Parse the user session data
     const userData = JSON.parse(userSession);
 
     if (!userData || !userData.email) {
@@ -41,25 +41,21 @@ export const authenticateWithCookie = async (req: AuthenticatedRequest, res: Res
       return;
     }
 
-    // Check if the user session is cached
     if (userEmailCache.has(userData.email)) {
       req.user = userData;
       next();
       return;
     }
 
-    // If not cached, fetch user data from the database
-    const userFromDb = await getUserByEmail(userData.email);
+    const userSessionDB = await findRelevantSession(userData.ip, userData.deviceInfo, userData.id);
 
-    if (!userFromDb) {
+    if (!userSessionDB) {
       res.status(401).json({ code: ErrorCodes.INVALID_RECORD, message: req.t('errors.invalidSessionCookie') });
       return;
     }
 
-    // Cache the user email
-    userEmailCache.add(userFromDb.email);
+    userEmailCache.add(userData.email);
 
-    // Attach user data to request for use in route handlers
     req.user = userData;
     next();
   } catch {
