@@ -9,8 +9,6 @@ import { findRelevantSession } from './session';
 
 const userEmailCache = new Cache();
 
-
-
 const maxAgeCookie = 60 * 60 * 24 * 7; // 1 week
 const cookieOptions = {
   httpOnly: true,

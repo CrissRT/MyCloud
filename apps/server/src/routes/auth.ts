@@ -446,7 +446,7 @@ router.post('/reset-password', async (req, res) => {
       success: true
     };
 
-    res.status(204).json(response);
+    res.status(200).json(response);
   } catch (error) {
     console.error('Error during reset password:', error);
     res.status(500).json({

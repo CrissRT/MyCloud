@@ -1,6 +1,6 @@
 interface CacheEntry {
   timestamp: number;
-  email: string;
+  record: string | number;
 }
 
 const CACHE_MAX_SIZE = 1000;
@@ -17,53 +17,53 @@ export class Cache {
     this.cacheTtl = cacheTtl;
   }
 
-  has(email: string): boolean {
-    const entry = this.cache.get(email);
+  has(record: string): boolean {
+    const entry = this.cache.get(record);
     if (!entry) return false;
 
     if (Date.now() - entry.timestamp > this.cacheTtl) {
-      this.delete(email);
+      this.delete(record);
       return false;
     }
 
-    this.moveToEnd(email);
+    this.moveToEnd(record);
     return true;
   }
 
-  add(email: string): void {
-    if (this.cache.has(email)) this.delete(email);
+  add(record: string): void {
+    if (this.cache.has(record)) this.delete(record);
 
     while (this.cache.size >= this.cacheMaxSize) {
       const oldestEmail = this.accessOrder.shift();
       if (oldestEmail) this.cache.delete(oldestEmail);
     }
 
-    this.cache.set(email, {
+    this.cache.set(record, {
       timestamp: Date.now(),
-      email
+      record
     });
 
-    this.accessOrder.push(email);
+    this.accessOrder.push(record);
   }
 
-  private delete(email: string) {
-    this.cache.delete(email);
-    const index = this.accessOrder.indexOf(email);
+  private delete(record: string) {
+    this.cache.delete(record);
+    const index = this.accessOrder.indexOf(record);
     if (index > -1) this.accessOrder.splice(index, 1);
   }
 
-  private moveToEnd(email: string) {
-    const index = this.accessOrder.indexOf(email);
+  private moveToEnd(record: string) {
+    const index = this.accessOrder.indexOf(record);
     if (index > -1) {
       this.accessOrder.splice(index, 1);
-      this.accessOrder.push(email);
+      this.accessOrder.push(record);
     }
   }
 
   cleanup() {
     const now = Date.now();
-    for (const [email, entry] of this.cache.entries()) {
-      if (now - entry.timestamp > this.cacheTtl) this.delete(email);
+    for (const [record, entry] of this.cache.entries()) {
+      if (now - entry.timestamp > this.cacheTtl) this.delete(record);
     }
   }
 
