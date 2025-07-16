@@ -4,9 +4,12 @@ import { NextFunction, Response } from 'express';
 import { AuthCookie, AuthenticatedRequest } from '@server/models';
 import { ErrorCodes } from '@shared/types';
 
+import { Cache } from './cache';
 import { findRelevantSession } from './session';
 
-const userEmailCache = new Set<string>();
+const userEmailCache = new Cache();
+
+
 
 const maxAgeCookie = 60 * 60 * 24 * 7; // 1 week
 const cookieOptions = {
