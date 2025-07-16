@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       await logOutUser();
       queryClient.clear();
     } catch (error) {
-      console.error('Logout failed:', error);
       toast.error(t('errors.logout'));
     } finally {
       router.push(guestRoutes.login);
