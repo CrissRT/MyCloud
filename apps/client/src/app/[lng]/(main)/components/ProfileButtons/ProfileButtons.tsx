@@ -14,9 +14,7 @@ export const ProfileButtons = () => {
   const router = useRouter();
   const { user, logOut } = useAuth();
 
-  const profileImageSrc = user?.profileImage && `data:image/jpeg;base64,${user.profileImage}`;
-
-  if (!user || !profileImageSrc)
+  if (!user || !user?.profileImage)
     return (
       <SkeletonTheme baseColor="var(--bg-color)" highlightColor="var(--secondary-bg-color)">
         <Skeleton count={1} height={32} width={120} />
@@ -29,7 +27,7 @@ export const ProfileButtons = () => {
         children: (
           <div className="flex items-center gap-2">
             <Image
-              src={profileImageSrc}
+              src={user?.profileImage}
               alt={`${user?.firstName} ${user?.lastName}`}
               width={32}
               height={32}
@@ -41,7 +39,7 @@ export const ProfileButtons = () => {
       }}
       options={[
         { label: t('common.settings'), value: 'settings', onClick: () => router.push(protectedRoutes.settings) },
-        { label: t('auth.logOut'), value: 'logOut', onClick: () => logOut() }
+        { label: t('auth.logOut'), value: 'logOut', onClick: async () => await logOut() }
       ]}
     />
   );

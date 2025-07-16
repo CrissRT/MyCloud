@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useState, useEffect } from 'react';
 import { GetAccountMeResponse } from '@client/api/openapi/requests';
 import { guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
-import { useMeServiceGetAccountMe } from '@client/api/openapi/queries';
+import { useMeServiceGetAccountMe, useMeServiceGetAccountMeKey } from '@client/api/openapi/queries';
+import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 interface AuthContextProps {
   user: GetAccountMeResponse | null;
@@ -19,6 +22,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const { data: userData } = useMeServiceGetAccountMe();
   const [user, setUser] = useState<GetAccountMeResponse | null>(userData || null);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (userData) setUser(userData);
@@ -26,14 +31,20 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = async () => {
     router.push(protectedRoutes.dashboard);
-    if (userData) setUser(userData);
+    queryClient.invalidateQueries({ queryKey: [useMeServiceGetAccountMeKey] });
   };
 
   const logOut = async () => {
-    await logOutUser();
-    router.push(guestRoutes.login);
-    // await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay to ensure logout is processed
-    setUser(null);
+    try {
+      setUser(null);
+      await logOutUser();
+      queryClient.clear();
+    } catch (error) {
+      console.error('Logout failed:', error);
+      toast.error(t('errors.logout'));
+    } finally {
+      router.push(guestRoutes.login);
+    }
   };
 
   return <AuthContext.Provider value={{ user, logOut, login }}>{children}</AuthContext.Provider>;

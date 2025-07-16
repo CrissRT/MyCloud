@@ -84,6 +84,7 @@
       "goHomePage": "Mergeți la pagina principală",
       "goBack": "Înapoi"
     },
+    "logout": "Deconectarea a eșuat, vă rugăm să reîmprospătați pagina și să încercați din nou.",
     "somethingWentWrong": "Ceva a mers prost, vă rugăm să încercați din nou mai târziu."
   }
 }

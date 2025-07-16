@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import dayjs from 'dayjs';
 import fs from 'fs/promises';
+import mime from 'mime-types';
 import path from 'path';
 
 import { DEFAULT_STORAGE_SPACE_IN_MB, UPLOADS_BASE_DIR } from './constants';
@@ -117,20 +118,8 @@ export const deleteAllUserFiles = async (username: string) => {
 
 export const isValidProfileImageType = (mimeType: string) => mimeType.toLowerCase().includes('image/');
 
-/**
- * Validates file size
- * @param sizeBytes - File size in bytes
- * @returns Boolean indicating if file size is within limits
- */
 export const isValidFileSize = (sizeBytes: number) => BigInt(sizeBytes) <= DEFAULT_STORAGE_SPACE_IN_MB * 1024n * 1024n;
 
-/**
- * Generates a default profile image with user initials
- * @param firstName - User's first name
- * @param lastName - User's last name
- * @param username - User's username (used for filename)
- * @returns File path information for the generated image
- */
 export const generateDefaultProfileImage = async (firstName: string, lastName: string, username: string) => {
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 
@@ -179,7 +168,7 @@ export const generateDefaultProfileImage = async (firstName: string, lastName: s
   const profileDir = path.join(userDir, 'profile');
   await fs.mkdir(profileDir, { recursive: true });
 
-  const filename = `default_avatar_${dayjs().valueOf()}.png`;
+  const filename = `default_avatar_${dayjs().valueOf()}.svg`;
   const filePath = path.join(profileDir, filename);
 
   await fs.writeFile(filePath, svgContent, 'utf8');
@@ -191,7 +180,8 @@ export const getProfileImageInBase64 = async (username: string, filename: string
   const filePath = path.join(UPLOADS_BASE_DIR, username, 'profile', filename);
   try {
     const fileBuffer = await fs.readFile(filePath);
-    return fileBuffer.toString('base64');
+    const mimeType = mime.lookup(filename) || 'image/jpeg';
+    return `data:${mimeType};base64,${fileBuffer.toString('base64')}`;
   } catch {
     return '';
   }
