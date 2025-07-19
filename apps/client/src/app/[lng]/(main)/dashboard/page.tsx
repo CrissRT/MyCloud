@@ -2,6 +2,9 @@
 
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
+import { iconsMap } from '@client/utils';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
 const Page = () => {
@@ -25,9 +28,28 @@ const Page = () => {
     <>
       <DashboardHeader title="Dashboard" layout={layout} onChangeLayout={onChangeLayout} />
       <div className="pt-4">
-        {layout === 'grid' && (
+        {layout === 'grid' ? (
           <div className="grid-auto-fill-200 gap-6">
             <ItemGrid link="#" title="Projects" description="4 items" icon="folder" />
+          </div>
+        ) : (
+          <div>
+            <div className="font-bold text-(--text-secondary) grid-5-cols gap-4 px-4 py-3 rounded-2xl border-b-1 border-(--border-color)">
+              <span>Name</span>
+              <span>Genre</span>
+              <span>Size</span>
+              <span>Modified</span>
+              <span></span>
+            </div>
+            <div className="text-(--text-primary) grid-5-cols px-4 py-3 gap-4 rounded-2xl border-b-1 border-(--border-color) cursor-pointer hover:bg-(--secondary-bg-color)">
+              <span className="text-ellipsis overflow-hidden">
+                <FontAwesomeIcon icon={iconsMap.folder.icon} color={iconsMap.folder.color} /> Action Movie.mp4
+              </span>
+              <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
+              <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
+              <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
+              <span className="text-ellipsis overflow-hidden"><FontAwesomeIcon icon={faEllipsis} /></span>
+            </div>
           </div>
         )}
       </div>

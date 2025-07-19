@@ -16,4 +16,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
+
+  .grid-5-cols {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+  }
 }
+

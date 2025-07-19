@@ -1,3 +1,11 @@
+import {
+  faFileAudio,
+  faFileImage,
+  faFilePdf,
+  faFileVideo,
+  faFileZipper,
+  faFolder
+} from '@fortawesome/free-solid-svg-icons';
 import { ImageProps } from 'next/image';
 
 import { ButtonHTMLAttributes, InputHTMLAttributes, LabelHTMLAttributes, PropsWithChildren } from 'react';
@@ -50,3 +58,30 @@ export type ButtonProps = {
   loading?: boolean;
 } & PropsWithChildren &
   ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const iconsMap = {
+  folder: {
+    icon: faFolder,
+    color: '#fbbf24'
+  },
+  archive: {
+    icon: faFileZipper,
+    color: '#a78bfa'
+  },
+  pdf: {
+    icon: faFilePdf,
+    color: '#ef4444'
+  },
+  image: {
+    icon: faFileImage,
+    color: '#f472b6'
+  },
+  audio: {
+    icon: faFileAudio,
+    color: '#34d399'
+  },
+  video: {
+    icon: faFileVideo,
+    color: '#60a5fa'
+  }
+};
