@@ -21,6 +21,7 @@ import {
   CommonResponse,
   forgotPasswordSchema,
   googleOAuthSchema,
+  Profile,
   registerSchema,
   resetPasswordSchema,
   Session,
@@ -144,9 +145,17 @@ router.post('/register', async (req, res) => {
       banDurationMinutes: null
     });
 
-    const response: CommonResponse = {
-      message: req.t('success.registration'),
-      success: true
+    const response: Profile = {
+      email: createdUser.email,
+      username: createdUser.username,
+      firstName: createdUser.firstName,
+      lastName: createdUser.lastName,
+      role: createdUser.role,
+      sex: createdUser.sex,
+      birthDate: createdUser.birthDate,
+      storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
+      usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE),
+      profileImage: createdUser.profileImage
     };
 
     setCookieHeader(res, userSessionCookie);
@@ -289,9 +298,17 @@ router.post('/login', async (req, res) => {
 
     await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
-    const response: CommonResponse = {
-      message: req.t('success.login'),
-      success: true
+    const response: Profile = {
+      email: foundUser.email,
+      username: foundUser.username,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+      sex: foundUser.sex,
+      birthDate: foundUser.birthDate,
+      storageSpaceInMB: String(foundStorage.storageSpaceInMB),
+      usedStorageInBytes: String(foundStorage.usedStorageInBytes),
+      profileImage: foundUser.profileImage
     };
 
     setCookieHeader(res, userCookie);
@@ -612,9 +629,17 @@ router.post('/google', async (req, res) => {
       });
     }
 
-    const response: CommonResponse = {
-      message: req.t('success.login'),
-      success: true
+    const response: Profile = {
+      email: foundUser.email,
+      username: foundUser.username,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+      sex: foundUser.sex,
+      birthDate: foundUser.birthDate,
+      storageSpaceInMB: String(storageInfo?.storageSpaceInMB || DEFAULT_STORAGE_SPACE_IN_MB),
+      usedStorageInBytes: String(storageInfo?.usedStorageInBytes || DEFAULT_USED_STORAGE_SPACE),
+      profileImage: foundUser.profileImage
     };
 
     setCookieHeader(res, userSessionCookie);

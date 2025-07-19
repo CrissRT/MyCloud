@@ -23,8 +23,6 @@
 
   "success": {
     "resetPasswordEmailSent": "Emailul pentru resetarea parolei a fost trimis cu succes",
-    "login": "Autentificare reușită",
-    "registration": "Înregistrare reușită",
     "resetPassword": "Parola a fost resetată cu succes"
   }
 }

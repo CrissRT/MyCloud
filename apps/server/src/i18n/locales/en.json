@@ -23,8 +23,6 @@
 
   "success": {
     "resetPasswordEmailSent": "Reset password email sent successfully",
-    "login": "Login successful",
-    "registration": "Registration successful",
     "resetPassword": "Password reset successfully"
   }
 }
