@@ -40,10 +40,17 @@ const iconsMap = {
   }
 };
 
-export const ItemGrid = () => {
+interface Props {
+  link: string;
+  title: string;
+    description: string;
+    icon: keyof typeof iconsMap;
+}
+
+export const ItemGrid = ({ link, title, description, icon }: Props) => {
   return (
     <Link
-      href="#"
+      href={link}
       className="rounded-lg border border-(--border-color) bg-(--secondary-bg-color) p-6 cursor-pointer relative flex flex-col items-center justify-center gap-4"
     >
       <div className="absolute top-2 right-4">
@@ -59,10 +66,10 @@ export const ItemGrid = () => {
           button={{ children: <FontAwesomeIcon icon={faEllipsisVertical} /> }}
         />
       </div>
-      <FontAwesomeIcon icon={iconsMap.image.icon} color={iconsMap.image.color} className="text-8xl" />
+      <FontAwesomeIcon icon={iconsMap[icon].icon} color={iconsMap[icon].color} className="text-8xl" />
       <div className="flex flex-col">
-        <p className="text-(--text-primary)">Projects</p>
-        <p className="text-(--text-secondary)">4 items</p>
+        <p className="text-(--text-primary)">{title}</p>
+        <p className="text-(--text-secondary)">{description}</p>
       </div>
     </Link>
   );

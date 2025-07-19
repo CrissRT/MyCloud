@@ -8,7 +8,7 @@ const Page = () => {
     <>
       <DashboardHeader title="Dashboard" />
       <div className='pt-4'>
-        <ItemGrid />
+        <ItemGrid link="#" title="Projects" description="4 items" icon="folder" />
       </div>
     </>
   );
