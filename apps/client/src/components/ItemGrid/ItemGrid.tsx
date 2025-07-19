@@ -43,8 +43,8 @@ const iconsMap = {
 interface Props {
   link: string;
   title: string;
-    description: string;
-    icon: keyof typeof iconsMap;
+  description: string;
+  icon: keyof typeof iconsMap;
 }
 
 export const ItemGrid = ({ link, title, description, icon }: Props) => {
@@ -53,7 +53,7 @@ export const ItemGrid = ({ link, title, description, icon }: Props) => {
       href={link}
       className="rounded-lg border border-(--border-color) bg-(--secondary-bg-color) p-6 cursor-pointer relative flex flex-col items-center justify-center gap-4"
     >
-      <div className="absolute top-2 right-4">
+      <div className="absolute top-2 right-4 min-w-4">
         <Dropdown
           options={[
             { icon: <FontAwesomeIcon icon={faStar} />, label: 'Favorite', value: 'favorite' },
@@ -63,7 +63,8 @@ export const ItemGrid = ({ link, title, description, icon }: Props) => {
               value: 'share'
             }
           ]}
-          button={{ children: <FontAwesomeIcon icon={faEllipsisVertical} /> }}
+          button={{ children: <FontAwesomeIcon icon={faEllipsisVertical} />, width: 'full', align: 'center' }}
+          size="sm"
         />
       </div>
       <FontAwesomeIcon icon={iconsMap[icon].icon} color={iconsMap[icon].color} className="text-5xl" />

@@ -315,6 +315,13 @@ export const Dropdown = ({
     xl: { padding: 'py-5 px-6', text: 'text-xl', height: 'h-14' }
   };
 
+  const iconOptionClasses = {
+    sm: 'mr-2',
+    md: 'mr-3',
+    lg: 'mr-4',
+    xl: 'mr-5'
+  };
+
   const sizeClasses = {
     sm: `${baseSizeClasses.sm.padding} ${baseSizeClasses.sm.text} ${baseSizeClasses.sm.height}`,
     md: `${baseSizeClasses.md.padding} ${baseSizeClasses.md.text} ${baseSizeClasses.md.height}`,
@@ -514,7 +521,7 @@ export const Dropdown = ({
                       )}
                       onClick={() => onOptionSelect(option)}
                     >
-                      {option.icon && <span className="mr-2">{option.icon}</span>}
+                      {option.icon && <span className={classNames(iconOptionClasses[size])}>{option.icon}</span>}
                       <span className="flex-1 text-(--text-primary) text-nowrap">{option.label}</span>
                       {isSelected && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-(--primary)" />}
                     </div>
