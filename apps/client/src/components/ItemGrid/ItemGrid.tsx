@@ -15,33 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { useTranslation } from 'react-i18next';
-
-const iconsMap = {
-  folder: {
-    icon: faFolder,
-    color: '#fbbf24'
-  },
-  archive: {
-    icon: faFileZipper,
-    color: '#a78bfa'
-  },
-  pdf: {
-    icon: faFilePdf,
-    color: '#ef4444'
-  },
-  image: {
-    icon: faFileImage,
-    color: '#f472b6'
-  },
-  audio: {
-    icon: faFileAudio,
-    color: '#34d399'
-  },
-  video: {
-    icon: faFileVideo,
-    color: '#60a5fa'
-  }
-};
+import { iconsMap } from '@client/utils';
 
 interface Props {
   link: string;
