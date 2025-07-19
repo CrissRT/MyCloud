@@ -42,8 +42,7 @@ const Page = () => {
             </div>
             <div className="text-(--text-primary) grid-5-cols px-4 py-3 gap-4 rounded border-b-1 border-(--border-color)">
               <span className="text-ellipsis overflow-hidden">
-                <FontAwesomeIcon icon={iconsMap.folder.icon} color={iconsMap.folder.color} />
-                Action Movie.mp4
+                <FontAwesomeIcon icon={iconsMap.folder.icon} color={iconsMap.folder.color} /> Action Movie.mp4
               </span>
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
