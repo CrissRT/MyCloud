@@ -1,23 +1,66 @@
 # My Cloud
 
-A project for personal/enterprise cloud storage.
+A personal/enterprise cloud storage solution built with modern web technologies.
 
 ## Project Summary
 
-This project is a full-stack personal cloud storage solution. It allows users to securely store, manage, and access their files online. The system is built with a modern web stack, including:
+This project is a full-stack personal cloud storage solution that enables users to securely store, manage, and access their files online. The system provides a complete cloud storage experience with robust authentication, file management, and internationalization features.
 
-- **Frontend:** Next.js (React)
+### Tech Stack
+
+- **Frontend:** Next.js 15 (React 19) with TypeScript
 - **Backend:** Express.js with Prisma ORM and PostgreSQL
-- **Shared:** Common utilities and types shared between client and server
-- **Dev Tools:** TypeScript, ESLint, Prettier, Husky, Commitlint, and more
+- **Database:** PostgreSQL with Prisma migrations
+- **Authentication:** Cookie-based sessions with Google OAuth integration
+- **Styling:** TailwindCSS with dark/light theme support
+- **Internationalization:** i18next with support for English, Romanian, and Russian
+- **File Storage:** Local file system with organized user directories
+- **Development:** TypeScript, ESLint, Prettier, Husky, Commitlint
 
 ## Features
 
-- User authentication and secure login
-- File upload, download, and management
-- Storage quota enforcement
-- Account lockout and security measures
-- Internationalization support
+### 🔐 Authentication & Security
+
+- **User Registration & Login:** Secure email/password authentication
+- **Google OAuth Integration:** Single sign-on with Google accounts
+- **Session Management:** Cookie-based sessions with device tracking
+- **Account Security:** Progressive lockout system with ban tiers
+- **Password Reset:** Email-based password recovery
+- **User Profiles:** Customizable profile images with auto-generated avatars
+
+### 📁 File Management
+
+- **File Upload/Download:** Secure file handling with MIME type validation
+- **Storage Quotas:** 15GB default storage per user with usage tracking
+- **File Organization:** Folder-based file structure
+- **File Sharing:** Shareable links with expiration dates
+- **File Operations:** Rename, delete, move, and organize files
+- **Storage Monitoring:** Real-time storage usage tracking
+
+### 🌍 Internationalization
+
+- **Multi-language Support:** English, Romanian, and Russian
+- **Dynamic Language Switching:** Runtime language changes
+- **Localized Content:** All UI elements and error messages
+- **Server-side i18n:** Consistent translations across client and server
+
+### 🎨 User Interface
+
+- **Responsive Design:** Mobile-first responsive layout
+- **Dark/Light Themes:** System preference detection and manual toggle
+- **Modern Components:** Reusable UI components library
+- **Dashboard:** Intuitive file management interface
+- **Notifications:** Toast notifications for user feedback
+- **Loading States:** Skeleton loading and spinners
+
+### 🔧 Technical Features
+
+- **Type Safety:** Full TypeScript implementation
+- **API Documentation:** Auto-generated OpenAPI/Swagger documentation
+- **Code Generation:** Automatic API client generation
+- **Form Validation:** Zod schema validation with i18n error messages
+- **State Management:** React Query for server state management
+- **Error Handling:** Comprehensive error handling and logging
 
 ## Getting Started
 
