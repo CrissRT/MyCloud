@@ -3,6 +3,7 @@
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
 import { iconsMap } from '@client/utils';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
@@ -47,7 +48,7 @@ const Page = () => {
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
-              <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
+              <span className="text-ellipsis overflow-hidden"><FontAwesomeIcon icon={faEllipsis} /></span>
             </div>
           </div>
         )}
