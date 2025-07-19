@@ -7,8 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@client/components';
 import { faCheck, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ButtonProps } from '@client/utils';
 
 export interface DropdownOption {
+  icon?: React.ReactNode;
   value: string | number;
   label: string;
   disabled?: boolean;
@@ -41,7 +43,7 @@ interface BaseProps {
   button?: {
     children: React.ReactNode | string;
     showIcon?: true;
-  };
+  } & ButtonProps;
   input?: React.InputHTMLAttributes<HTMLInputElement> & {
     ref?: (instance: HTMLInputElement | null) => void;
   };
@@ -349,6 +351,7 @@ export const Dropdown = ({
           <Button
             variant="text"
             align="left"
+            {...button}
             onClick={onClick}
             disabled={disabled}
             icon={
@@ -365,7 +368,7 @@ export const Dropdown = ({
         ) : (
           <div
             className={classNames(
-              'appearance-none w-full rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) cursor-pointer outline-none flex items-center justify-between',
+              'appearance-none text-nowrap w-full rounded-xl border border-(--border-color) focus-within:border-(--border-hover) bg-transparent text-(--text-primary) cursor-pointer outline-none flex items-center justify-between',
               sizeClasses[size],
               {
                 'opacity-50 cursor-not-allowed': disabled,
@@ -511,7 +514,8 @@ export const Dropdown = ({
                       )}
                       onClick={() => onOptionSelect(option)}
                     >
-                      <span className="flex-1 text-(--text-primary)">{option.label}</span>
+                      {option.icon && <span className="mr-2">{option.icon}</span>}
+                      <span className="flex-1 text-(--text-primary) text-nowrap">{option.label}</span>
                       {isSelected && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-(--primary)" />}
                     </div>
                   );
