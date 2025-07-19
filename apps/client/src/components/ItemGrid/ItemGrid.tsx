@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { Dropdown } from '../Dropdown/Dropdown';
+import { useTranslation } from 'react-i18next';
 
 const iconsMap = {
   folder: {
@@ -48,6 +49,8 @@ interface Props {
 }
 
 export const ItemGrid = ({ link, title, description, icon }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <Link
       href={link}
@@ -64,10 +67,10 @@ export const ItemGrid = ({ link, title, description, icon }: Props) => {
             }
           ]}
           button={{
-            children: <FontAwesomeIcon icon={faEllipsisVertical} />,
+            children: <FontAwesomeIcon icon={faEllipsisVertical} scale="100%" />,
             width: 'full',
             align: 'center',
-            "aria-label": 'More options'
+            'aria-label': t('common.selectOptions')
           }}
           size="sm"
         />
