@@ -10,9 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {
   parents?: string[];
   title: string;
+  layout: 'grid' | 'list';
+  onChangeLayout: (value: string) => void;
 }
 
-export const DashboardHeader = ({ parents, title }: Props) => {
+export const DashboardHeader = ({ parents, title, layout, onChangeLayout }: Props) => {
   const parentsSlice = parents?.slice(-2) || [];
   const { t } = useTranslation();
 
@@ -54,7 +56,8 @@ export const DashboardHeader = ({ parents, title }: Props) => {
             { value: 'grid', icon: <FontAwesomeIcon icon={faTableCellsLarge} /> },
             { value: 'list', icon: <FontAwesomeIcon icon={faList} /> }
           ]}
-          value="grid"
+          value={layout}
+          onChange={(value) => onChangeLayout(value)}
           size="sm"
         />
 
