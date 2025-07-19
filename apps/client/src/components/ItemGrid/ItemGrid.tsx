@@ -63,7 +63,12 @@ export const ItemGrid = ({ link, title, description, icon }: Props) => {
               value: 'share'
             }
           ]}
-          button={{ children: <FontAwesomeIcon icon={faEllipsisVertical} />, width: 'full', align: 'center' }}
+          button={{
+            children: <FontAwesomeIcon icon={faEllipsisVertical} />,
+            width: 'full',
+            align: 'center',
+            "aria-label": 'More options'
+          }}
           size="sm"
         />
       </div>
