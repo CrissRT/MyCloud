@@ -66,7 +66,7 @@ export const ItemGrid = ({ link, title, description, icon }: Props) => {
           button={{ children: <FontAwesomeIcon icon={faEllipsisVertical} /> }}
         />
       </div>
-      <FontAwesomeIcon icon={iconsMap[icon].icon} color={iconsMap[icon].color} className="text-8xl" />
+      <FontAwesomeIcon icon={iconsMap[icon].icon} color={iconsMap[icon].color} className="text-5xl" />
       <div className="flex flex-col">
         <p className="text-(--text-primary)">{title}</p>
         <p className="text-(--text-secondary)">{description}</p>
