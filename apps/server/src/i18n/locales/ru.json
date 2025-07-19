@@ -16,10 +16,13 @@
     "invalidGoogleToken": "Недействительный токен OAuth Google",
     "missingGoogleUserInfo": "Отсутствуют необходимые данные пользователя Google",
     "invalidImageType": "Недопустимый тип файла изображения. Разрешены только JPEG, PNG, GIF и WebP",
-    "fileTooLarge": "Файл слишком большой или превышает максимальный размер, разрешенный вашим текущим тарифным планом"
+    "fileTooLarge": "Файл слишком большой или превышает максимальный размер, разрешенный вашим текущим тарифным планом",
+    "authenticationFailed": "Требуется аутентификация - не найден cookie сессии",
+    "invalidSessionCookie": "Недействительный cookie сессии"
   },
 
   "success": {
-    "resetPasswordEmailSent": "Письмо для сброса пароля успешно отправлено"
+    "resetPasswordEmailSent": "Письмо для сброса пароля успешно отправлено",
+    "resetPassword": "Пароль успешно сброшен"
   }
 }

@@ -2,13 +2,13 @@ import cors from 'cors';
 import { handle } from 'i18next-http-middleware';
 import { serve, setup } from 'swagger-ui-express';
 
-import { authApi } from '@server/api';
+import { accountApi, authApi } from '@server/api';
 import { zodMiddleware } from '@server/api/middlewares';
 import { i18n } from '@server/i18n/i18n';
-import { authRouter } from '@server/routes';
+import { accountRouter, authRouter } from '@server/routes';
 import { getFrontendUrl, getHostNameOfServer, getPortOfServer, prisma } from '@server/utils';
 import { zodiosApp } from '@zodios/express';
-import { bearerAuthScheme, openApiBuilder } from '@zodios/openapi';
+import { openApiBuilder } from '@zodios/openapi';
 
 const app = zodiosApp();
 
@@ -24,6 +24,7 @@ app.use(handle(i18n));
 app.use(zodMiddleware);
 
 app.use('/auth', authRouter);
+app.use('/account', accountRouter);
 
 const swaggerDocument = openApiBuilder({
   title: 'User API',
@@ -31,15 +32,31 @@ const swaggerDocument = openApiBuilder({
   description: 'A simple user API'
 })
   .addServer({ url: '/' })
-  .addSecurityScheme('admin', bearerAuthScheme())
+  .addSecurityScheme('cookieAuth', {
+    type: 'apiKey',
+    in: 'cookie',
+    name: 'user_session'
+  })
   .addPublicApi(authApi)
+  .addProtectedApi('cookieAuth', accountApi)
   .build();
 
 app.get('/docs/swagger.json', (_req, res) => {
   res.json(swaggerDocument);
 });
 app.use('/docs', serve);
-app.use('/docs', setup(undefined, { swaggerUrl: '/docs/swagger.json' }));
+app.use(
+  '/docs',
+  setup(undefined, {
+    swaggerUrl: '/docs/swagger.json',
+    swaggerOptions: {
+      // Show cookie authentication option in UI
+      persistAuthorization: true,
+      // This tells Swagger UI to include cookies in requests
+      withCredentials: true
+    }
+  })
+);
 
 const PORT = getPortOfServer();
 const HOSTNAME = getHostNameOfServer();

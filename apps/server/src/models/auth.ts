@@ -1,3 +1,4 @@
+import express from 'express';
 import { z } from 'zod';
 
 import { storageSchema } from './storage';
@@ -20,7 +21,7 @@ export const userLoginSchema = userSchema.pick({
 });
 export type Login = z.infer<typeof userLoginSchema>;
 
-export const authResponseSchema = userSchema
+export const authCookieSchema = userSchema
   .pick({
     email: true,
     username: true,
@@ -42,7 +43,7 @@ export const authResponseSchema = userSchema
     usedStorageInBytes: String(user.usedStorageInBytes)
   }));
 
-export type AuthResponse = z.infer<typeof authResponseSchema>;
+export type AuthCookie = z.infer<typeof authCookieSchema>;
 
 export const forgotPasswordSchema = userSchema.pick({
   email: true
@@ -50,11 +51,12 @@ export const forgotPasswordSchema = userSchema.pick({
 
 export type ForgotPassword = z.infer<typeof forgotPasswordSchema>;
 
-export const forgotPasswordResponseSchema = z.object({
-  message: z.string()
+export const commonResponseSchema = z.object({
+  message: z.string(),
+  success: z.boolean()
 });
 
-export type ForgotPasswordResponse = z.infer<typeof forgotPasswordResponseSchema>;
+export type CommonResponse = z.infer<typeof commonResponseSchema>;
 
 export const resetPasswordSchema = z
   .object({
@@ -73,3 +75,7 @@ export const googleOAuthSchema = z.object({
 });
 
 export type GoogleOAuth = z.infer<typeof googleOAuthSchema>;
+
+export type AuthenticatedRequest = express.Request & {
+  user?: AuthCookie;
+};

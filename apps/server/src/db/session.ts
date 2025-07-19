@@ -1,4 +1,4 @@
-import { SessionCreate } from '@server/models';
+import { SessionCreate, SessionUpdate } from '@server/models';
 import { prisma } from '@server/utils';
 
 export const getSessionById = async (id: number) => {
@@ -41,7 +41,7 @@ export const createSession = async (data: SessionCreate) => {
   return session;
 };
 
-export const updateSessionById = async (id: number, data: SessionCreate) => {
+export const updateSessionById = async (id: number, data: SessionUpdate) => {
   const updatedSession = await prisma.sessions.update({
     where: { id },
     data

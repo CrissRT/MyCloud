@@ -3,42 +3,52 @@
 import { useRouter } from 'next/navigation';
 
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { PostAuthRegisterResponse } from '@client/api/openapi/requests';
-import { getUser, guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
+import { GetAccountMeResponse, PostAuthLoginResponse } from '@client/api/openapi/requests';
+import { getUserLocalStorage, guestRoutes, logOutUser, protectedRoutes, setUserLocalStorage } from '@client/utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { useMeServiceGetAccountMe } from '@client/api/openapi/queries';
 
 interface AuthContextProps {
-  user: PostAuthRegisterResponse | null;
+  user: GetAccountMeResponse | null;
   logOut: () => Promise<void>;
-  login: () => Promise<void>;
-}
-
-interface Props extends PropsWithChildren {
-  client: PostAuthRegisterResponse | null;
+  login: (data: PostAuthLoginResponse) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
-export const AuthProvider = ({ children, client }: Props) => {
-  const [user, setUser] = useState<PostAuthRegisterResponse | null>(client);
+export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const { data: userData, isPending } = useMeServiceGetAccountMe();
+  const [user, setUser] = useState<PostAuthLoginResponse | null>(getUserLocalStorage);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
-  // Sync initial client prop (from SSR) to state
   useEffect(() => {
-    setUser(client);
-  }, [client]);
+    // Fallback to localStorage if userData is not available
+    if (userData && !isPending) {
+      setUser(userData);
+      setUserLocalStorage(userData);
+    }
+  }, [userData, isPending]);
 
-  const login = async () => {
-    const userData = await getUser();
+  const login = async (data: PostAuthLoginResponse) => {
+    setUser(data);
+    setUserLocalStorage(data);
     router.push(protectedRoutes.dashboard);
-    if (userData) setUser(userData);
   };
 
   const logOut = async () => {
-    await logOutUser();
-    router.push(guestRoutes.login);
-    // Delay to ensure logout is processed before clearing user state
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay to ensure logout is processed
-    setUser(null);
+    try {
+      setUser(null);
+      await logOutUser();
+      queryClient.clear();
+    } catch (error) {
+      toast.error(t('errors.logout'));
+    } finally {
+      router.push(guestRoutes.login);
+    }
   };
 
   return <AuthContext.Provider value={{ user, logOut, login }}>{children}</AuthContext.Provider>;

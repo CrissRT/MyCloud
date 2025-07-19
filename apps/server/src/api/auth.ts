@@ -1,9 +1,6 @@
-import { z } from 'zod';
-
 import {
-  authResponseSchema,
+  commonResponseSchema,
   errors,
-  forgotPasswordResponseSchema,
   forgotPasswordSchema,
   googleOAuthSchema,
   registerSchema,
@@ -12,12 +9,14 @@ import {
 } from '@server/models';
 import { makeApi } from '@zodios/core';
 
+import { profileSchema } from '../models/user';
+
 export const authApi = makeApi([
   {
     method: 'post',
     path: '/auth/register',
     alias: 'register',
-    response: authResponseSchema,
+    response: profileSchema,
     status: 201,
     description: 'Register a new user',
     errors: errors,
@@ -34,7 +33,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/login',
     alias: 'login',
-    response: authResponseSchema,
+    response: profileSchema,
     status: 200,
     description: 'Login a user',
     errors: errors,
@@ -51,7 +50,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/forgot-password',
     alias: 'forgotPassword',
-    response: forgotPasswordResponseSchema,
+    response: commonResponseSchema,
     status: 200,
     description: 'Send forgot password email',
     errors: errors,
@@ -68,7 +67,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/reset-password',
     alias: 'resetPassword',
-    response: z.void(),
+    response: commonResponseSchema,
     status: 204,
     description: 'Reset user password',
     errors: errors,
@@ -85,7 +84,7 @@ export const authApi = makeApi([
     method: 'post',
     path: '/auth/google',
     alias: 'googleOAuth',
-    response: authResponseSchema,
+    response: profileSchema,
     status: 200,
     description: 'Login or register a user with Google OAuth',
     errors: errors,

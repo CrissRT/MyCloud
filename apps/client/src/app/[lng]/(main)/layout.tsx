@@ -3,18 +3,17 @@ import Image from 'next/image';
 import { PropsWithChildren } from 'react';
 import { Dropdown, NavButton } from '@client/components';
 import createServerI18n from '@client/i18n/i18n.server';
-import { getUser, PromiseLanguage, protectedRoutes } from '@client/utils';
-import { faBell, faHouse, faStar, faTrash, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { PromiseLanguage, protectedRoutes } from '@client/utils';
+import { faBell, faHouse, faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ProfileButtons } from './components';
+import { AdminNavButton, ProfileButtons } from './components';
 
 interface Props extends PropsWithChildren {
   params: PromiseLanguage;
 }
 
 const DashboardLayout = async ({ children, params }: Props) => {
-  const user = await getUser();
   const { lng } = await params;
   const { t } = await createServerI18n(lng);
 
@@ -38,11 +37,7 @@ const DashboardLayout = async ({ children, params }: Props) => {
             <NavButton href={'#'} icon={faTrash}>
               {t('common.trash')}
             </NavButton>
-            {user && user.role === 'admin' && (
-              <NavButton href={'#'} icon={faUserShield}>
-                {t('common.admin')}
-              </NavButton>
-            )}
+            <AdminNavButton />
           </nav>
         </div>
       </aside>

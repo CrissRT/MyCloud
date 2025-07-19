@@ -16,10 +16,13 @@
     "invalidGoogleToken": "Invalid Google OAuth token",
     "missingGoogleUserInfo": "Missing required Google user information",
     "invalidImageType": "Invalid image file type. Only JPEG, PNG, GIF, and WebP are allowed",
-    "fileTooLarge": "File is too large or exceeds the maximum size your current plan allows"
+    "fileTooLarge": "File is too large or exceeds the maximum size your current plan allows",
+    "authenticationFailed": "Authentication required - no session cookie found",
+    "invalidSessionCookie": "Invalid session cookie"
   },
 
   "success": {
-    "resetPasswordEmailSent": "Reset password email sent successfully"
+    "resetPasswordEmailSent": "Reset password email sent successfully",
+    "resetPassword": "Password reset successfully"
   }
 }

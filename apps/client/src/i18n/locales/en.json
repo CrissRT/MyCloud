@@ -84,6 +84,7 @@
       "goHomePage": "Go to Homepage",
       "goBack": "Go Back"
     },
+    "logout": "Log out went wrong, please refresh the page and try again.",
     "somethingWentWrong": "Something went wrong, please try again later."
   }
 }
