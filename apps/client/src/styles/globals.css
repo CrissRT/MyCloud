@@ -10,3 +10,10 @@
   --warning-hover: #d97706;
   --font-sans: 'Inter', sans-serif;
 }
+
+@layer utilities {
+  .grid-auto-fill-200 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}

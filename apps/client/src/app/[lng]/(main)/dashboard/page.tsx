@@ -25,7 +25,11 @@ const Page = () => {
     <>
       <DashboardHeader title="Dashboard" layout={layout} onChangeLayout={onChangeLayout} />
       <div className="pt-4">
-        {layout === 'grid' && <ItemGrid link="#" title="Projects" description="4 items" icon="folder" />}
+        {layout === 'grid' && (
+          <div className="grid-auto-fill-200 gap-6">
+            <ItemGrid link="#" title="Projects" description="4 items" icon="folder" />
+          </div>
+        )}
       </div>
     </>
   );
