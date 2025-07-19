@@ -1,24 +1,35 @@
 'use client';
 
-import dayjs from 'dayjs';
-
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
-import { useAuth } from '@client/hooks';
+import { ItemGrid } from '@client/components';
+import { useState } from 'react';
 
 const Page = () => {
-  const { user } = useAuth();
+  const [layout, setLayout] = useState<'grid' | 'list'>('grid');
+  // TODO : fetch layout from user preferences or default to 'grid'
+
+  const onChangeLayout = (value: string) => {
+    switch (value) {
+      case 'grid':
+        setLayout('grid');
+        break;
+      case 'list':
+        setLayout('list');
+        break;
+      default:
+        setLayout('grid');
+    }
+  };
 
   return (
     <>
-      <DashboardHeader title="Dashboard" />
-      <div>
-        <h1>
-          Welcome, {user?.firstName} {user?.lastName}!
-        </h1>
-        <p>Email: {user?.email}</p>
-        <p>Role: {user?.role}</p>
-        <p>Sex: {user?.sex}</p>
-        <p>Birth date: {dayjs(user?.birthDate).format('MMMM D, YYYY')}</p>
+      <DashboardHeader title="Dashboard" layout={layout} onChangeLayout={onChangeLayout} />
+      <div className="pt-4">
+        {layout === 'grid' && (
+          <div className="grid-auto-fill-200 gap-6">
+            <ItemGrid link="#" title="Projects" description="4 items" icon="folder" />
+          </div>
+        )}
       </div>
     </>
   );
