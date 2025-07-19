@@ -2,10 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 
-import { createContext, PropsWithChildren, useState, useEffect } from 'react';
+import { createContext, PropsWithChildren, useState } from 'react';
 import { GetAccountMeResponse, PostAuthLoginResponse } from '@client/api/openapi/requests';
-import { guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
-import { useMeServiceGetAccountMe, useMeServiceGetAccountMeKey } from '@client/api/openapi/queries';
+import { getUserLocalStorage, guestRoutes, logOutUser, protectedRoutes, setUserLocalStorage } from '@client/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -19,18 +18,14 @@ interface AuthContextProps {
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const { data: userData, isPending } = useMeServiceGetAccountMe();
-  const [user, setUser] = useState<GetAccountMeResponse | null>(userData || null);
+  const [user, setUser] = useState<PostAuthLoginResponse | null>(getUserLocalStorage);
   const router = useRouter();
   const queryClient = useQueryClient();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (userData && !isPending) setUser(userData);
-  }, [userData]);
-
   const login = async (data: PostAuthLoginResponse) => {
     setUser(data);
+    setUserLocalStorage(data);
     router.push(protectedRoutes.dashboard);
   };
 

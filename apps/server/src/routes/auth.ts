@@ -37,6 +37,7 @@ import {
   findRelevantSession,
   generateDefaultProfileImage,
   getNextBanDuration,
+  getProfileImageInBase64,
   getSaltRounds,
   getSerializedUserSessionCookie,
   isBanned,
@@ -155,7 +156,7 @@ router.post('/register', async (req, res) => {
       birthDate: createdUser.birthDate,
       storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
       usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE),
-      profileImage: createdUser.profileImage
+      profileImage: await getProfileImageInBase64(createdUser.username, profileImageName)
     };
 
     setCookieHeader(res, userSessionCookie);
@@ -308,7 +309,7 @@ router.post('/login', async (req, res) => {
       birthDate: foundUser.birthDate,
       storageSpaceInMB: String(foundStorage.storageSpaceInMB),
       usedStorageInBytes: String(foundStorage.usedStorageInBytes),
-      profileImage: foundUser.profileImage
+      profileImage: await getProfileImageInBase64(foundUser.username, foundUser.profileImage)
     };
 
     setCookieHeader(res, userCookie);
@@ -639,7 +640,7 @@ router.post('/google', async (req, res) => {
       birthDate: foundUser.birthDate,
       storageSpaceInMB: String(storageInfo?.storageSpaceInMB || DEFAULT_STORAGE_SPACE_IN_MB),
       usedStorageInBytes: String(storageInfo?.usedStorageInBytes || DEFAULT_USED_STORAGE_SPACE),
-      profileImage: foundUser.profileImage
+      profileImage: await getProfileImageInBase64(foundUser.username, foundUser.profileImage)
     };
 
     setCookieHeader(res, userSessionCookie);
