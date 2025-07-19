@@ -34,14 +34,14 @@ const Page = () => {
           </div>
         ) : (
           <div>
-            <div className="font-bold text-(--text-secondary) grid-5-cols gap-4 px-4 py-3 rounded border-b-1 border-(--border-color)">
+            <div className="font-bold text-(--text-secondary) grid-5-cols gap-4 px-4 py-3 rounded-2xl border-b-1 border-(--border-color)">
               <span>Name</span>
               <span>Genre</span>
               <span>Size</span>
               <span>Modified</span>
               <span></span>
             </div>
-            <div className="text-(--text-primary) grid-5-cols px-4 py-3 gap-4 rounded border-b-1 border-(--border-color)">
+            <div className="text-(--text-primary) grid-5-cols px-4 py-3 gap-4 rounded-2xl border-b-1 border-(--border-color) cursor-pointer hover:bg-(--secondary-bg-color)">
               <span className="text-ellipsis overflow-hidden">
                 <FontAwesomeIcon icon={iconsMap.folder.icon} color={iconsMap.folder.color} /> Action Movie.mp4
               </span>
