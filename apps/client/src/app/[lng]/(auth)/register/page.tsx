@@ -46,14 +46,14 @@ const Page = () => {
   });
 
   const { mutateAsync, isPending } = useRegisterServicePostAuthRegister({
-    onSuccess: async () => await login(),
+    onSuccess: async (data) => await login(data),
     onError: showApiErrors
   });
 
   const onSubmit = async (requestBody: RegisterType) => await mutateAsync({ requestBody });
 
   const { mutateAsync: googleSignIn } = useGoogleServicePostAuthGoogle({
-    onSuccess: async () => await login(),
+    onSuccess: async (data) => await login(data),
     onError: showApiErrors
   });
 
