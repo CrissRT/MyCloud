@@ -15,8 +15,16 @@ export type PostAuthRegisterData = {
 };
 
 export type PostAuthRegisterResponse = {
-    message: string;
-    success: boolean;
+    email: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    sex: 'male' | 'female' | 'other';
+    birthDate: string;
+    role: 'admin' | 'user';
+    profileImage: string;
+    storageSpaceInMB: string;
+    usedStorageInBytes: string;
 };
 
 export type PostAuthLoginData = {
@@ -30,8 +38,16 @@ export type PostAuthLoginData = {
 };
 
 export type PostAuthLoginResponse = {
-    message: string;
-    success: boolean;
+    email: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    sex: 'male' | 'female' | 'other';
+    birthDate: string;
+    role: 'admin' | 'user';
+    profileImage: string;
+    storageSpaceInMB: string;
+    usedStorageInBytes: string;
 };
 
 export type PostAuthForgotPasswordData = {
@@ -73,8 +89,16 @@ export type PostAuthGoogleData = {
 };
 
 export type PostAuthGoogleResponse = {
-    message: string;
-    success: boolean;
+    email: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    sex: 'male' | 'female' | 'other';
+    birthDate: string;
+    role: 'admin' | 'user';
+    profileImage: string;
+    storageSpaceInMB: string;
+    usedStorageInBytes: string;
 };
 
 export type GetAccountMeResponse = {
@@ -99,8 +123,16 @@ export type $OpenApiTs = {
                  * Success
                  */
                 201: {
-                    message: string;
-                    success: boolean;
+                    email: string;
+                    username: string;
+                    firstName: string;
+                    lastName: string;
+                    sex: 'male' | 'female' | 'other';
+                    birthDate: string;
+                    role: 'admin' | 'user';
+                    profileImage: string;
+                    storageSpaceInMB: string;
+                    usedStorageInBytes: string;
                 };
                 /**
                  * Error
@@ -593,8 +625,16 @@ export type $OpenApiTs = {
                  * Success
                  */
                 200: {
-                    message: string;
-                    success: boolean;
+                    email: string;
+                    username: string;
+                    firstName: string;
+                    lastName: string;
+                    sex: 'male' | 'female' | 'other';
+                    birthDate: string;
+                    role: 'admin' | 'user';
+                    profileImage: string;
+                    storageSpaceInMB: string;
+                    usedStorageInBytes: string;
                 };
                 /**
                  * Error
@@ -2075,8 +2115,16 @@ export type $OpenApiTs = {
                  * Success
                  */
                 200: {
-                    message: string;
-                    success: boolean;
+                    email: string;
+                    username: string;
+                    firstName: string;
+                    lastName: string;
+                    sex: 'male' | 'female' | 'other';
+                    birthDate: string;
+                    role: 'admin' | 'user';
+                    profileImage: string;
+                    storageSpaceInMB: string;
+                    usedStorageInBytes: string;
                 };
                 /**
                  * Error
