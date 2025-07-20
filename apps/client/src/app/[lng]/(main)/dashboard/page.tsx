@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useMeServiceGetAccountMeKey, usePreferencesServicePatchAccountPreferences } from '@client/api/openapi/queries';
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
@@ -8,8 +10,6 @@ import { iconsMap, showApiErrors } from '@client/utils';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const Page = () => {
   const { user } = useAuth();

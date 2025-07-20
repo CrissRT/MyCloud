@@ -3,12 +3,12 @@
 import { useRouter } from 'next/navigation';
 
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { GetAccountMeResponse, PostAuthLoginResponse } from '@client/api/openapi/requests';
-import { guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
-import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useMeServiceGetAccountMe } from '@client/api/openapi/queries';
+import { GetAccountMeResponse, PostAuthLoginResponse } from '@client/api/openapi/requests';
+import { guestRoutes, logOutUser, protectedRoutes } from '@client/utils';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface AuthContextProps {
   user: GetAccountMeResponse | null;
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setUser(null);
       await logOutUser();
       queryClient.clear();
-    } catch (error) {
+    } catch {
       toast.error(t('errors.logout'));
     } finally {
       router.push(guestRoutes.login);

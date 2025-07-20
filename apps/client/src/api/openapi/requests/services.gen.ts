@@ -3,434 +3,447 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { PostAuthRegisterData, PostAuthRegisterResponse, PostAuthLoginData, PostAuthLoginResponse, PostAuthForgotPasswordData, PostAuthForgotPasswordResponse, PostAuthResetPasswordData, PostAuthResetPasswordResponse, PostAuthGoogleData, PostAuthGoogleResponse, GetAccountMeResponse, PatchAccountPreferencesData, PatchAccountPreferencesResponse } from './types.gen';
+import type {
+  PostAuthRegisterData,
+  PostAuthRegisterResponse,
+  PostAuthLoginData,
+  PostAuthLoginResponse,
+  PostAuthForgotPasswordData,
+  PostAuthForgotPasswordResponse,
+  PostAuthResetPasswordData,
+  PostAuthResetPasswordResponse,
+  PostAuthGoogleData,
+  PostAuthGoogleResponse,
+  GetAccountMeResponse,
+  PatchAccountPreferencesData,
+  PatchAccountPreferencesResponse
+} from './types.gen';
 
 export class RegisterService {
-    /**
-     * Register a new user
-     * Register a new user
-     * @param data The data for the request.
-     * @param data.requestBody User registration details
-     * @returns unknown Success
-     * @throws ApiError
-     */
-    public static postAuthRegister(data: PostAuthRegisterData = {}): CancelablePromise<PostAuthRegisterResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/auth/register',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: 'Error',
-                401: 'Error',
-                402: 'Error',
-                403: 'Error',
-                404: 'Error',
-                405: 'Error',
-                406: 'Error',
-                407: 'Error',
-                408: 'Error',
-                409: 'Error',
-                410: 'Error',
-                411: 'Error',
-                412: 'Error',
-                413: 'Error',
-                414: 'Error',
-                415: 'Error',
-                416: 'Error',
-                417: 'Error',
-                418: 'Error',
-                421: 'Error',
-                422: 'Error',
-                423: 'Error',
-                424: 'Error',
-                425: 'Error',
-                426: 'Error',
-                428: 'Error',
-                429: 'Error',
-                431: 'Error',
-                451: 'Error',
-                500: 'Error',
-                501: 'Error',
-                502: 'Error',
-                503: 'Error',
-                504: 'Error',
-                505: 'Error',
-                506: 'Error',
-                507: 'Error',
-                508: 'Error',
-                510: 'Error',
-                511: 'Error'
-            }
-        });
-    }
-    
+  /**
+   * Register a new user
+   * Register a new user
+   * @param data The data for the request.
+   * @param data.requestBody User registration details
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static postAuthRegister(data: PostAuthRegisterData = {}): CancelablePromise<PostAuthRegisterResponse> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/auth/register',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
 }
 
 export class LoginService {
-    /**
-     * Login a user
-     * Login a user
-     * @param data The data for the request.
-     * @param data.requestBody User login details
-     * @returns unknown Success
-     * @throws ApiError
-     */
-    public static postAuthLogin(data: PostAuthLoginData = {}): CancelablePromise<PostAuthLoginResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/auth/login',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: 'Error',
-                401: 'Error',
-                402: 'Error',
-                403: 'Error',
-                404: 'Error',
-                405: 'Error',
-                406: 'Error',
-                407: 'Error',
-                408: 'Error',
-                409: 'Error',
-                410: 'Error',
-                411: 'Error',
-                412: 'Error',
-                413: 'Error',
-                414: 'Error',
-                415: 'Error',
-                416: 'Error',
-                417: 'Error',
-                418: 'Error',
-                421: 'Error',
-                422: 'Error',
-                423: 'Error',
-                424: 'Error',
-                425: 'Error',
-                426: 'Error',
-                428: 'Error',
-                429: 'Error',
-                431: 'Error',
-                451: 'Error',
-                500: 'Error',
-                501: 'Error',
-                502: 'Error',
-                503: 'Error',
-                504: 'Error',
-                505: 'Error',
-                506: 'Error',
-                507: 'Error',
-                508: 'Error',
-                510: 'Error',
-                511: 'Error'
-            }
-        });
-    }
-    
+  /**
+   * Login a user
+   * Login a user
+   * @param data The data for the request.
+   * @param data.requestBody User login details
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static postAuthLogin(data: PostAuthLoginData = {}): CancelablePromise<PostAuthLoginResponse> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/auth/login',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
 }
 
 export class ForgotPasswordService {
-    /**
-     * Send forgot password email
-     * Send forgot password email
-     * @param data The data for the request.
-     * @param data.requestBody User email for password reset
-     * @returns unknown Success
-     * @throws ApiError
-     */
-    public static postAuthForgotPassword(data: PostAuthForgotPasswordData = {}): CancelablePromise<PostAuthForgotPasswordResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/auth/forgot-password',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: 'Error',
-                401: 'Error',
-                402: 'Error',
-                403: 'Error',
-                404: 'Error',
-                405: 'Error',
-                406: 'Error',
-                407: 'Error',
-                408: 'Error',
-                409: 'Error',
-                410: 'Error',
-                411: 'Error',
-                412: 'Error',
-                413: 'Error',
-                414: 'Error',
-                415: 'Error',
-                416: 'Error',
-                417: 'Error',
-                418: 'Error',
-                421: 'Error',
-                422: 'Error',
-                423: 'Error',
-                424: 'Error',
-                425: 'Error',
-                426: 'Error',
-                428: 'Error',
-                429: 'Error',
-                431: 'Error',
-                451: 'Error',
-                500: 'Error',
-                501: 'Error',
-                502: 'Error',
-                503: 'Error',
-                504: 'Error',
-                505: 'Error',
-                506: 'Error',
-                507: 'Error',
-                508: 'Error',
-                510: 'Error',
-                511: 'Error'
-            }
-        });
-    }
-    
+  /**
+   * Send forgot password email
+   * Send forgot password email
+   * @param data The data for the request.
+   * @param data.requestBody User email for password reset
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static postAuthForgotPassword(
+    data: PostAuthForgotPasswordData = {}
+  ): CancelablePromise<PostAuthForgotPasswordResponse> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/auth/forgot-password',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
 }
 
 export class ResetPasswordService {
-    /**
-     * Reset user password
-     * Reset user password
-     * @param data The data for the request.
-     * @param data.requestBody User new password details
-     * @returns unknown Success
-     * @throws ApiError
-     */
-    public static postAuthResetPassword(data: PostAuthResetPasswordData = {}): CancelablePromise<PostAuthResetPasswordResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/auth/reset-password',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: 'Error',
-                401: 'Error',
-                402: 'Error',
-                403: 'Error',
-                404: 'Error',
-                405: 'Error',
-                406: 'Error',
-                407: 'Error',
-                408: 'Error',
-                409: 'Error',
-                410: 'Error',
-                411: 'Error',
-                412: 'Error',
-                413: 'Error',
-                414: 'Error',
-                415: 'Error',
-                416: 'Error',
-                417: 'Error',
-                418: 'Error',
-                421: 'Error',
-                422: 'Error',
-                423: 'Error',
-                424: 'Error',
-                425: 'Error',
-                426: 'Error',
-                428: 'Error',
-                429: 'Error',
-                431: 'Error',
-                451: 'Error',
-                500: 'Error',
-                501: 'Error',
-                502: 'Error',
-                503: 'Error',
-                504: 'Error',
-                505: 'Error',
-                506: 'Error',
-                507: 'Error',
-                508: 'Error',
-                510: 'Error',
-                511: 'Error'
-            }
-        });
-    }
-    
+  /**
+   * Reset user password
+   * Reset user password
+   * @param data The data for the request.
+   * @param data.requestBody User new password details
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static postAuthResetPassword(
+    data: PostAuthResetPasswordData = {}
+  ): CancelablePromise<PostAuthResetPasswordResponse> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/auth/reset-password',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
 }
 
 export class GoogleService {
-    /**
-     * Login or register a user with Google OAuth
-     * Login or register a user with Google OAuth
-     * @param data The data for the request.
-     * @param data.requestBody Google OAuth credential
-     * @returns unknown Success
-     * @throws ApiError
-     */
-    public static postAuthGoogle(data: PostAuthGoogleData = {}): CancelablePromise<PostAuthGoogleResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/auth/google',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: 'Error',
-                401: 'Error',
-                402: 'Error',
-                403: 'Error',
-                404: 'Error',
-                405: 'Error',
-                406: 'Error',
-                407: 'Error',
-                408: 'Error',
-                409: 'Error',
-                410: 'Error',
-                411: 'Error',
-                412: 'Error',
-                413: 'Error',
-                414: 'Error',
-                415: 'Error',
-                416: 'Error',
-                417: 'Error',
-                418: 'Error',
-                421: 'Error',
-                422: 'Error',
-                423: 'Error',
-                424: 'Error',
-                425: 'Error',
-                426: 'Error',
-                428: 'Error',
-                429: 'Error',
-                431: 'Error',
-                451: 'Error',
-                500: 'Error',
-                501: 'Error',
-                502: 'Error',
-                503: 'Error',
-                504: 'Error',
-                505: 'Error',
-                506: 'Error',
-                507: 'Error',
-                508: 'Error',
-                510: 'Error',
-                511: 'Error'
-            }
-        });
-    }
-    
+  /**
+   * Login or register a user with Google OAuth
+   * Login or register a user with Google OAuth
+   * @param data The data for the request.
+   * @param data.requestBody Google OAuth credential
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static postAuthGoogle(data: PostAuthGoogleData = {}): CancelablePromise<PostAuthGoogleResponse> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/auth/google',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
 }
 
 export class MeService {
-    /**
-     * Get current user information
-     * Get current user information
-     * @returns unknown Success
-     * @throws ApiError
-     */
-    public static getAccountMe(): CancelablePromise<GetAccountMeResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/account/me',
-            errors: {
-                400: 'Error',
-                401: 'Error',
-                402: 'Error',
-                403: 'Error',
-                404: 'Error',
-                405: 'Error',
-                406: 'Error',
-                407: 'Error',
-                408: 'Error',
-                409: 'Error',
-                410: 'Error',
-                411: 'Error',
-                412: 'Error',
-                413: 'Error',
-                414: 'Error',
-                415: 'Error',
-                416: 'Error',
-                417: 'Error',
-                418: 'Error',
-                421: 'Error',
-                422: 'Error',
-                423: 'Error',
-                424: 'Error',
-                425: 'Error',
-                426: 'Error',
-                428: 'Error',
-                429: 'Error',
-                431: 'Error',
-                451: 'Error',
-                500: 'Error',
-                501: 'Error',
-                502: 'Error',
-                503: 'Error',
-                504: 'Error',
-                505: 'Error',
-                506: 'Error',
-                507: 'Error',
-                508: 'Error',
-                510: 'Error',
-                511: 'Error'
-            }
-        });
-    }
-    
+  /**
+   * Get current user information
+   * Get current user information
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static getAccountMe(): CancelablePromise<GetAccountMeResponse> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/account/me',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
 }
 
 export class PreferencesService {
-    /**
-     * Update user preferences
-     * Update user preferences
-     * @param data The data for the request.
-     * @param data.requestBody Update user preferences
-     * @returns unknown Success
-     * @throws ApiError
-     */
-    public static patchAccountPreferences(data: PatchAccountPreferencesData = {}): CancelablePromise<PatchAccountPreferencesResponse> {
-        return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/account/preferences',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: 'Error',
-                401: 'Error',
-                402: 'Error',
-                403: 'Error',
-                404: 'Error',
-                405: 'Error',
-                406: 'Error',
-                407: 'Error',
-                408: 'Error',
-                409: 'Error',
-                410: 'Error',
-                411: 'Error',
-                412: 'Error',
-                413: 'Error',
-                414: 'Error',
-                415: 'Error',
-                416: 'Error',
-                417: 'Error',
-                418: 'Error',
-                421: 'Error',
-                422: 'Error',
-                423: 'Error',
-                424: 'Error',
-                425: 'Error',
-                426: 'Error',
-                428: 'Error',
-                429: 'Error',
-                431: 'Error',
-                451: 'Error',
-                500: 'Error',
-                501: 'Error',
-                502: 'Error',
-                503: 'Error',
-                504: 'Error',
-                505: 'Error',
-                506: 'Error',
-                507: 'Error',
-                508: 'Error',
-                510: 'Error',
-                511: 'Error'
-            }
-        });
-    }
-    
+  /**
+   * Update user preferences
+   * Update user preferences
+   * @param data The data for the request.
+   * @param data.requestBody Update user preferences
+   * @returns unknown Success
+   * @throws ApiError
+   */
+  public static patchAccountPreferences(
+    data: PatchAccountPreferencesData = {}
+  ): CancelablePromise<PatchAccountPreferencesResponse> {
+    return __request(OpenAPI, {
+      method: 'PATCH',
+      url: '/account/preferences',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: 'Error',
+        401: 'Error',
+        402: 'Error',
+        403: 'Error',
+        404: 'Error',
+        405: 'Error',
+        406: 'Error',
+        407: 'Error',
+        408: 'Error',
+        409: 'Error',
+        410: 'Error',
+        411: 'Error',
+        412: 'Error',
+        413: 'Error',
+        414: 'Error',
+        415: 'Error',
+        416: 'Error',
+        417: 'Error',
+        418: 'Error',
+        421: 'Error',
+        422: 'Error',
+        423: 'Error',
+        424: 'Error',
+        425: 'Error',
+        426: 'Error',
+        428: 'Error',
+        429: 'Error',
+        431: 'Error',
+        451: 'Error',
+        500: 'Error',
+        501: 'Error',
+        502: 'Error',
+        503: 'Error',
+        504: 'Error',
+        505: 'Error',
+        506: 'Error',
+        507: 'Error',
+        508: 'Error',
+        510: 'Error',
+        511: 'Error'
+      }
+    });
+  }
 }

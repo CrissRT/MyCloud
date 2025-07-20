@@ -11,8 +11,8 @@ config.autoAddCss = false;
 import { APIProvider, AppI18nextProvider, AuthProvider, QueryClientContext } from '@client/contexts';
 import { i18nConfig } from '@client/i18n/settings';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import 'react-loading-skeleton/dist/skeleton.css';
 
+import 'react-loading-skeleton/dist/skeleton.css';
 import '@client/styles/globals.css';
 import '@client/styles/theme.css';
 

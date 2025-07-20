@@ -1,21 +1,13 @@
-"use client"
+'use client';
 
-import {
-  faEllipsisVertical,
-  faFileAudio,
-  faFileImage,
-  faFilePdf,
-  faFileVideo,
-  faFileZipper,
-  faFolder,
-  faShareNodes,
-  faStar
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { Dropdown } from '../Dropdown/Dropdown';
+
 import { useTranslation } from 'react-i18next';
 import { iconsMap } from '@client/utils';
+import { faEllipsisVertical, faShareNodes, faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { Dropdown } from '../Dropdown/Dropdown';
 
 interface Props {
   link: string;

@@ -3,10 +3,10 @@
 import Link from 'next/link';
 
 import { useTranslation } from 'react-i18next';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { Button, Dropdown, SegmentedControl } from '@client/components';
 import { faList, faTableCellsLarge, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 interface Props {
   parents?: string[];

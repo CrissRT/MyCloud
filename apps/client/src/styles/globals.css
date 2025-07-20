@@ -9,6 +9,11 @@
   --warning-color: #f59e0b;
   --warning-hover: #d97706;
   --font-sans: 'Inter', sans-serif;
+  --background-transparent: rgba(0, 0, 0, 0.5);
+}
+
+.background-blur {
+  backdrop-filter: blur(2px);
 }
 
 @layer utilities {
@@ -22,4 +27,3 @@
     grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
   }
 }
-
