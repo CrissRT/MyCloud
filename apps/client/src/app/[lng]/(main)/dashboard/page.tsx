@@ -29,18 +29,8 @@ const Page = () => {
   }, [user?.layout]);
 
   const onChangeLayout = (value: string) => {
-    let newLayout: 'grid' | 'list';
-    switch (value) {
-      case 'grid':
-        newLayout = value;
-        break;
-      case 'list':
-        newLayout = value;
-        break;
-      default:
-        newLayout = 'grid';
-        break;
-    }
+    let newLayout: 'grid' | 'list' = 'grid';
+    if (value !== 'grid') newLayout = 'list';
 
     mutate({ requestBody: { layout: newLayout } });
   };
