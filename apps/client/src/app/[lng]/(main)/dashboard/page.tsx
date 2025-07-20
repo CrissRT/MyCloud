@@ -2,14 +2,20 @@
 
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
+import { useAuth } from '@client/hooks';
 import { iconsMap } from '@client/utils';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const Page = () => {
-  const [layout, setLayout] = useState<'grid' | 'list'>('grid');
-  // TODO : fetch layout from user preferences or default to 'grid'
+  const { user } = useAuth();
+  const [layout, setLayout] = useState<'grid' | 'list' | null>(user?.layout || null);
+
+  useEffect(() => {
+    if (user?.layout) setLayout(user.layout);
+  }, [user?.layout]);
 
   const onChangeLayout = (value: string) => {
     switch (value) {
@@ -24,15 +30,16 @@ const Page = () => {
     }
   };
 
-  return (
-    <>
-      <DashboardHeader title="Dashboard" layout={layout} onChangeLayout={onChangeLayout} />
-      <div className="pt-4">
-        {layout === 'grid' ? (
+  const renderLayout = () => {
+    switch (layout) {
+      case 'grid':
+        return (
           <div className="grid-auto-fill-200 gap-6">
             <ItemGrid link="#" title="Projects" description="4 items" icon="folder" />
           </div>
-        ) : (
+        );
+      case 'list':
+        return (
           <div>
             <div className="font-bold text-(--text-secondary) grid-5-cols gap-4 px-4 py-3 rounded-2xl border-b-1 border-(--border-color)">
               <span>Name</span>
@@ -48,10 +55,26 @@ const Page = () => {
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
               <span className="text-ellipsis overflow-hidden">Action Movie.mp4</span>
-              <span className="text-ellipsis overflow-hidden"><FontAwesomeIcon icon={faEllipsis} /></span>
+              <span className="text-ellipsis overflow-hidden">
+                <FontAwesomeIcon icon={faEllipsis} />
+              </span>
             </div>
           </div>
-        )}
+        );
+      default:
+        return (
+          <SkeletonTheme baseColor="var(--bg-color)" highlightColor="var(--secondary-bg-color)">
+            <Skeleton count={3} height="200px" width="100%" />
+          </SkeletonTheme>
+        );
+    }
+  };
+
+  return (
+    <>
+      <DashboardHeader title="Dashboard" layout={layout} onChangeLayout={onChangeLayout} />
+      <div className="pt-4">
+        {renderLayout()}
       </div>
     </>
   );

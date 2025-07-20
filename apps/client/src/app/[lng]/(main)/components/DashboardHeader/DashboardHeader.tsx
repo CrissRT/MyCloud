@@ -6,11 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { Button, Dropdown, SegmentedControl } from '@client/components';
 import { faList, faTableCellsLarge, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 interface Props {
   parents?: string[];
   title: string;
-  layout: 'grid' | 'list';
+  layout: 'grid' | 'list' | null;
   onChangeLayout: (value: string) => void;
 }
 
@@ -51,15 +52,21 @@ export const DashboardHeader = ({ parents, title, layout, onChangeLayout }: Prop
           placeholder={t('common.sort.sortBy')}
         />
 
-        <SegmentedControl
-          options={[
-            { value: 'grid', icon: <FontAwesomeIcon icon={faTableCellsLarge} /> },
-            { value: 'list', icon: <FontAwesomeIcon icon={faList} /> }
-          ]}
-          value={layout}
-          onChange={(value) => onChangeLayout(value)}
-          size="sm"
-        />
+        {layout ? (
+          <SegmentedControl
+            options={[
+              { value: 'grid', icon: <FontAwesomeIcon icon={faTableCellsLarge} /> },
+              { value: 'list', icon: <FontAwesomeIcon icon={faList} /> }
+            ]}
+            value={layout}
+            onChange={(value) => onChangeLayout(value)}
+            size="sm"
+          />
+        ) : (
+          <SkeletonTheme baseColor="var(--bg-color)" highlightColor="var(--secondary-bg-color)">
+            <Skeleton count={1} height={32} width={110} />
+          </SkeletonTheme>
+        )}
 
         <Button size="sm" icon={<FontAwesomeIcon icon={faUpload} />}>
           {t('common.upload')}
