@@ -45,6 +45,13 @@ export const UploadDnD = () => {
       >
         <FontAwesomeIcon icon={faCloudArrowUp} className="text-(--text-secondary) text-4xl" />
         <input className="hidden opacity-0 fixed" ref={inputFilesRef} type="file" multiple />
+        <input
+          className="hidden opacity-0 fixed"
+          ref={inputFoldersRef}
+          type="file"
+          {...{ webkitdirectory: 'true' }}
+          multiple
+        />
         <div className="flex flex-col gap-3 justify-center items-center text-center">
           <h4 className="text-(--text-primary) text-bold text-2xl">
             {inputType === 'file' ? t('common.upload.dragAndDropFiles') : t('common.upload.dragAndDropFolders')}
