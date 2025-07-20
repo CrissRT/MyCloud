@@ -4,40 +4,46 @@ import { useMeServiceGetAccountMeKey, usePreferencesServicePatchAccountPreferenc
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
 import { useAuth } from '@client/hooks';
-import { iconsMap } from '@client/utils';
+import { iconsMap, showApiErrors } from '@client/utils';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { toast } from 'react-toastify';
 
 const Page = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [layout, setLayout] = useState<'grid' | 'list' | null>(user?.layout || null);
 
-  const { mutate } = usePreferencesServicePatchAccountPreferences();
+  const { mutate } = usePreferencesServicePatchAccountPreferences({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [useMeServiceGetAccountMeKey] });
+      setLayout(user?.layout || 'grid');
+    },
+    onError: showApiErrors
+  });
 
   useEffect(() => {
     if (user?.layout) setLayout(user.layout);
   }, [user?.layout]);
 
   const onChangeLayout = (value: string) => {
+    let newLayout: 'grid' | 'list';
     switch (value) {
       case 'grid':
-        mutate({ requestBody: { layout: value } });
-        setLayout('grid');
+        newLayout = value;
         break;
       case 'list':
-        mutate({ requestBody: { layout: value } });
-        setLayout('list');
+        newLayout = value;
         break;
       default:
-        mutate({ requestBody: { layout: 'grid' } });
-        setLayout('grid');
+        newLayout = 'grid';
+        break;
     }
 
-    queryClient.invalidateQueries({ queryKey: [useMeServiceGetAccountMeKey] });
+    mutate({ requestBody: { layout: newLayout } });
   };
 
   const renderLayout = () => {
