@@ -34,8 +34,8 @@ export const Modal = ({ open, title, onClose, successTitle, onSuccess, children 
       <div className="flex flex-col gap-6 max-w-[500px] max-h-[80vh] w-full">
         <div className="flex justify-between items-center">
           <h3 className="text-(--text-primary) font-bold text-2xl">{title}</h3>
-          <Button variant="text" size="sm" onClick={onClose} aria-label={t('common.cancel')} color='secondary'>
-            <FontAwesomeIcon icon={faXmark} className="text-2xl" />
+          <Button variant="text" onClick={onClose} aria-label={t('common.cancel')} color="secondary" size="lg">
+            <FontAwesomeIcon icon={faXmark} />
           </Button>
         </div>
         {children}
