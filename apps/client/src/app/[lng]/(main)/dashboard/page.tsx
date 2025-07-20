@@ -1,5 +1,6 @@
 'use client';
 
+import { usePreferencesServicePatchAccountPreferences } from '@client/api/openapi/queries';
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
 import { useAuth } from '@client/hooks';
@@ -13,6 +14,8 @@ const Page = () => {
   const { user } = useAuth();
   const [layout, setLayout] = useState<'grid' | 'list' | null>(user?.layout || null);
 
+  const { mutate } = usePreferencesServicePatchAccountPreferences();
+
   useEffect(() => {
     if (user?.layout) setLayout(user.layout);
   }, [user?.layout]);
@@ -20,12 +23,15 @@ const Page = () => {
   const onChangeLayout = (value: string) => {
     switch (value) {
       case 'grid':
+        mutate({ requestBody: { layout: value } });
         setLayout('grid');
         break;
       case 'list':
+        mutate({ requestBody: { layout: value } });
         setLayout('list');
         break;
       default:
+        mutate({ requestBody: { layout: 'grid' } });
         setLayout('grid');
     }
   };
@@ -73,9 +79,7 @@ const Page = () => {
   return (
     <>
       <DashboardHeader title="Dashboard" layout={layout} onChangeLayout={onChangeLayout} />
-      <div className="pt-4">
-        {renderLayout()}
-      </div>
+      <div className="pt-4">{renderLayout()}</div>
     </>
   );
 };

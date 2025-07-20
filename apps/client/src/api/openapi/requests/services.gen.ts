@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { PostAuthRegisterData, PostAuthRegisterResponse, PostAuthLoginData, PostAuthLoginResponse, PostAuthForgotPasswordData, PostAuthForgotPasswordResponse, PostAuthResetPasswordData, PostAuthResetPasswordResponse, PostAuthGoogleData, PostAuthGoogleResponse, GetAccountMeResponse, PatchAccountPreferencesResponse } from './types.gen';
+import type { PostAuthRegisterData, PostAuthRegisterResponse, PostAuthLoginData, PostAuthLoginResponse, PostAuthForgotPasswordData, PostAuthForgotPasswordResponse, PostAuthResetPasswordData, PostAuthResetPasswordResponse, PostAuthGoogleData, PostAuthGoogleResponse, GetAccountMeResponse, PatchAccountPreferencesData, PatchAccountPreferencesResponse } from './types.gen';
 
 export class RegisterService {
     /**
@@ -377,13 +377,17 @@ export class PreferencesService {
     /**
      * Update user preferences
      * Update user preferences
+     * @param data The data for the request.
+     * @param data.requestBody Update user preferences
      * @returns unknown Success
      * @throws ApiError
      */
-    public static patchAccountPreferences(): CancelablePromise<PatchAccountPreferencesResponse> {
+    public static patchAccountPreferences(data: PatchAccountPreferencesData = {}): CancelablePromise<PatchAccountPreferencesResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/account/preferences',
+            body: data.requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: 'Error',
                 401: 'Error',

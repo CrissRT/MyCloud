@@ -29,4 +29,8 @@ export const useGoogleServicePostAuthGoogle = <TData = Common.GoogleServicePostA
 }, TContext>, "mutationFn">) => useMutation<TData, TError, {
   requestBody?: { credential: string; };
 }, TContext>({ mutationFn: ({ requestBody }) => GoogleService.postAuthGoogle({ requestBody }) as unknown as Promise<TData>, ...options });
-export const usePreferencesServicePatchAccountPreferences = <TData = Common.PreferencesServicePatchAccountPreferencesMutationResult, TError = unknown, TContext = unknown>(options?: Omit<UseMutationOptions<TData, TError, void, TContext>, "mutationFn">) => useMutation<TData, TError, void, TContext>({ mutationFn: () => PreferencesService.patchAccountPreferences() as unknown as Promise<TData>, ...options });
+export const usePreferencesServicePatchAccountPreferences = <TData = Common.PreferencesServicePatchAccountPreferencesMutationResult, TError = unknown, TContext = unknown>(options?: Omit<UseMutationOptions<TData, TError, {
+  requestBody?: { appearance?: "dark" | "light" | "device"; density?: "comfortable" | "cosy" | "compact"; openFiles?: "preview" | "newTab"; layout?: "list" | "grid"; language?: "ro" | "ru" | "en"; };
+}, TContext>, "mutationFn">) => useMutation<TData, TError, {
+  requestBody?: { appearance?: "dark" | "light" | "device"; density?: "comfortable" | "cosy" | "compact"; openFiles?: "preview" | "newTab"; layout?: "list" | "grid"; language?: "ro" | "ru" | "en"; };
+}, TContext>({ mutationFn: ({ requestBody }) => PreferencesService.patchAccountPreferences({ requestBody }) as unknown as Promise<TData>, ...options });

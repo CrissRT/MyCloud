@@ -16,11 +16,18 @@ export const accountApi = makeApi([
     method: 'patch',
     path: '/account/preferences',
     alias: 'updatePreferences',
-    request: generalPreferencesUpdateSchema,
     response: generalPreferencesSchema,
     status: 200,
     description: 'Update user preferences',
     errors: errors,
+    parameters: [
+      {
+        name: 'body',
+        type: 'Body',
+        schema: generalPreferencesUpdateSchema,
+        description: 'Update user preferences'
+      }
+    ],
     security: [{ cookieAuth: [] }]
   }
 ]);

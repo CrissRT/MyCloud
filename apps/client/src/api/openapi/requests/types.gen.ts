@@ -118,6 +118,19 @@ export type GetAccountMeResponse = {
     usedStorageInBytes: string;
 };
 
+export type PatchAccountPreferencesData = {
+    /**
+     * Update user preferences
+     */
+    requestBody?: {
+        appearance?: 'dark' | 'light' | 'device';
+        density?: 'comfortable' | 'cosy' | 'compact';
+        openFiles?: 'preview' | 'newTab';
+        layout?: 'list' | 'grid';
+        language?: 'ro' | 'ru' | 'en';
+    };
+};
+
 export type PatchAccountPreferencesResponse = {
     id: number;
     userId: number;
@@ -3130,6 +3143,7 @@ export type $OpenApiTs = {
     };
     '/account/preferences': {
         patch: {
+            req: PatchAccountPreferencesData;
             res: {
                 /**
                  * Success
