@@ -1,7 +1,7 @@
 // generated with @7nohe/openapi-react-query-codegen@1.6.2 
 
 import { UseMutationOptions, UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
-import { ForgotPasswordService, GoogleService, LoginService, MeService, RegisterService, ResetPasswordService } from "../requests/services.gen";
+import { ForgotPasswordService, GoogleService, LoginService, MeService, PreferencesService, RegisterService, ResetPasswordService } from "../requests/services.gen";
 import * as Common from "./common";
 export const useMeServiceGetAccountMe = <TData = Common.MeServiceGetAccountMeDefaultResponse, TError = unknown, TQueryKey extends Array<unknown> = unknown[]>(queryKey?: TQueryKey, options?: Omit<UseQueryOptions<TData, TError>, "queryKey" | "queryFn">) => useQuery<TData, TError>({ queryKey: Common.UseMeServiceGetAccountMeKeyFn(queryKey), queryFn: () => MeService.getAccountMe() as TData, ...options });
 export const useRegisterServicePostAuthRegister = <TData = Common.RegisterServicePostAuthRegisterMutationResult, TError = unknown, TContext = unknown>(options?: Omit<UseMutationOptions<TData, TError, {
@@ -29,3 +29,8 @@ export const useGoogleServicePostAuthGoogle = <TData = Common.GoogleServicePostA
 }, TContext>, "mutationFn">) => useMutation<TData, TError, {
   requestBody?: { credential: string; };
 }, TContext>({ mutationFn: ({ requestBody }) => GoogleService.postAuthGoogle({ requestBody }) as unknown as Promise<TData>, ...options });
+export const usePreferencesServicePatchAccountPreferences = <TData = Common.PreferencesServicePatchAccountPreferencesMutationResult, TError = unknown, TContext = unknown>(options?: Omit<UseMutationOptions<TData, TError, {
+  requestBody?: { appearance?: "dark" | "light" | "device"; density?: "comfortable" | "cosy" | "compact"; openFiles?: "preview" | "newTab"; layout?: "list" | "grid"; language?: "ro" | "ru" | "en"; };
+}, TContext>, "mutationFn">) => useMutation<TData, TError, {
+  requestBody?: { appearance?: "dark" | "light" | "device"; density?: "comfortable" | "cosy" | "compact"; openFiles?: "preview" | "newTab"; layout?: "list" | "grid"; language?: "ro" | "ru" | "en"; };
+}, TContext>({ mutationFn: ({ requestBody }) => PreferencesService.patchAccountPreferences({ requestBody }) as unknown as Promise<TData>, ...options });

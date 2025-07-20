@@ -1,33 +1,38 @@
 'use client';
 
+import { useMeServiceGetAccountMeKey, usePreferencesServicePatchAccountPreferences } from '@client/api/openapi/queries';
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
 import { useAuth } from '@client/hooks';
-import { iconsMap } from '@client/utils';
+import { iconsMap, showApiErrors } from '@client/utils';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const Page = () => {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [layout, setLayout] = useState<'grid' | 'list' | null>(user?.layout || null);
+
+  const { mutate } = usePreferencesServicePatchAccountPreferences({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [useMeServiceGetAccountMeKey] });
+      setLayout(user?.layout || 'grid');
+    },
+    onError: showApiErrors
+  });
 
   useEffect(() => {
     if (user?.layout) setLayout(user.layout);
   }, [user?.layout]);
 
   const onChangeLayout = (value: string) => {
-    switch (value) {
-      case 'grid':
-        setLayout('grid');
-        break;
-      case 'list':
-        setLayout('list');
-        break;
-      default:
-        setLayout('grid');
-    }
+    let newLayout: 'grid' | 'list' = 'grid';
+    if (value !== 'grid') newLayout = 'list';
+
+    mutate({ requestBody: { layout: newLayout } });
   };
 
   const renderLayout = () => {
@@ -73,9 +78,7 @@ const Page = () => {
   return (
     <>
       <DashboardHeader title="Dashboard" layout={layout} onChangeLayout={onChangeLayout} />
-      <div className="pt-4">
-        {renderLayout()}
-      </div>
+      <div className="pt-4">{renderLayout()}</div>
     </>
   );
 };

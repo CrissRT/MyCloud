@@ -1,7 +1,7 @@
 import express from 'express';
 
-import { getGeneralPreferenceByUserId, getUserByEmail } from '@server/db';
-import { AuthenticatedRequest, Profile } from '@server/models';
+import { getGeneralPreferenceByUserId, getUserByEmail, updateGeneralPreferenceByUserEmail } from '@server/db';
+import { AuthenticatedRequest, generalPreferencesUpdateSchema, Profile } from '@server/models';
 import { authenticateWithCookie, getProfileImageInBase64 } from '@server/utils';
 import { ErrorCodes } from '@shared/types';
 
@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/me', authenticateWithCookie, async (req: AuthenticatedRequest, res) => {
   try {
     const foundUser = await getUserByEmail(req.user!.email);
-    
+
     const foundGeneralPreferences = await getGeneralPreferenceByUserId(foundUser!.id);
 
     const response: Profile = {
@@ -37,4 +37,26 @@ router.get('/me', authenticateWithCookie, async (req: AuthenticatedRequest, res)
   }
 });
 
+router.patch('/preferences', authenticateWithCookie, async (req: AuthenticatedRequest, res) => {
+  try {
+    const resultParse = generalPreferencesUpdateSchema.safeParse(req.body);
+
+    if (!resultParse.success) {
+      res.status(400).json({
+        code: ErrorCodes.ZOD_ERROR,
+        message: resultParse.error.formErrors
+      });
+      return;
+    }
+
+    const updatedPreferences = await updateGeneralPreferenceByUserEmail(req.user!.email, resultParse.data);
+    res.status(200).json(updatedPreferences);
+  } catch (error) {
+    console.error('Error updating user preferences:', error);
+    res.status(500).json({
+      code: ErrorCodes.INTERNAL_SERVER_ERROR,
+      message: req.t('errors.internalServerError')
+    });
+  }
+});
 export { router as accountRouter };
