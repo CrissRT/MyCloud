@@ -71,10 +71,14 @@
       "sortByDate": "Дате",
       "sortBySize": "Размеру"
     },
+    "file": "Файл",
+    "folder": "Папка",
     "upload": {
       "upload": "Загрузить",
-      "dragAndDrop": "Перетащите файлы или папки сюда или нажмите, чтобы выбрать",
-      "supportMultipleFiles": "Поддержка нескольких файлов"
+      "dragAndDropFiles": "Перетащите файлы сюда или нажмите, чтобы выбрать",
+      "dragAndDropFolders": "Перетащите папки сюда или нажмите, чтобы выбрать",
+      "supportMultipleFiles": "Поддержка нескольких файлов",
+      "supportMultipleFolders": "Поддержка нескольких папок"
     }
   },
   "errors": {

@@ -71,10 +71,14 @@
       "sortByDate": "Dată",
       "sortBySize": "Dimensiune"
     },
+    "file": "Fișier",
+    "folder": "Dosar",
     "upload": {
       "upload": "Încarcă",
-      "dragAndDrop": "Trage și lasă fișiere sau foldere aici sau dă clic pentru a naviga",
-      "supportMultipleFiles": "Suport pentru fișiere multiple"
+      "dragAndDropFiles": "Trage fișiere aici sau apasă pentru a naviga",
+      "dragAndDropFolders": "Trage foldere aici sau apasă pentru a naviga",
+      "supportMultipleFiles": "Suport pentru fișiere multiple",
+      "supportMultipleFolders": "Suport pentru foldere multiple"
     }
   },
   "errors": {
