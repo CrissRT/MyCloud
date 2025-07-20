@@ -26,4 +26,9 @@
     display: grid;
     grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
   }
+
+  .background-opacity {
+    /* TODO: Fix this behavior */
+    background-color: color-mix(in srgb, var(--primary-hover) 0.05%, transparent);
+  }
 }

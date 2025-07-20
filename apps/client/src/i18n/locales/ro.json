@@ -71,7 +71,11 @@
       "sortByDate": "Dată",
       "sortBySize": "Dimensiune"
     },
-    "upload": "Încărcare"
+    "upload": {
+      "upload": "Încarcă",
+      "dragAndDrop": "Trage și lasă fișiere sau foldere aici sau dă clic pentru a naviga",
+      "supportMultipleFiles": "Suport pentru fișiere multiple"
+    }
   },
   "errors": {
     "notFound": {

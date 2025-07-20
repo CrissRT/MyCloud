@@ -11,3 +11,4 @@ export * from './NotificationContainer/NotificationContainer';
 export * from './Password/Password';
 export * from './SegmentedControl/SegmentedControl';
 export * from './Spinner/Spinner';
+export * from './UploadDnD/UploadDnD';

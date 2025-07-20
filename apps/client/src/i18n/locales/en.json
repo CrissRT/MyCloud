@@ -71,7 +71,11 @@
       "sortByDate": "Date",
       "sortBySize": "Size"
     },
-    "upload": "Upload"
+    "upload": {
+      "upload": "Upload",
+      "dragAndDrop": "Drop files or folders here or click to browse",
+      "supportMultipleFiles": "Support for multiple files"
+    }
   },
   "errors": {
     "notFound": {

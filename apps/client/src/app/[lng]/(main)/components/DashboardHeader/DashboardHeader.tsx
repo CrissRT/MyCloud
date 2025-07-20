@@ -70,7 +70,7 @@ export const DashboardHeader = ({ parents, title, layout, onChangeLayout }: Prop
         )}
 
         <Button size="sm" icon={<FontAwesomeIcon icon={faUpload} />}>
-          {t('common.upload')}
+          {t('common.upload.upload')}
         </Button>
       </div>
     </div>
