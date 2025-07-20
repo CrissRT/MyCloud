@@ -78,7 +78,9 @@
       "dragAndDropFiles": "Drop files here or click to browse",
       "dragAndDropFolders": "Drop folders here or click to browse",
       "supportMultipleFiles": "Support for multiple files",
-      "supportMultipleFolders": "Support for multiple folders"
+      "supportOneFolder": "Support for one folder",
+      "selectedFiles": "Selected Files",
+      "selectedFolders": "Selected Folders"
     }
   },
   "errors": {

@@ -78,7 +78,9 @@
       "dragAndDropFiles": "Trage fișiere aici sau apasă pentru a naviga",
       "dragAndDropFolders": "Trage foldere aici sau apasă pentru a naviga",
       "supportMultipleFiles": "Suport pentru fișiere multiple",
-      "supportMultipleFolders": "Suport pentru foldere multiple"
+      "supportOneFolder": "Suport pentru un singur folder",
+      "selectedFiles": "Fișiere selectate",
+      "selectedFolders": "Foldere selectate"
     }
   },
   "errors": {

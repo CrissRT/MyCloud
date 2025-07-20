@@ -2,8 +2,10 @@ import { ImageProps } from 'next/image';
 
 import { ButtonHTMLAttributes, InputHTMLAttributes, LabelHTMLAttributes, PropsWithChildren } from 'react';
 import {
+  faFile,
   faFileAudio,
   faFileImage,
+  faFileLines,
   faFilePdf,
   faFileVideo,
   faFileZipper,
@@ -83,5 +85,13 @@ export const iconsMap = {
   video: {
     icon: faFileVideo,
     color: '#60a5fa'
+  },
+  text: {
+    icon: faFileLines,
+    color: '#a78bfa'
+  },
+  default: {
+    icon: faFile,
+    color: '#9ca3af'
   }
 };

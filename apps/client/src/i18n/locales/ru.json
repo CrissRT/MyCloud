@@ -78,7 +78,9 @@
       "dragAndDropFiles": "Перетащите файлы сюда или нажмите, чтобы выбрать",
       "dragAndDropFolders": "Перетащите папки сюда или нажмите, чтобы выбрать",
       "supportMultipleFiles": "Поддержка нескольких файлов",
-      "supportMultipleFolders": "Поддержка нескольких папок"
+      "supportOneFolder": "Поддержка одной папки",
+      "selectedFiles": "Выбранные файлы",
+      "selectedFolders": "Выбранные папки"
     }
   },
   "errors": {
