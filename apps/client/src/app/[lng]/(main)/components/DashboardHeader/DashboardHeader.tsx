@@ -51,6 +51,7 @@ export const DashboardHeader = ({ parents, title, layout, onChangeLayout }: Prop
           size="sm"
           placeholder={t('common.sort.sortBy')}
         />
+        {/* TODO: add sort functionality */}
 
         {layout ? (
           <SegmentedControl
@@ -62,6 +63,7 @@ export const DashboardHeader = ({ parents, title, layout, onChangeLayout }: Prop
             onChange={(value) => onChangeLayout(value)}
             size="sm"
           />
+          // TODO: add layout change functionality
         ) : (
           <SkeletonTheme baseColor="var(--bg-color)" highlightColor="var(--secondary-bg-color)">
             <Skeleton count={1} height={32} width={110} />
