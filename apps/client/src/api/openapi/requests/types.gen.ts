@@ -118,6 +118,16 @@ export type GetAccountMeResponse = {
     usedStorageInBytes: string;
 };
 
+export type PatchAccountPreferencesResponse = {
+    id: number;
+    userId: number;
+    appearance: 'dark' | 'light' | 'device';
+    density: 'comfortable' | 'cosy' | 'compact';
+    openFiles: 'preview' | 'newTab';
+    layout: 'list' | 'grid';
+    language: 'ro' | 'ru' | 'en';
+};
+
 export type $OpenApiTs = {
     '/auth/register': {
         post: {
@@ -2634,6 +2644,504 @@ export type $OpenApiTs = {
                     layout: 'list' | 'grid';
                     storageSpaceInMB: string;
                     usedStorageInBytes: string;
+                };
+                /**
+                 * Error
+                 */
+                400: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                401: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                402: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                403: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                404: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                405: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                406: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                407: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                408: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                409: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                410: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                411: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                412: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                413: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                414: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                415: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                416: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                417: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                418: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                421: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                422: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                423: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                424: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                425: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                426: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                428: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                429: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                431: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                451: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                500: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                501: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                502: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                503: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                504: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                505: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                506: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                507: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                508: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                510: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+                /**
+                 * Error
+                 */
+                511: {
+                    code: 'VALIDATION_ERROR' | 'RECORD_ALREADY_EXISTS' | 'INTERNAL_SERVER_ERROR' | 'USER_LOCKED_OUT' | 'ZOD_ERROR' | 'INSUFFICIENT_STORAGE' | 'RECORD_NOT_FOUND' | 'INVALID_RECORD' | 'INVALID_TYPE' | 'RESOURCE_TOO_LARGE';
+                    message: string | {
+    formErrors: Array<(string)>;
+    fieldErrors: {
+        [key: string]: Array<(string)>;
+    };
+};
+                };
+            };
+        };
+    };
+    '/account/preferences': {
+        patch: {
+            res: {
+                /**
+                 * Success
+                 */
+                200: {
+                    id: number;
+                    userId: number;
+                    appearance: 'dark' | 'light' | 'device';
+                    density: 'comfortable' | 'cosy' | 'compact';
+                    openFiles: 'preview' | 'newTab';
+                    layout: 'list' | 'grid';
+                    language: 'ro' | 'ru' | 'en';
                 };
                 /**
                  * Error
