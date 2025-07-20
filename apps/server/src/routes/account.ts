@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getUserByEmail } from '@server/db';
+import { getGeneralPreferenceByUserId, getUserByEmail } from '@server/db';
 import { AuthenticatedRequest, Profile } from '@server/models';
 import { authenticateWithCookie, getProfileImageInBase64 } from '@server/utils';
 import { ErrorCodes } from '@shared/types';
@@ -10,6 +10,8 @@ const router = express.Router();
 router.get('/me', authenticateWithCookie, async (req: AuthenticatedRequest, res) => {
   try {
     const foundUser = await getUserByEmail(req.user!.email);
+    
+    const foundGeneralPreferences = await getGeneralPreferenceByUserId(foundUser!.id);
 
     const response: Profile = {
       email: req.user!.email,
@@ -21,6 +23,7 @@ router.get('/me', authenticateWithCookie, async (req: AuthenticatedRequest, res)
       role: req.user!.role,
       sex: req.user!.sex,
       birthDate: req.user!.birthDate,
+      layout: foundGeneralPreferences?.layout || 'grid',
       profileImage: await getProfileImageInBase64(req.user!.username, foundUser!.profileImage)
     };
 

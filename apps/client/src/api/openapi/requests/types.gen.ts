@@ -23,6 +23,7 @@ export type PostAuthRegisterResponse = {
     birthDate: string;
     role: 'admin' | 'user';
     profileImage: string;
+    layout: 'list' | 'grid';
     storageSpaceInMB: string;
     usedStorageInBytes: string;
 };
@@ -46,6 +47,7 @@ export type PostAuthLoginResponse = {
     birthDate: string;
     role: 'admin' | 'user';
     profileImage: string;
+    layout: 'list' | 'grid';
     storageSpaceInMB: string;
     usedStorageInBytes: string;
 };
@@ -97,6 +99,7 @@ export type PostAuthGoogleResponse = {
     birthDate: string;
     role: 'admin' | 'user';
     profileImage: string;
+    layout: 'list' | 'grid';
     storageSpaceInMB: string;
     usedStorageInBytes: string;
 };
@@ -110,6 +113,7 @@ export type GetAccountMeResponse = {
     birthDate: string;
     role: 'admin' | 'user';
     profileImage: string;
+    layout: 'list' | 'grid';
     storageSpaceInMB: string;
     usedStorageInBytes: string;
 };
@@ -131,6 +135,7 @@ export type $OpenApiTs = {
                     birthDate: string;
                     role: 'admin' | 'user';
                     profileImage: string;
+                    layout: 'list' | 'grid';
                     storageSpaceInMB: string;
                     usedStorageInBytes: string;
                 };
@@ -633,6 +638,7 @@ export type $OpenApiTs = {
                     birthDate: string;
                     role: 'admin' | 'user';
                     profileImage: string;
+                    layout: 'list' | 'grid';
                     storageSpaceInMB: string;
                     usedStorageInBytes: string;
                 };
@@ -2123,6 +2129,7 @@ export type $OpenApiTs = {
                     birthDate: string;
                     role: 'admin' | 'user';
                     profileImage: string;
+                    layout: 'list' | 'grid';
                     storageSpaceInMB: string;
                     usedStorageInBytes: string;
                 };
@@ -2624,6 +2631,7 @@ export type $OpenApiTs = {
                     birthDate: string;
                     role: 'admin' | 'user';
                     profileImage: string;
+                    layout: 'list' | 'grid';
                     storageSpaceInMB: string;
                     usedStorageInBytes: string;
                 };

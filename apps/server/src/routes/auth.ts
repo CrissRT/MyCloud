@@ -10,6 +10,7 @@ import { $Enums } from '@prisma/client';
 import {
   createSession,
   createUserAndStorageAndPreferences,
+  getGeneralPreferenceByUserId,
   getStorageInfoByUserId,
   getUserByEmail,
   updateGeneralPreferenceByUserId,
@@ -146,6 +147,8 @@ router.post('/register', async (req, res) => {
       banDurationMinutes: null
     });
 
+    const preferences = await getGeneralPreferenceByUserId(createdUser.id);
+
     const response: Profile = {
       email: createdUser.email,
       username: createdUser.username,
@@ -154,6 +157,7 @@ router.post('/register', async (req, res) => {
       role: createdUser.role,
       sex: createdUser.sex,
       birthDate: createdUser.birthDate,
+      layout: preferences?.layout || 'grid',
       storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
       usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE),
       profileImage: await getProfileImageInBase64(createdUser.username, profileImageName)
@@ -299,6 +303,8 @@ router.post('/login', async (req, res) => {
 
     await updateGeneralPreferenceByUserId(foundUser.id, { language });
 
+    const preferences = await getGeneralPreferenceByUserId(foundUser.id);
+
     const response: Profile = {
       email: foundUser.email,
       username: foundUser.username,
@@ -307,6 +313,7 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
+      layout: preferences?.layout || 'grid',
       storageSpaceInMB: String(foundStorage.storageSpaceInMB),
       usedStorageInBytes: String(foundStorage.usedStorageInBytes),
       profileImage: await getProfileImageInBase64(foundUser.username, foundUser.profileImage)
@@ -630,6 +637,8 @@ router.post('/google', async (req, res) => {
       });
     }
 
+    const preferences = await getGeneralPreferenceByUserId(foundUser.id);
+
     const response: Profile = {
       email: foundUser.email,
       username: foundUser.username,
@@ -638,6 +647,7 @@ router.post('/google', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
+      layout: preferences?.layout || 'grid',
       storageSpaceInMB: String(storageInfo?.storageSpaceInMB || DEFAULT_STORAGE_SPACE_IN_MB),
       usedStorageInBytes: String(storageInfo?.usedStorageInBytes || DEFAULT_USED_STORAGE_SPACE),
       profileImage: await getProfileImageInBase64(foundUser.username, foundUser.profileImage)
