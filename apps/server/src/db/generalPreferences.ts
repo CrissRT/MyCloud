@@ -1,4 +1,4 @@
-import { GeneralPreferences } from '@server/models';
+import { GeneralPreferences, GeneralPreferencesUpdate } from '@server/models';
 import { prisma } from '@server/utils';
 
 export const createGeneralPreference = async (
@@ -19,14 +19,20 @@ export const getGeneralPreferenceByUserId = async (userId: number) => {
   return preference;
 };
 
-export const updateGeneralPreferenceByUserId = async (
-  userId: number,
-  data: Partial<Omit<GeneralPreferences, 'id' | 'userId'>>
-) => {
+export const updateGeneralPreferenceByUserId = async (userId: number, data: GeneralPreferencesUpdate) => {
   const updatedPreference = await prisma.preferences.update({
     where: { userId },
     data
   });
 
   return updatedPreference;
+};
+
+export const updateGeneralPreferenceByUserEmail = async (email: string, data: GeneralPreferencesUpdate) => {
+  const updatedPreference = await prisma.preferences.updateManyAndReturn({
+    where: { users: { email } },
+    data
+  });
+
+  return updatedPreference[0];
 };

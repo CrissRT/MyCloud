@@ -13,3 +13,7 @@ export const generalPreferencesSchema = z.object({
 });
 
 export type GeneralPreferences = z.infer<typeof generalPreferencesSchema>;
+
+export const generalPreferencesUpdateSchema = generalPreferencesSchema.omit({ id: true, userId: true }).partial();
+
+export type GeneralPreferencesUpdate = z.infer<typeof generalPreferencesUpdateSchema>;
