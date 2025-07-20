@@ -1,4 +1,7 @@
+'use client';
+
 import { PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@client/components';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +15,8 @@ interface Props extends PropsWithChildren {
 }
 
 export const Modal = ({ open, title, onClose, successTitle, onSuccess, children }: Props) => {
+  const { t } = useTranslation();
+
   if (!open) return null;
 
   return (
@@ -21,14 +26,16 @@ export const Modal = ({ open, title, onClose, successTitle, onSuccess, children 
     >
       <div className="flex flex-col gap-6 max-w-[500px] max-h-[80vh] w-full">
         <div className="flex justify-between items-center">
-          <h3 className="text-(--text-primary)">{title}</h3>
-          <FontAwesomeIcon icon={faXmark} className="text-(--text-secondary) text-2xl" onClick={onClose} />
+          <h3 className="text-(--text-primary) font-bold text-2xl">{title}</h3>
+          <Button variant="text" size="sm" onClick={onClose} aria-label={t('common.cancel')}>
+            <FontAwesomeIcon icon={faXmark} className="text-(--text-secondary) text-2xl" />
+          </Button>
         </div>
         {children}
 
         <div className="flex justify-end gap-4 pt-6 border-t-1 border-(--border-color)">
           <Button variant="outlined" size="lg" onClick={onClose}>
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button variant="filled" size="lg" onClick={onSuccess}>
             {successTitle}
