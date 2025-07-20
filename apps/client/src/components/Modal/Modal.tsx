@@ -27,6 +27,9 @@ export const Modal = ({ open, title, onClose, successTitle, onSuccess, children 
     <div
       className="fixed w-full h-full top-0 left-0 bg-(--background-transparent) background-blur z-50 flex items-center justify-center"
       onClick={onCloseBackground}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`modal-title-${title}`}
     >
       <div className="flex flex-col gap-6 max-w-[500px] max-h-[80vh] w-full">
         <div className="flex justify-between items-center">
