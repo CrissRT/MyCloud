@@ -23,7 +23,7 @@ router.get('/me', authenticateWithCookie, async (req: AuthenticatedRequest, res)
       role: req.user!.role,
       sex: req.user!.sex,
       birthDate: req.user!.birthDate,
-      layout: foundGeneralPreferences!.layout,
+      layout: foundGeneralPreferences?.layout || 'grid',
       profileImage: await getProfileImageInBase64(req.user!.username, foundUser!.profileImage)
     };
 

@@ -157,7 +157,7 @@ router.post('/register', async (req, res) => {
       role: createdUser.role,
       sex: createdUser.sex,
       birthDate: createdUser.birthDate,
-      layout: preferences!.layout,
+      layout: preferences?.layout || 'grid',
       storageSpaceInMB: String(DEFAULT_STORAGE_SPACE_IN_MB),
       usedStorageInBytes: String(DEFAULT_USED_STORAGE_SPACE),
       profileImage: await getProfileImageInBase64(createdUser.username, profileImageName)
@@ -313,7 +313,7 @@ router.post('/login', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      layout: preferences!.layout,
+      layout: preferences?.layout || 'grid',
       storageSpaceInMB: String(foundStorage.storageSpaceInMB),
       usedStorageInBytes: String(foundStorage.usedStorageInBytes),
       profileImage: await getProfileImageInBase64(foundUser.username, foundUser.profileImage)
@@ -647,7 +647,7 @@ router.post('/google', async (req, res) => {
       role: foundUser.role,
       sex: foundUser.sex,
       birthDate: foundUser.birthDate,
-      layout: preferences!.layout,
+      layout: preferences?.layout || 'grid',
       storageSpaceInMB: String(storageInfo?.storageSpaceInMB || DEFAULT_STORAGE_SPACE_IN_MB),
       usedStorageInBytes: String(storageInfo?.usedStorageInBytes || DEFAULT_USED_STORAGE_SPACE),
       profileImage: await getProfileImageInBase64(foundUser.username, foundUser.profileImage)
