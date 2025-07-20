@@ -10,3 +10,4 @@ export * from './Password/Password';
 export * from './SegmentedControl/SegmentedControl';
 export * from './Spinner/Spinner';
 export * from './ItemGrid/ItemGrid';
+export * from './Modal/Modal';

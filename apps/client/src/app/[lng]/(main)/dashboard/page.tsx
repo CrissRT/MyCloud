@@ -2,7 +2,7 @@
 
 import { useMeServiceGetAccountMeKey, usePreferencesServicePatchAccountPreferences } from '@client/api/openapi/queries';
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
-import { ItemGrid } from '@client/components';
+import { ItemGrid, Modal } from '@client/components';
 import { useAuth } from '@client/hooks';
 import { iconsMap, showApiErrors } from '@client/utils';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
