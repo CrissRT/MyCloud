@@ -1,9 +1,9 @@
 'use client';
 
-import { useAuth } from '@client/hooks';
-import { NavButton } from '@client/components';
-import { faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { NavButton } from '@client/components';
+import { useAuth } from '@client/hooks';
+import { faUserShield } from '@fortawesome/free-solid-svg-icons';
 
 export const AdminNavButton = () => {
   const { user } = useAuth();

@@ -1,13 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { useTranslation } from 'react-i18next';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { Dropdown } from '@client/components';
 import { useAuth } from '@client/hooks';
 import { protectedRoutes } from '@client/utils';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 export const ProfileButtons = () => {
   const { t } = useTranslation();

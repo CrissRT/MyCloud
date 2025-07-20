@@ -1,3 +1,6 @@
+import { ImageProps } from 'next/image';
+
+import { ButtonHTMLAttributes, InputHTMLAttributes, LabelHTMLAttributes, PropsWithChildren } from 'react';
 import {
   faFileAudio,
   faFileImage,
@@ -6,9 +9,6 @@ import {
   faFileZipper,
   faFolder
 } from '@fortawesome/free-solid-svg-icons';
-import { ImageProps } from 'next/image';
-
-import { ButtonHTMLAttributes, InputHTMLAttributes, LabelHTMLAttributes, PropsWithChildren } from 'react';
 
 export const getAPIBaseUrl = () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;

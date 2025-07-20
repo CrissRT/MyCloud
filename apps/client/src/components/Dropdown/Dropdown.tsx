@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@client/components';
+import { ButtonProps } from '@client/utils';
 import { faCheck, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ButtonProps } from '@client/utils';
 
 export interface DropdownOption {
   icon?: React.ReactNode;
