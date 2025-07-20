@@ -32,7 +32,8 @@ export const profileSchema = userSchema
     role: true
   })
   .extend({
-    profileImage: z.string().base64()
+    profileImage: z.string().base64(),
+    layout: z.nativeEnum($Enums.layoutEnum)
   })
   .merge(
     storageSchema.pick({
