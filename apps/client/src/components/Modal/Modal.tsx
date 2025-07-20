@@ -19,10 +19,14 @@ export const Modal = ({ open, title, onClose, successTitle, onSuccess, children 
 
   if (!open) return null;
 
+  const onCloseBackground = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
   return (
     <div
       className="fixed w-full h-full top-0 left-0 bg-(--background-transparent) background-blur z-50 flex items-center justify-center"
-      onClick={onClose}
+      onClick={onCloseBackground}
     >
       <div className="flex flex-col gap-6 max-w-[500px] max-h-[80vh] w-full">
         <div className="flex justify-between items-center">
