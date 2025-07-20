@@ -1,17 +1,19 @@
 'use client';
 
-import { usePreferencesServicePatchAccountPreferences } from '@client/api/openapi/queries';
+import { useMeServiceGetAccountMeKey, usePreferencesServicePatchAccountPreferences } from '@client/api/openapi/queries';
 import { DashboardHeader } from '@client/app/[lng]/(main)/components';
 import { ItemGrid } from '@client/components';
 import { useAuth } from '@client/hooks';
 import { iconsMap } from '@client/utils';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const Page = () => {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [layout, setLayout] = useState<'grid' | 'list' | null>(user?.layout || null);
 
   const { mutate } = usePreferencesServicePatchAccountPreferences();
@@ -34,6 +36,8 @@ const Page = () => {
         mutate({ requestBody: { layout: 'grid' } });
         setLayout('grid');
     }
+
+    queryClient.invalidateQueries({ queryKey: [useMeServiceGetAccountMeKey] });
   };
 
   const renderLayout = () => {
