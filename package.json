@@ -23,6 +23,7 @@
     "prisma:init": "pnpm -F server prisma:init",
     "prisma:generate": "pnpm -F server prisma:generate",
     "prisma:db-pull": "pnpm -F server prisma:db-pull",
+    "prisma:studio": "pnpm -F server prisma:studio",
     "generate:api-client": "pnpm -F client generate:api",
     "stage-cached": "tsx scripts/stageCached.ts"
   },

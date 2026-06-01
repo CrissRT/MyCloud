@@ -12,7 +12,8 @@
     "db:rm-volumes": "docker compose down --volumes",
     "prisma:init": "npx prisma init",
     "prisma:db-pull": "npx prisma db pull",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "prisma:studio": "npx prisma studio"
   },
   "keywords": [],
   "author": "Rotari Cristian",
